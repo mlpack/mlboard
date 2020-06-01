@@ -16,5 +16,7 @@ target_include_directories(mlboard INTERFACE
   $<INSTALL_INTERFACE:include>)
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include)
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/mlboard)
 
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/proto
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
