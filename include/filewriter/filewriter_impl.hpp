@@ -20,10 +20,10 @@ fileWriter::fileWriter(std::string logdir,
   this->logdir = logdir + "/events.out.tfevents." + currentTime + ".v2";
   close_ = true;
   this->flushsec = flushsec;
-  this->q.setmaxSize(maxQueueSize);
+  size_t &maxSize = this->q.MaxSize();
+  maxSize = maxQueueSize;
   thread_ = new std::thread(&fileWriter::writeSummary, this);
   nexttime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-  std::cout<<"log dir is "<<this->logdir<<std::endl;
   outfile.open(this->logdir, std::fstream::out | std::ios::trunc | std::ios::binary);
 }
 
@@ -33,15 +33,13 @@ void fileWriter::writeSummary()
   while(true)
   {
     //  Break the loop if eveything is done
-    std::cout<<"thread start"<<std::endl;
     if(!(close_ || q.size()!=0)) break;
-    //std::this_thread::sleep_for( std::chrono::seconds(1));
     std::time_t timenow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); 
     if (timenow >= nexttime)
     {
-      std::cout<<"thread time now "<< ctime(&timenow) << std::endl;
-  
-      // outfile << ctime(&timenow) << " : ";
+      // wait for queue only if queue has any element or else it will 
+      // forever
+      if(q.size() == 0) continue;
       mlboard::Event event = q.pop();
       std::string buf;
       event.SerializeToString(&buf);
@@ -83,8 +81,5 @@ void fileWriter::close()
 }
 
 } // namespace mlboard
-
-// Include implementation.
-
 
 #endif

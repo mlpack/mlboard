@@ -9,11 +9,6 @@
 namespace mlboard {
 
 template <typename Datatype>
-void SharebaleQueue<Datatype>::setmaxSize(size_t maxSize)
-{
-    this->maxSize = maxSize;
-}
-template <typename Datatype>
 Datatype SharebaleQueue<Datatype>::pop()
 {
   std::unique_lock<std::mutex> mlock(mutex_);
@@ -40,12 +35,6 @@ void SharebaleQueue<Datatype>::push(const Datatype& item)
   queue_.push(item);
   mlock.unlock();
   queueempty.notify_all();
-}
-
-template <typename Datatype>
-size_t SharebaleQueue<Datatype>::size() 
-{
-  return queue_.size();
 }
 
 } // namespace mlboard
