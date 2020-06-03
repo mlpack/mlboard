@@ -1,9 +1,9 @@
 /**
- * @file sharebalequeue.hpp
+ * @file sharedqueue.hpp
  * @author Jeffin Sam
  */
-#ifndef MLBOARD_SHAREABLE_QUEUE_HPP
-#define MLBOARD_SHAREABLE_QUEUE_HPP
+#ifndef MLBOARD_SHARED_QUEUE_HPP
+#define MLBOARD_SHARED_QUEUE_HPP
 
 #include <mlboard/core.hpp>
 
@@ -16,7 +16,7 @@ namespace mlboard {
  * @tparam Datatype datatype of the elements queue would be holding. 
  */
 template <typename Datatype>
-class SharebaleQueue
+class SharedQueue
 {
  public:  
 
@@ -48,6 +48,6 @@ class SharebaleQueue
 } // namespace mlboard
 
 // Include implementation.
-#include "shareablequeue_impl.hpp"
+#include "sharedqueue_impl.hpp"
 
 #endif

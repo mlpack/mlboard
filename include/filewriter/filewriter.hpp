@@ -6,7 +6,7 @@
 #define MLBOARD_FILE_WRITER_HPP 
 
 #include <mlboard/core.hpp>
-#include "shareablequeue.hpp"
+#include "sharedqueue.hpp"
 #include <proto/event.pb.h>
 #include "crc.hpp"
 
@@ -60,7 +60,7 @@ class fileWriter
   //! Get the path of log directory.
   std::string size() const { return logdir; }
 private:
-  SharebaleQueue <mlboard::Event> q;
+  SharedQueue <mlboard::Event> q;
   // std::thread does not have copy constructor hence pointer is safe
   std::thread *thread_;
   std::size_t flushsec;
