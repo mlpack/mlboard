@@ -57,5 +57,10 @@ xargs -0 python "$linter"/cpplint.py --extensions=hpp,cpp --filter=\
 -runtime/explicit,\
 -runtime/int,\
 -runtime/string,\
--runtime/references  
+-runtime/references 2>&1 | \
+grep -v 'Missing spaces around <' | \
+grep -v 'Consider using rand_r' | \
+python "$linter"/cpplint_cppcheckxml.py 2> "$reports"
 
+# Restore directory.
+cd "$cwd"
