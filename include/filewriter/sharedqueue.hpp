@@ -1,9 +1,9 @@
 /**
- * @file sharebalequeue.hpp
+ * @file sharedqueue.hpp
  * @author Jeffin Sam
  */
-#ifndef MLBOARD_SHAREABLE_QUEUE_HPP
-#define MLBOARD_SHAREABLE_QUEUE_HPP
+#ifndef MLBOARD_SHARED_QUEUE_HPP
+#define MLBOARD_SHARED_QUEUE_HPP
 
 #include <mlboard/core.hpp>
 
@@ -16,10 +16,9 @@ namespace mlboard {
  * @tparam Datatype datatype of the elements queue would be holding. 
  */
 template <typename Datatype>
-class SharebaleQueue
+class SharedQueue
 {
- public:  
-
+ public:
   /**
    * function to pop an element from the queue.
    */ 
@@ -37,6 +36,8 @@ class SharebaleQueue
   size_t MaxSize() const { return maxSize; }
   //! Modify the maximum size of the queue.
   size_t& MaxSize() { return maxSize; }
+  // ! Check if queue is empty
+  bool empty() { return queue_.empty(); }
  private:
   std::queue<Datatype> queue_;
   std::mutex mutex_;
@@ -48,6 +49,6 @@ class SharebaleQueue
 } // namespace mlboard
 
 // Include implementation.
-#include "shareablequeue_impl.hpp"
+#include "sharedqueue_impl.hpp"
 
 #endif

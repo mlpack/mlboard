@@ -3,10 +3,10 @@
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_FILE_WRITER_HPP
-#define MLBOARD_FILE_WRITER_HPP 
+#define MLBOARD_FILE_WRITER_HPP
 
 #include <mlboard/core.hpp>
-#include "shareablequeue.hpp"
+#include "sharedqueue.hpp"
 #include <proto/event.pb.h>
 #include "crc.hpp"
 
@@ -27,7 +27,7 @@ class fileWriter
   * @param maxQeueSize The maximum number of event to be store at a time.
   * @param flushec Interval to perform the writing operation.
   */
- fileWriter(std::string logdir, 
+  fileWriter(std::string logdir,
             int maxQueueSize = 10,
             size_t flushsec = 2);
 
@@ -58,9 +58,9 @@ class fileWriter
   void close();
 
   //! Get the path of log directory.
-  std::string size() const { return logdir; }
-private:
-  SharebaleQueue <mlboard::Event> q;
+  std::string logDir() const { return logdir; }
+ private:
+  SharedQueue <mlboard::Event> q;
   // std::thread does not have copy constructor hence pointer is safe
   std::thread *thread_;
   std::size_t flushsec;

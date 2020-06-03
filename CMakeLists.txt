@@ -20,3 +20,7 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/proto
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/proto/libproto.a
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/)
+

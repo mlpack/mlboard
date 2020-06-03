@@ -1,15 +1,15 @@
 /**
- * @file sharebalequeue_impl.hpp
+ * @file SharedQueue_impl.hpp
  * @author Jeffin Sam
  */
-#ifndef MLBOARD_SHAREABLE_QUEUE_IMPL_HPP
-#define MLBOARD_SHAREABLE_QUEUE_IMPL_HPP
+#ifndef MLBOARD_SHARED_QUEUE_IMPL_HPP
+#define MLBOARD_SHARED_QUEUE_IMPL_HPP
 
-#include "shareablequeue.hpp"
+#include "sharedqueue.hpp"
 namespace mlboard {
 
 template <typename Datatype>
-Datatype SharebaleQueue<Datatype>::pop()
+Datatype SharedQueue<Datatype>::pop()
 {
   std::unique_lock<std::mutex> mlock(mutex_);
   while (queue_.empty())
@@ -18,17 +18,17 @@ Datatype SharebaleQueue<Datatype>::pop()
   }
   auto item = queue_.front();
   queue_.pop();
-  // Notify queueFull 
+  // Notify queueFull.
   mlock.unlock();
   queueFull.notify_all();
   return item;
 }
 
 template <typename Datatype>
-void SharebaleQueue<Datatype>::push(const Datatype& item)
+void SharedQueue<Datatype>::push(const Datatype& item)
 {
   std::unique_lock<std::mutex> mlock(mutex_);
-  while(queue_.size() > maxSize)
+  while (queue_.size() > maxSize)
   {
     queueFull.wait(mlock);
   }
