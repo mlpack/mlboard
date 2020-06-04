@@ -18,8 +18,7 @@ namespace mlboard {
 template <typename Datatype>
 class SharedQueue
 {
- public:  
-
+ public:
   /**
    * function to pop an element from the queue.
    */ 
@@ -37,6 +36,8 @@ class SharedQueue
   size_t MaxSize() const { return maxSize; }
   //! Modify the maximum size of the queue.
   size_t& MaxSize() { return maxSize; }
+  // ! Check if queue is empty
+  bool empty() { return queue_.empty(); }
  private:
   std::queue<Datatype> queue_;
   std::mutex mutex_;

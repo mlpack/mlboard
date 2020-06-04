@@ -3,7 +3,7 @@
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_FILE_WRITER_HPP
-#define MLBOARD_FILE_WRITER_HPP 
+#define MLBOARD_FILE_WRITER_HPP
 
 #include <mlboard/core.hpp>
 #include "sharedqueue.hpp"
@@ -22,12 +22,12 @@ class fileWriter
  public:
  /**
   * Constructor Responsible for filewriter object.
-  * 
+  *
   * @param logdir Path to store the log files.
   * @param maxQeueSize The maximum number of event to be store at a time.
   * @param flushec Interval to perform the writing operation.
   */
- fileWriter(std::string logdir, 
+  fileWriter(std::string logdir,
             int maxQueueSize = 10,
             size_t flushsec = 2);
 
@@ -41,7 +41,7 @@ class fileWriter
   /**
    * A helper function to chnage summary to event. The function should be
    * always be there, since it is called from summary instance.
-   * 
+   *
    * @param summary Summary which you want to convert to event type.
    * @param step The step number associated with the summary.
    */
@@ -52,14 +52,14 @@ class fileWriter
    */
   void flush();
 
-  /** 
+  /**
    * Responsible for indicating the class to close the thread.
    */ 
   void close();
 
   //! Get the path of log directory.
-  std::string size() const { return logdir; }
-private:
+  std::string logDir() const { return logdir; }
+ private:
   SharedQueue <mlboard::Event> q;
   // std::thread does not have copy constructor hence pointer is safe
   std::thread *thread_;

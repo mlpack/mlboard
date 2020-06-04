@@ -7,9 +7,6 @@ import "types.proto";
 
 option cc_enable_arenas = true;
 
-// Protocol buffer representing a handle to a tensorflow resource. Handles are
-// not valid across executions, but can be serialized back and forth from within
-// a single run.
 message ResourceHandleProto {
   // Unique name for the device containing the resource.
   string device = 1;

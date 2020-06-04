@@ -3,7 +3,7 @@
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_SUMMARY_WRITER_HPP
-#define MLBOARD_SUMMARY_WRITER_HPP 
+#define MLBOARD_SUMMARY_WRITER_HPP
 
 #include <mlboard/core.hpp>
 #include "filewriter.hpp"

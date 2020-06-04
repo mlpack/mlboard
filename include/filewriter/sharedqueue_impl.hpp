@@ -18,7 +18,7 @@ Datatype SharedQueue<Datatype>::pop()
   }
   auto item = queue_.front();
   queue_.pop();
-  // Notify queueFull 
+  // Notify queueFull.
   mlock.unlock();
   queueFull.notify_all();
   return item;
@@ -28,7 +28,7 @@ template <typename Datatype>
 void SharedQueue<Datatype>::push(const Datatype& item)
 {
   std::unique_lock<std::mutex> mlock(mutex_);
-  while(queue_.size() > maxSize)
+  while (queue_.size() > maxSize)
   {
     queueFull.wait(mlock);
   }
