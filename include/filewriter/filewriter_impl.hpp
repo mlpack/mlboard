@@ -15,7 +15,7 @@ fileWriter::fileWriter(std::string logdir,
                         std::size_t flushsec)
 {
   const auto p1 = std::chrono::system_clock::now();
-  std::string currentTime = 
+  std::string currentTime =
       std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
       p1.time_since_epoch()).count());
   this->logdir = logdir + "/events.out.tfevents." + currentTime + ".v2";
@@ -24,20 +24,20 @@ fileWriter::fileWriter(std::string logdir,
   size_t &maxSize = this->q.MaxSize();
   maxSize = maxQueueSize;
   thread_ = new std::thread(&fileWriter::writeSummary, this);
-  nexttime = 
+  nexttime =
       std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-  outfile.open(this->logdir, std::fstream::out | 
+  outfile.open(this->logdir, std::fstream::out |
       std::ios::trunc | std::ios::binary);
 }
 
 void fileWriter::writeSummary()
 {
   // this is a thread that will continously write summary one by one into file
-  while(true)
+  while (true)
   {
     //  Break the loop if eveything is done
     if (!(close_ || q.size() != 0)) break;
-    std::time_t timenow = 
+    std::time_t timenow =
         std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     if (timenow >= nexttime)
     {
@@ -57,7 +57,7 @@ void fileWriter::writeSummary()
       outfile.write(buf.c_str(), buf.size());
       outfile.write((char *)&data_crc, sizeof(uint32_t));
       outfile.flush();
-      nexttime = 
+      nexttime =
           std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()
           + std::chrono::milliseconds(flushsec));
     }

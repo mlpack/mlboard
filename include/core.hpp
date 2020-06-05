@@ -5,7 +5,7 @@
 #include <sstream>
 #include <thread>
 #include <mutex>
-#include <condition_variable>
+#include <condition_variable> // NOLINT
 #include <fstream>
 #include <queue>
 #include <chrono>
@@ -13,4 +13,4 @@
 #include <stdio.h>
 #include <cstdint>
 #include <cstring>
-#include <future>
+#include <future> // NOLINT
