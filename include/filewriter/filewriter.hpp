@@ -17,7 +17,7 @@ namespace mlboard {
  * async operation which is running a separte thread. Look writeSummary()
  * for more information.
  */
-class fileWriter
+class FileWriter
 {
  public:
  /**
@@ -27,7 +27,7 @@ class fileWriter
   * @param maxQeueSize The maximum number of event to be store at a time.
   * @param flushec Interval to perform the writing operation.
   */
-  fileWriter(std::string logdir,
+  FileWriter(std::string logdir,
             int maxQueueSize = 10,
             size_t flushsec = 2);
 

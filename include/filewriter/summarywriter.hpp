@@ -32,7 +32,7 @@ class SummaryWriter
   static void scalar(const std::string &tag,
                      int step,
                      double value,
-                     fileWriter &fw);
+                     filewriter &fw);
 };
 
 } // namespace mlboard

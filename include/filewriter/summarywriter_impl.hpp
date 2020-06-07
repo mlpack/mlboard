@@ -12,9 +12,9 @@ namespace mlboard {
 
 template<typename filewriter>
 void SummaryWriter<filewriter>::scalar(const std::string &tag,
-                                  int step,
-                                  double value,
-                                  fileWriter &fw)
+                                       int step,
+                                       double value,
+                                       filewriter &fw)
 {
     mlboard::Summary *summary = new Summary();
     mlboard::Summary_Value *v = summary->add_value();

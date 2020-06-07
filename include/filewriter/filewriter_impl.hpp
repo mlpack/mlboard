@@ -10,7 +10,7 @@
 namespace mlboard {
 
 
-fileWriter::fileWriter(std::string logdir,
+FileWriter::FileWriter(std::string logdir,
                        int maxQueueSize,
                        std::size_t flushsec)
 {
@@ -23,14 +23,14 @@ fileWriter::fileWriter(std::string logdir,
   this->flushsec = flushsec;
   size_t &maxSize = this->q.MaxSize();
   maxSize = maxQueueSize;
-  thread_ = new std::thread(&fileWriter::writeSummary, this);
+  thread_ = new std::thread(&FileWriter::writeSummary, this);
   nexttime =
       std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
   outfile.open(this->logdir, std::fstream::out |
       std::ios::trunc | std::ios::binary);
 }
 
-void fileWriter::writeSummary()
+void FileWriter::writeSummary()
 {
   // This is a thread that will continously write summary one by one into file.
   while (true)
@@ -64,7 +64,7 @@ void fileWriter::writeSummary()
   }
 }
 
-void fileWriter::createEvent(size_t step, mlboard::Summary *summary)
+void FileWriter::createEvent(size_t step, mlboard::Summary *summary)
 {
     Event event;
     double wall_time = time(nullptr);
@@ -74,13 +74,13 @@ void fileWriter::createEvent(size_t step, mlboard::Summary *summary)
     q.push(event);
 }
 
-void fileWriter::flush()
+void FileWriter::flush()
 {
   // Flush everything successfully and close the thread.
   thread_->join();
 }
 
-void fileWriter::close()
+void FileWriter::close()
 {
   close_ = false;
   flush();
