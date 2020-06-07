@@ -39,7 +39,7 @@ class fileWriter
   void writeSummary();
 
   /**
-   * A helper function to chnage summary to event. The function should be
+   * A helper function to change summary to event. The function should be
    * always be there, since it is called from summary instance.
    *
    * @param summary Summary which you want to convert to event type.
@@ -48,7 +48,7 @@ class fileWriter
   void createEvent(size_t step, mlboard::Summary *summary);
 
   /**
-   * A function to flush everything succefully and close the thread.
+   * A function to flush everything successfully and close the thread.
    */
   void flush();
 
@@ -61,7 +61,7 @@ class fileWriter
   std::string logDir() const { return logdir; }
  private:
   SharedQueue <mlboard::Event> q;
-  // std::thread does not have copy constructor hence pointer is safe
+  // std::thread does not have copy constructor hence pointer is safe.
   std::thread *thread_;
   std::size_t flushsec;
   std::string logdir;

@@ -12,7 +12,7 @@ namespace mlboard {
 
 fileWriter::fileWriter(std::string logdir,
                        int maxQueueSize,
-                        std::size_t flushsec)
+                       std::size_t flushsec)
 {
   const auto p1 = std::chrono::system_clock::now();
   std::string currentTime =
@@ -32,10 +32,10 @@ fileWriter::fileWriter(std::string logdir,
 
 void fileWriter::writeSummary()
 {
-  // this is a thread that will continously write summary one by one into file
+  // This is a thread that will continously write summary one by one into file.
   while (true)
   {
-    //  Break the loop if eveything is done
+    // Break the loop if eveything is done.
     if (!(close_ || q.size() != 0)) break;
     std::time_t timenow =
         std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -76,7 +76,7 @@ void fileWriter::createEvent(size_t step, mlboard::Summary *summary)
 
 void fileWriter::flush()
 {
-  // Flush everything succefully and close the thread.
+  // Flush everything successfully and close the thread.
   thread_->join();
 }
 

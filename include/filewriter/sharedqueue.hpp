@@ -25,10 +25,10 @@ class SharedQueue
   Datatype pop();
 
   /**
-  * function to push an element in the queue.
-  * 
-  * @param item The element to be pushed
-  */
+   * Function to push an element in the queue.
+   * 
+   * @param item The element to be pushed
+   */
   void push(const Datatype& item);
   //! Get the size of the queue.
   size_t size() const { return queue_.size(); }
