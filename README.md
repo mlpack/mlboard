@@ -12,6 +12,18 @@ Mlboard is still in the development phase. You can track the development ideas [
 
 ### 1. Building the source code 
 
+For mlboard to run, you have to install protobuf
+
+- For Mac OS 
+
+`brew install protobuf`
+
+- For Linux OS
+
+`sudo apt-get install libprotobuf-dev protobuf-compiler`
+
+would be sufficient. 
+
 Make a build directory.  The directory can have any name, but 'build' is
 sufficient.
 
@@ -45,7 +57,7 @@ Irrespective of the summary type, you always have to pass the filewriter object 
 
 Following is a snippet that would log scaler for 4 steps in temp directory.
 
-You can compile the following snippet of code using : `g++ main.cpp /build/proto/libproto.a -lprotobuf -lpthread` 
+You can compile the following snippet of code using : `g++ main.cpp -lproto -lprotobuf -lpthread` 
 
 ```
 #include <mlboard/mlboard.hpp>
