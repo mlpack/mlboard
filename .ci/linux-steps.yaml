@@ -1,0 +1,13 @@
+steps:
+# Checkout repository
+- checkout: self
+  clean: true
+  fetchDepth: 1
+
+# Configure mlboard (CMake)
+- script: mkdir build && cd build && cmake ..
+  displayName: 'CMake'
+
+# Build mlboard
+- script: cd build && make
+  displayName: 'Build'
