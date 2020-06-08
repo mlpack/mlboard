@@ -6,10 +6,20 @@ pr:
   branches:
     include:
     - '*'
+  
+jobs:
+- job: Linux
+  timeoutInMinutes: 360
+  pool:
+    vmImage: 'ubuntu-latest'
 
-pool:
-  vmImage: 'ubuntu-latest'
+  steps:
+  - template: linux-steps.yaml
 
-steps:
-- script: echo "Hello, checkout mlpack/mlboard!"
-  displayName: 'Initial ci config.'
+- job: macOS
+  timeoutInMinutes: 360
+  pool:
+    vmImage: macOS-10.14
+
+  steps:
+  - template: macos-steps.yaml
