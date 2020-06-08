@@ -12,15 +12,7 @@ steps:
 
 # Install protobuf
 - script: |
-    brew install autoconf && brew install automake
-    git clone https://github.com/protocolbuffers/protobuf.git
-    cd protobuf
-    git submodule update --init --recursive
-    ./autogen.sh
-    ./configure
-    make
-    make check
-    sudo make install
+    brew install protobuf
   displayName: 'Installing Protobuf'
 
 # Configure mlboard (CMake)
