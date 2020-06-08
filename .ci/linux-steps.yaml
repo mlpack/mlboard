@@ -7,7 +7,7 @@ steps:
 # Install protobuf
 - script: |
     sudo apt-get update
-    sudo apt-get install -y protobuf
+    sudo apt-get install -y protobuf-compiler
   displayName: 'Installing Protobuf'
 
 # Configure mlboard (CMake)
