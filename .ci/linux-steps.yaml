@@ -7,11 +7,7 @@ steps:
 # Install protobuf
 - script: |
     sudo apt-get update
-    sudo snap install protobuf --classic
-    ln /snap/bin/protoc /usr/local/bin/protoc
-    sudo ldconfig
-    which protoc
-    protoc --version
+    sudo apt-get install libprotobuf-dev protobuf-compiler
   displayName: 'Installing Protobuf'
 
 # Configure mlboard (CMake)
