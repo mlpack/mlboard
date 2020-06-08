@@ -41,22 +41,22 @@ void FileWriter::writeSummary()
         std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     if (timenow >= nexttime)
     {
-      // wait for queue only if queue has any element or else it will
-      // forever
-      if (q.size() == 0) continue;
-      mlboard::Event event = q.pop();
-      std::string buf;
-      event.SerializeToString(&buf);
-      auto buf_len = static_cast<uint64_t>(buf.size());
-      uint32_t len_crc =
-          masked_crc32c((char *)&buf_len, sizeof(uint64_t));
-      uint32_t data_crc = masked_crc32c(buf.c_str(), buf.size());
+      while (q.size() > 0)
+      {
+        mlboard::Event event = q.pop();
+        std::string buf;
+        event.SerializeToString(&buf);
+        auto buf_len = static_cast<uint64_t>(buf.size());
+        uint32_t len_crc =
+            masked_crc32c((char *)&buf_len, sizeof(uint64_t));
+        uint32_t data_crc = masked_crc32c(buf.c_str(), buf.size());
 
-      outfile.write((char *)&buf_len, sizeof(uint64_t));
-      outfile.write((char *)&len_crc, sizeof(uint32_t));
-      outfile.write(buf.c_str(), buf.size());
-      outfile.write((char *)&data_crc, sizeof(uint32_t));
-      outfile.flush();
+        outfile.write((char *)&buf_len, sizeof(uint64_t));
+        outfile.write((char *)&len_crc, sizeof(uint32_t));
+        outfile.write(buf.c_str(), buf.size());
+        outfile.write((char *)&data_crc, sizeof(uint32_t));
+        outfile.flush();
+      }
       nexttime =
           std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()
           + std::chrono::milliseconds(flushsec));
