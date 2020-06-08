@@ -10,6 +10,19 @@ steps:
     sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
   displayName: 'Install Build Dependencies'
 
+# Install protobuf
+- script: |
+    brew install autoconf && brew install automake
+    git clone https://github.com/protocolbuffers/protobuf.git
+    cd protobuf
+    git submodule update --init --recursive
+    ./autogen.sh
+    ./configure
+    make
+    make check
+    sudo make install
+  displayName: 'Installing Protobuf'
+
 # Configure mlboard (CMake)
 - script: |
     mkdir build && cd build
