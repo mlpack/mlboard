@@ -1,0 +1,19 @@
+steps:
+# Checkout repository
+- checkout: self
+  clean: true
+  fetchDepth: 1
+
+# Install protobuf
+- script: |
+    sudo apt-get update
+    sudo apt-get install libprotobuf-dev protobuf-compiler
+  displayName: 'Installing Protobuf'
+
+# Configure mlboard (CMake)
+- script: mkdir build && cd build && cmake ..
+  displayName: 'CMake'
+
+# Build mlboard
+- script: cd build && make
+  displayName: 'Build'
