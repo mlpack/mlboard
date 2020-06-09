@@ -23,14 +23,14 @@ FileWriter::FileWriter(std::string logdir,
   this->flushmilis = flushmilis;
   size_t &maxSize = this->q.MaxSize();
   maxSize = maxQueueSize;
-  thread_ = new std::thread(&FileWriter::writeSummary, this);
+  thread_ = new std::thread(&FileWriter::WriteSummary, this);
   nexttime =
       std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
   outfile.open(this->logdir, std::fstream::out |
       std::ios::trunc | std::ios::binary);
 }
 
-void FileWriter::writeSummary()
+void FileWriter::WriteSummary()
 {
   // This is a thread that will continously write summary one by one into file.
   while (true)
@@ -64,7 +64,7 @@ void FileWriter::writeSummary()
   }
 }
 
-void FileWriter::createEvent(size_t step, mlboard::Summary *summary)
+void FileWriter::CreateEvent(size_t step, mlboard::Summary *summary)
 {
     Event event;
     double wall_time = time(nullptr);

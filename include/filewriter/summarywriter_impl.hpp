@@ -11,16 +11,16 @@
 namespace mlboard {
 
 template<typename filewriter>
-void SummaryWriter<filewriter>::scalar(const std::string &tag,
+void SummaryWriter<filewriter>::scalar(const std::string& tag,
                                        int step,
                                        double value,
-                                       filewriter &fw)
+                                       filewriter& fw)
 {
     mlboard::Summary *summary = new Summary();
     mlboard::Summary_Value *v = summary->add_value();
     v->set_tag(tag);
     v->set_simple_value(value);
-    fw.createEvent(step, summary);
+    fw.CreateEvent(step, summary);
 }
 
 } // namespace mlboard

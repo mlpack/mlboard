@@ -24,15 +24,15 @@ class SummaryWriter
   /**
    * A function to create a scaler summary.
    * 
-   * @param tag Tag to uniquely identify the scaler type
-   * @param step The step at which scaler was logged
-   * @param value Scaler value to be logged
-   * @param fw filewriter object
+   * @param tag Tag to uniquely identify the scaler type.
+   * @param step The step at which scaler was logged.
+   * @param value Scaler value to be logged.
+   * @param fw filewriter object.
    */
-  static void scalar(const std::string &tag,
+  static void scalar(const std::string& tag,
                      int step,
                      double value,
-                     filewriter &fw);
+                     filewriter& fw);
 };
 
 } // namespace mlboard
