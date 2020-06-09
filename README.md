@@ -57,7 +57,7 @@ Irrespective of the summary type, you always have to pass the filewriter object 
 
 Following is a snippet that would log scaler for 4 steps in temp directory.
 
-You can compile the following snippet of code using : `g++ main.cpp -lproto -lprotobuf -lpthread` 
+You can compile the following snippet using : `g++ main.cpp -lproto -lprotobuf -lpthread` 
 
 ```
 #include <mlboard/mlboard.hpp>
@@ -70,10 +70,10 @@ using namespace std;
 using namespace mlboard;
 
 // A function to mock that summary creation takes 10 sec.
-void mockfunc(const std::string &tag,
+void mockfunc(const std::string& tag,
               int step,
               double value,
-              FileWriter &fw)
+              FileWriter& fw)
 {
     std::this_thread::sleep_for( std::chrono::seconds(10));
     mlboard::SummaryWriter<mlboard::FileWriter>::scalar(tag,step,value,fw);
@@ -82,11 +82,11 @@ void mockfunc(const std::string &tag,
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    // creating a FileWriter object that is repnsible for logging the summary.
+    // creating a FileWriter object that is responsible for logging the summary.
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
-    // Creating a scaler summary
+    // Creating a scaler summary.
     mockfunc("tag",1,1.1,f1);
     mockfunc("tag",2,2.1,f1);
     mockfunc("tag",3,3.1,f1);
@@ -128,10 +128,10 @@ using namespace std;
 using namespace mlboard;
 
 // A function to mock that summary creation takes 10 sec.
-void mockfunc(const std::string &tag,
+void mockfunc(const std::string& tag,
               int step,
               double value,
-              FileWriter &fw)
+              FileWriter& fw)
 {
     std::this_thread::sleep_for( std::chrono::seconds(10));
     mlboard::SummaryWriter<mlboard::FileWriter>::scalar(tag,step,value,fw);
