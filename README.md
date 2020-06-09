@@ -18,7 +18,7 @@ For mlboard to run, you have to install protobuf
 
 `brew install protobuf`
 
-- For Linux OS
+- For debian-based systems
 
 `sudo apt-get install libprotobuf-dev protobuf-compiler`
 
