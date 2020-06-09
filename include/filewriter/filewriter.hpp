@@ -25,11 +25,11 @@ class FileWriter
   *
   * @param logdir Path to store the log files.
   * @param maxQeueSize The maximum number of event to be store at a time.
-  * @param flushec Interval to perform the writing operation.
+  * @param flushmilis Interval to perform the writing operation (milliseconds).
   */
   FileWriter(std::string logdir,
             int maxQueueSize = 10,
-            size_t flushsec = 2);
+            size_t flushmilis = 5000);
 
   /**
    * A function to write the event in queue to event files. This function
@@ -63,7 +63,7 @@ class FileWriter
   SharedQueue <mlboard::Event> q;
   // std::thread does not have copy constructor hence pointer is safe.
   std::thread *thread_;
-  std::size_t flushsec;
+  std::size_t flushmilis;
   std::string logdir;
   std::time_t nexttime;
   std::ofstream outfile;

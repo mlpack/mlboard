@@ -12,7 +12,7 @@ namespace mlboard {
 
 FileWriter::FileWriter(std::string logdir,
                        int maxQueueSize,
-                       std::size_t flushsec)
+                       std::size_t flushmilis)
 {
   const auto p1 = std::chrono::system_clock::now();
   std::string currentTime =
@@ -20,7 +20,7 @@ FileWriter::FileWriter(std::string logdir,
       p1.time_since_epoch()).count());
   this->logdir = logdir + "/events.out.tfevents." + currentTime + ".v2";
   close_ = true;
-  this->flushsec = flushsec;
+  this->flushmilis = flushmilis;
   size_t &maxSize = this->q.MaxSize();
   maxSize = maxQueueSize;
   thread_ = new std::thread(&FileWriter::writeSummary, this);
@@ -59,7 +59,7 @@ void FileWriter::writeSummary()
       }
       nexttime =
           std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()
-          + std::chrono::milliseconds(flushsec));
+          + std::chrono::milliseconds(flushmilis));
     }
   }
 }

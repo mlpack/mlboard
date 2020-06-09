@@ -83,17 +83,16 @@ int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     // creating a FileWriter object that is repnsible for logging the summary.
-    FileWriter f1("temp");
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
-    
+    FileWriter f1("temp");
     // Creating a scaler summary
     mockfunc("tag",1,1.1,f1);
     mockfunc("tag",2,2.1,f1);
     mockfunc("tag",3,3.1,f1);
     mockfunc("tag",4,4.1,f1);
+    f1.close();
     end = std::chrono::system_clock::now(); 
-  
     std::chrono::duration<double> elapsed_seconds = end - start; 
     std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
   
@@ -101,7 +100,7 @@ int main()
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 
     // This will allow you to indicate that you have logged all your data.
-    f1.close();
+
     google::protobuf::ShutdownProtobufLibrary();
 }
 ```
@@ -111,8 +110,10 @@ You can then use tensorboard to visualize the scaler by using a simple command: 
 The above snippet of code would print the time taken for the scaler to log
 
 ```
-elapsed time: 40.0163s
+elapsed time: 44.6872s
 ```
+
+Above timing is 40s (summary creation time) + 4s (flush timing i.e time taken to write event files)
 
 Alternatively you can execute the logging in an async manner which would be faster at many instances by using `std::async`, here is a snippet which allows you to do the same operation but much faster as compared to the previous code
 
@@ -139,10 +140,10 @@ void mockfunc(const std::string &tag,
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    FileWriter f1("temp");
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
-    
+    FileWriter f1("temp");
+
     std::future<void> result1 = async(std::launch::async,   mockfunc,"tag",1,1.1,std::ref(f1));
     std::future<void> result2 = async(std::launch::async,   mockfunc, "tag",2,1.2,std::ref(f1));
     std::future<void> result3 = async(std::launch::async,   mockfunc,"tag",3,1.3,std::ref(f1));
@@ -151,23 +152,29 @@ int main()
     result2.get();
     result3.get();
     result4.get();
+
+    f1.close();  
+
     end = std::chrono::system_clock::now(); 
-  
     std::chrono::duration<double> elapsed_seconds = end - start; 
     std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
   
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-    f1.close();
+
     google::protobuf::ShutdownProtobufLibrary();
 }
 
 ```
 
-The total time of execution would be reduced to 10 sec since they all are executing parallelly.
+The total time of execution would be reduced to 14 sec since they all are executing parallelly.
 
 ```
-elapsed time: 10.0004s
+elapsed time: 14.0004s
 ```
+
+Above timing is 10s (summary creation time) + 4s (flush timing i.e time taken to write event files )
+
+As you can see from both the snippet, the flush timing remains same since deafult flush timing are `5000 milliseconds` and we are able to get approx same flush time, for both of the above code. The significant reduction was in summary creation time becuase of async function calling.
 
 Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thread::sleep_for( std::chrono::seconds(10));` inside the `mockfunc` (to mock a behavior of writing a summary which has a lot of data), so that there could be a clear difference between the two codes 
