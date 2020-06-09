@@ -68,19 +68,30 @@ You can compile the following snippet of code using : `g++ main.cpp -lproto -lpr
 
 using namespace std;
 using namespace mlboard;
+
+// A function to mock that summary creation takes 10 sec.
+void mockfunc(const std::string &tag,
+              int step,
+              double value,
+              FileWriter &fw)
+{
+    std::this_thread::sleep_for( std::chrono::seconds(10));
+    mlboard::SummaryWriter<mlboard::FileWriter>::scalar(tag,step,value,fw);
+}
+
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    // creating a filewriter object that is repnsible for logging the summary.
-    fileWriter f1("temp");
+    // creating a FileWriter object that is repnsible for logging the summary.
+    FileWriter f1("temp");
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     
     // Creating a scaler summary
-    mlboard::SummaryWriter<mlboard::fileWriter>::scalar("tag",1,1.1,f1);
-    mlboard::SummaryWriter<mlboard::fileWriter>::scalar("tag",2,1.2,f1);
-    mlboard::SummaryWriter<mlboard::fileWriter>::scalar("tag",3,1.4,f1);
-    mlboard::SummaryWriter<mlboard::fileWriter>::scalar("tag",5,1.5,f1);
+    mockfunc("tag",1,1.1,f1);
+    mockfunc("tag",2,2.1,f1);
+    mockfunc("tag",3,3.1,f1);
+    mockfunc("tag",4,4.1,f1);
     end = std::chrono::system_clock::now(); 
   
     std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -114,17 +125,28 @@ Alternatively you can execute the logging in an async manner which would be fast
 
 using namespace std;
 using namespace mlboard;
+
+// A function to mock that summary creation takes 10 sec.
+void mockfunc(const std::string &tag,
+              int step,
+              double value,
+              FileWriter &fw)
+{
+    std::this_thread::sleep_for( std::chrono::seconds(10));
+    mlboard::SummaryWriter<mlboard::FileWriter>::scalar(tag,step,value,fw);
+}
+
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    fileWriter f1("temp");
+    FileWriter f1("temp");
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     
-    std::future<void> result1 = async(std::launch::async,  SummaryWriter<fileWriter>::scalar,"tag",1,1.1,std::ref(f1));
-    std::future<void> result2 = async(std::launch::async,  SummaryWriter<fileWriter>::scalar, "tag",2,1.2,std::ref(f1));
-    std::future<void> result3 = async(std::launch::async,  SummaryWriter<fileWriter>::scalar,"tag",3,1.3,std::ref(f1));
-    std::future<void> result4 = async(std::launch::async, SummaryWriter<fileWriter>::scalar, "tag",4,1.4,std::ref(f1));
+    std::future<void> result1 = async(std::launch::async,   mockfunc,"tag",1,1.1,std::ref(f1));
+    std::future<void> result2 = async(std::launch::async,   mockfunc, "tag",2,1.2,std::ref(f1));
+    std::future<void> result3 = async(std::launch::async,   mockfunc,"tag",3,1.3,std::ref(f1));
+    std::future<void> result4 = async(std::launch::async,  mockfunc, "tag",4,1.4,std::ref(f1));
     result1.get();
     result2.get();
     result3.get();
@@ -148,4 +170,4 @@ The total time of execution would be reduced to 10 sec since they all are execut
 elapsed time: 10.0004s
 ```
 
-Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thread::sleep_for( std::chrono::seconds(10));` inside the scaler function (to mock a behavior of writing a summary which has a lot of data), so that there could be a clear difference between the two codes 
+Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thread::sleep_for( std::chrono::seconds(10));` inside the `mockfunc` (to mock a behavior of writing a summary which has a lot of data), so that there could be a clear difference between the two codes 
