@@ -1,0 +1,26 @@
+steps:
+# Checkout repository
+- checkout: self
+  clean: true
+  fetchDepth: 1
+
+# Install Build Dependencies
+- script: |
+    set -e
+    sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
+  displayName: 'Install Build Dependencies'
+
+# Install protobuf
+- script: |
+    brew install protobuf
+  displayName: 'Installing Protobuf'
+
+# Configure mlboard (CMake)
+- script: |
+    mkdir build && cd build
+    cmake ..
+  displayName: 'CMake'
+
+# Build mlpack
+- script: cd build && make 
+  displayName: 'Build'
