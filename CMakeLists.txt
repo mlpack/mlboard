@@ -20,7 +20,7 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/mlboard)
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/proto
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/mlboard/)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/proto/libproto.a
         DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/)

@@ -5,9 +5,10 @@
 #ifndef MLBOARD_FILE_WRITER_HPP
 #define MLBOARD_FILE_WRITER_HPP
 
-#include <mlboard/core.hpp>
+#include "../core.hpp"
+#include "../proto.hpp"
 #include "sharedqueue.hpp"
-#include <proto/event.pb.h>
+
 #include "crc.hpp"
 
 namespace mlboard {
