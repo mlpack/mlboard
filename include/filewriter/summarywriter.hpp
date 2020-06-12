@@ -33,6 +33,35 @@ class SummaryWriter
                      int step,
                      double value,
                      filewriter& fw);
+
+  static void image(const std::string& tag,
+                    int step,
+                    const std::string& encodedImage,
+                    int height,
+                    int width,
+                    int channel,
+                    filewriter& fw,
+                    const std::string& displayName = "",
+                    const std::string& description = "");
+
+  static void image(const std::string& tag,
+                    int step,
+                    const std::vector<std::string>& encodedImages,
+                    int height,
+                    int width,
+                    filewriter& fw,
+                    const std::string& displayName = "",
+                    const std::string& description = "");
+  
+  template<typename eT>
+  static void image(const std::string& tag,
+                    int step,
+                    arma::Mat<eT>& matrix,
+                    mlpack::data::ImageInfo& info,
+                    filewriter& fw,
+                    const std::string& displayName = "",
+                    const std::string& description = "");
+
 };
 
 } // namespace mlboard
