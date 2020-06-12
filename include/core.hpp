@@ -14,3 +14,7 @@
 #include <cstdint>
 #include <cstring>
 #include <future> // NOLINT
+#include <cstdio>
+#include <mlpack/core.hpp>
+#include <unistd.h>
+#include <sys/stat.h>
