@@ -50,12 +50,12 @@ class FileWriter
   /**
    * A function to flush everything successfully and close the thread.
    */
-  void flush();
+  void Flush();
 
   /**
    * Responsible for indicating the class to close the thread.
    */ 
-  void close();
+  void Close();
 
   //! Get the path of log directory.
   std::string LogDir() const { return logdir; }

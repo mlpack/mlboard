@@ -1,5 +1,5 @@
 /**
- * @file SharedQueue_impl.hpp
+ * @file sharedqueue_impl.hpp
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_SHARED_QUEUE_IMPL_HPP
@@ -9,7 +9,7 @@
 namespace mlboard {
 
 template <typename Datatype>
-Datatype SharedQueue<Datatype>::pop()
+Datatype SharedQueue<Datatype>::Pop()
 {
   std::unique_lock<std::mutex> mlock(mutex_);
   while (queue_.empty())
@@ -25,10 +25,10 @@ Datatype SharedQueue<Datatype>::pop()
 }
 
 template <typename Datatype>
-void SharedQueue<Datatype>::push(const Datatype& item)
+void SharedQueue<Datatype>::Push(const Datatype& item)
 {
   std::unique_lock<std::mutex> mlock(mutex_);
-  while (queue_.size() > maxSize)
+  while (queue_.size() >= maxSize)
   {
     queueFull.wait(mlock);
   }

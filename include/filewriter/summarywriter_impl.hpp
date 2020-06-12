@@ -1,5 +1,5 @@
 /**
- * @file filewriter.hpp
+ * @file summarywriter_impl.hpp
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_SUMMARY_WRITER_IMPL_HPP
@@ -10,11 +10,11 @@
 
 namespace mlboard {
 
-template<typename filewriter>
-void SummaryWriter<filewriter>::scalar(const std::string& tag,
+template<typename Filewriter>
+void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
                                        int step,
                                        double value,
-                                       filewriter& fw)
+                                       Filewriter& fw)
 {
     mlboard::Summary *summary = new Summary();
     mlboard::Summary_Value *v = summary->add_value();
