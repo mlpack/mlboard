@@ -36,7 +36,7 @@ void FileWriter::WriteSummary()
   while (true)
   {
     // Break the loop if eveything is done.
-    if (!close_ ) break;
+    if (!(close_ || q.Size() != 0)) break;
     std::time_t timenow =
         std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     if (timenow >= nexttime)
@@ -84,6 +84,12 @@ void FileWriter::Close()
 {
   close_ = false;
   Flush();
+}
+
+FileWriter::~FileWriter()
+{
+  if(close_)
+    Close();
 }
 
 } // namespace mlboard
