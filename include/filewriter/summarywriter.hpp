@@ -1,5 +1,5 @@
 /**
- * @file filewriter.hpp
+ * @file summarywriter.hpp
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_SUMMARY_WRITER_HPP
@@ -17,7 +17,7 @@ namespace mlboard {
  * @tparam filewriter The filewriter object whould would convert it
  *    into events and then log to a file. 
  */
-template<typename filewriter>
+template<typename Filewriter>
 class SummaryWriter
 {
  public:
@@ -27,40 +27,41 @@ class SummaryWriter
    * @param tag Tag to uniquely identify the scaler type.
    * @param step The step at which scaler was logged.
    * @param value Scaler value to be logged.
-   * @param fw filewriter object.
+   * @param fw Filewriter object.
    */
-  static void scalar(const std::string& tag,
+  static void Scalar(const std::string& tag,
                      int step,
                      double value,
-                     filewriter& fw);
+                     Filewriter& fw);
 
-  static void image(const std::string& tag,
+  static void Image(const std::string& tag,
                     int step,
                     const std::string& encodedImage,
                     int height,
                     int width,
                     int channel,
-                    filewriter& fw,
+                    Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
 
-  static void image(const std::string& tag,
+  static void Image(const std::string& tag,
                     int step,
                     const std::vector<std::string>& encodedImages,
                     int height,
                     int width,
-                    filewriter& fw,
+                    Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
   
   template<typename eT>
-  static void image(const std::string& tag,
+  static void Image(const std::string& tag,
                     int step,
                     arma::Mat<eT>& matrix,
                     mlpack::data::ImageInfo& info,
-                    filewriter& fw,
+                    Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
+
 
 };
 

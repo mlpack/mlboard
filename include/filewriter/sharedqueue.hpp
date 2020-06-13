@@ -20,24 +20,24 @@ class SharedQueue
 {
  public:
   /**
-   * function to pop an element from the queue.
+   * Function to pop an element from the queue.
    */ 
-  Datatype pop();
+  Datatype Pop();
 
   /**
    * Function to push an element in the queue.
    * 
-   * @param item The element to be pushed
+   * @param item The element to be pushed.
    */
-  void push(const Datatype& item);
+  void Push(const Datatype& item);
   //! Get the size of the queue.
-  size_t size() const { return queue_.size(); }
+  size_t Size() const { return queue_.size(); }
   //! Get the maximum size of the queue.
   size_t MaxSize() const { return maxSize; }
   //! Modify the maximum size of the queue.
   size_t& MaxSize() { return maxSize; }
-  // ! Check if queue is empty
-  bool empty() { return queue_.empty(); }
+  // ! Check if queue is empty.
+  bool Empty() { return queue_.empty(); }
  private:
   std::queue<Datatype> queue_;
   std::mutex mutex_;

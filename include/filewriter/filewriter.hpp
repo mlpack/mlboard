@@ -31,6 +31,11 @@ class FileWriter
              int maxQueueSize = 10,
              size_t flushmilis = 5000);
 
+ /**
+  * Destructor Responsible for filewriter object.
+  */
+  ~FileWriter();
+
   /**
    * A function to write the event in queue to event files. This function
    * is intialised as a thread to complete the function without hindering
@@ -50,12 +55,12 @@ class FileWriter
   /**
    * A function to flush everything successfully and close the thread.
    */
-  void flush();
+  void Flush();
 
   /**
    * Responsible for indicating the class to close the thread.
    */ 
-  void close();
+  void Close();
 
   //! Get the path of log directory.
   std::string LogDir() const { return logdir; }

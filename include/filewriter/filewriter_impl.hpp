@@ -36,14 +36,14 @@ void FileWriter::WriteSummary()
   while (true)
   {
     // Break the loop if eveything is done.
-    if (!(close_ || q.size() != 0)) break;
+    if (!(close_ || q.Size() != 0)) break;
     std::time_t timenow =
         std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     if (timenow >= nexttime)
     {
-      while (q.size() > 0)
+      while (q.Size() > 0)
       {
-        mlboard::Event event = q.pop();
+        mlboard::Event event = q.Pop();
         std::string buf;
         event.SerializeToString(&buf);
         auto buf_len = static_cast<uint64_t>(buf.size());
@@ -71,19 +71,25 @@ void FileWriter::CreateEvent(size_t step, mlboard::Summary *summary)
     event.set_wall_time(wall_time);
     event.set_step(step);
     event.set_allocated_summary(summary);
-    q.push(event);
+    q.Push(event);
 }
 
-void FileWriter::flush()
+void FileWriter::Flush()
 {
   // Flush everything successfully and close the thread.
   thread_->join();
 }
 
-void FileWriter::close()
+void FileWriter::Close()
 {
   close_ = false;
-  flush();
+  Flush();
+}
+
+FileWriter::~FileWriter()
+{
+  if(close_)
+    Close();
 }
 
 } // namespace mlboard
