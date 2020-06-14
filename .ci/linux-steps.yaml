@@ -10,6 +10,11 @@ steps:
     sudo apt-get install libprotobuf-dev protobuf-compiler
   displayName: 'Installing Protobuf'
 
+# Install Mlpack
+- script: |
+    sudo apt-get install libmlpack-dev
+  displayName: 'Installing Mlpack'
+
 # Configure mlboard (CMake)
 - script: mkdir build && cd build && cmake ..
   displayName: 'CMake'

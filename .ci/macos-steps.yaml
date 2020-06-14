@@ -10,6 +10,11 @@ steps:
     sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
   displayName: 'Install Build Dependencies'
 
+# Install mlpack
+- script: |
+    brew install mlpack
+  displayName: 'Installing Mlpack'
+
 # Install protobuf
 - script: |
     brew install protobuf
