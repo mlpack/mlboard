@@ -33,7 +33,19 @@ class SummaryWriter
                      int step,
                      double value,
                      Filewriter& fw);
-
+  /**
+   * A function to create a image summary.
+   * 
+   * @param tag Tag to uniquely identify the image type.
+   * @param step The step at which scaler was logged.
+   * @param encodedImage Image encoded in string datatype.
+   * @param height Height of image.
+   * @param width Width of image.
+   * @param channel Channel of image.
+   * @param fw Filewriter object.
+   * @param displayName Metadata for displaying Name of image.
+   * @param desctiption Metadata for description of image.
+   */
   static void Image(const std::string& tag,
                     int step,
                     const std::string& encodedImage,
@@ -43,7 +55,19 @@ class SummaryWriter
                     Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
-
+  /**
+   * A overloaded function to create multiple image summary.
+   * 
+   * @param tag Tag to uniquely identify the image type.
+   * @param step The step at which scaler was logged.
+   * @param encodedImages A vector of Images encoded in string datatype.
+   * @param height Height of image.
+   * @param width Width of image.
+   * @param channel Channel of image.
+   * @param fw Filewriter object.
+   * @param displayName Metadata for displaying Name of image.
+   * @param desctiption Metadata for description of image.
+   */
   static void Image(const std::string& tag,
                     int step,
                     const std::vector<std::string>& encodedImages,
@@ -52,7 +76,26 @@ class SummaryWriter
                     Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
-  
+  /**
+   * A overloaded function to create multiple image summary that is store
+   * in arma::mat 
+   * 
+   * Please not that this function is very slow since the image has to be 
+   * processed and then converted to summary and hence this has to be run in
+   * seperate thread so that this function doesn't hinder any other operation.
+   * Also you can avoid creating a thread if logging time is not of concern for
+   * the application.
+   * 
+   * @param tag Tag to uniquely identify the image type.
+   * @param step The step at which scaler was logged.
+   * @param matrix Matrix which holds the information about images.
+   * @param height Height of image.
+   * @param width Width of image.
+   * @param channel Channel of image.
+   * @param fw Filewriter object.
+   * @param displayName Metadata for displaying Name of image.
+   * @param desctiption Metadata for description of image.
+   */  
   template<typename eT>
   static void Image(const std::string& tag,
                     int step,
