@@ -120,11 +120,12 @@ void SummaryWriter<filewriter>::image(const std::string& tag,
       encodedImages[i] = ss.str();
       fin.close();
   }
-  image(tag, step, encodedImages , info.Height(), info.Width(), fw, displayName, description));
+  Image(tag, step, encodedImages , info.Height(), info.Width(), fw, displayName, description);
   // Remove all the files 
   for(size_t i = 0, i < matrix.n_cols; i++)
     remove(fileNames[i]);
-
+  // for(size_t i = 0; i < matrix.n_cols; i++)
+  //   remove(fileNames[i].c_str());
 
   // remove the temp directory 
   rmdir("_tempimage_")
