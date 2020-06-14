@@ -64,9 +64,9 @@ class FileWriter
 
   //! Get the path of log directory.
   std::string LogDir() const { return logdir; }
-  //! Modify the flusmilis.
+  //! Modify the flushmilis.
   size_t& FlushMilis() { return flushmilis; }
-  //! Get the flusmilis.
+  //! Get the flushmilis.
   size_t FlushMilis() const { return flushmilis; }
   //! Get the maximum size of the queue.
   size_t MaxSize() const { return q.MaxSize(); }
@@ -74,12 +74,23 @@ class FileWriter
   size_t& MaxSize() { return q.MaxSize(); }
  private:
   SharedQueue<mlboard::Event> q;
-  // std::thread does not have copy constructor hence pointer is safe.
+  //! Thread which would be running to write the events to the file.
+  //! Note: std::thread does not have copy constructor hence pointer is safe.
   std::thread *thread_;
+
+  //! Time difference between the two write events.
   std::size_t flushmilis;
+
+  //! Path of the folder where the events file will be written.
   std::string logdir;
+
+  //! Time for next write operation of events in a file. 
   std::time_t nexttime;
+
+  //! Filestream object that would help writing the events to the file.
   std::ofstream outfile;
+
+  //! A flag that indicates that logging has been completed succesfully.
   bool close_;
 };
 

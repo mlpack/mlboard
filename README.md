@@ -53,7 +53,9 @@ If you wish to install mlboard to `/usr/local/include/mlboard/`, `/usr/local/lib
 and `/usr/local/bin/`, make sure you have root privileges (or write permissions 
 to those three directories), and simply type
 
+```
     $ make install
+```
 
 and the mlboard headers are found in `/usr/local/include/mlpack/`.
 
@@ -62,7 +64,7 @@ and the mlboard headers are found in `/usr/local/include/mlpack/`.
 To generate summary data you can make use of `FileWriter` class and `SummaryWriter` class.
 
 For creating a summary, you have to call the specific summary type function from `SummaryWriter` class, for example to log a scaler summary you can call the scaler function as:
-`mlboard::SummaryWriter<mlboard::fileWriter>::scalar(tag,step,value,filewriterobject);`. 
+`mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,filewriterobject);`. 
 
 Irrespective of the summary type, you always have to pass the filewriter object that is responsible for first creating events using this summary and then putting that into a queue and then finally writing those events into the file through the logger, which is running asynchronously.
 
@@ -184,8 +186,8 @@ The total time of execution would be reduced to 14 sec since they all are execut
 elapsed time: 14.0004s
 ```
 
-Above timing is 10s (summary creation time) + 4s (flush timing i.e time taken to write event files )
+Above timing is 10s (summary creation time) + 4s (flush timing i.e time taken to write event files).
 
 As you can see from both the snippet, the flush timing remains same since deafult flush timing are `5000 milliseconds` and we are able to get approx same flush time, for both of the above code. The significant reduction was in summary creation time becuase of async function calling.
 
-Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thread::sleep_for( std::chrono::seconds(10));` inside the `mockfunc` (to mock a behavior of writing a summary which has a lot of data), so that there could be a clear difference between the two codes .
+Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thread::sleep_for( std::chrono::seconds(10));` inside the `mockfunc` (to mock a behavior of writing a summary which has a lot of data), so that there could be a clear difference between the two codes.

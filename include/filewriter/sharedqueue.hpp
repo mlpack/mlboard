@@ -36,13 +36,24 @@ class SharedQueue
   size_t MaxSize() const { return maxSize; }
   //! Modify the maximum size of the queue.
   size_t& MaxSize() { return maxSize; }
-  // ! Check if queue is empty.
+  //! Check if queue is empty.
   bool Empty() { return queue_.empty(); }
  private:
+  //! Queue that holds the data being shared across threads.
   std::queue<Datatype> queue_;
+
+  //! Lock that allows single thread access at a time.
   std::mutex mutex_;
+
+  //! Queue empty Condition to block a thread and later notify other
+  //! threads when queue is not empty.
   std::condition_variable queueempty;
+
+  //! Queue full Condition to block a thread and later notify other
+  //! threads when queue is not full.
   std::condition_variable queueFull;
+
+  // Maximum number of elements that can be stored in queue during a time.
   std::size_t maxSize;
 };
 
