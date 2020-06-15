@@ -9,6 +9,7 @@ mlboard is still in the development phase. You can track the development ideas [
 
   1. [Building mlboard from source](#1-building-mlboard-from-source)
   2. [Usage](#2-usage)
+  3. [Supported Summary Types](#3-supported-summary-types)
 
 ### 1. Building the source code 
 
@@ -191,3 +192,10 @@ Above timing is 10s (summary creation time) + 4s (flush timing i.e time taken to
 As you can see from both the snippet, the flush timing remains same since deafult flush timing are `5000 milliseconds` and we are able to get approx same flush time, for both of the above code. The significant reduction was in summary creation time becuase of async function calling.
 
 Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thread::sleep_for( std::chrono::seconds(10));` inside the `mockfunc` (to mock a behavior of writing a summary which has a lot of data), so that there could be a clear difference between the two codes.
+
+### 3. Supported Summary types 
+
+Following are the Summary you could log using mlbaord:
+
+- [Scaler Summary](examples/scaler.md)
+- [Image Summary](examples/image.md)
