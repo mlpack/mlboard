@@ -110,22 +110,14 @@ void SummaryWriter<filewriter>::image(const std::string& tag,
     fileNames[i] = "_tempimage_/"+std::to_string(i)+".png"
 
   mlpack::data::Save(fileNames, matrix, info, false);
-  ifstream fin;
-  std::vector<std::string> encodedImages(matrix.n_cols);
-  for(size_t i = 0, i < matrix.n_cols; i++)
-  {
-      ostringstream ss;
-      fin.open(fileNames[i], ios::binary);
-      ss << fin.rdbuf();
-      encodedImages[i] = ss.str();
-      fin.close();
-  }
+
+  std::vector<std::string> encodedImages;
+  mlboard::util::EncodeImage(fileNames, encodedImages);
+
   Image(tag, step, encodedImages , info.Height(), info.Width(), fw, displayName, description);
   // Remove all the files 
-  for(size_t i = 0, i < matrix.n_cols; i++)
-    remove(fileNames[i]);
-  // for(size_t i = 0; i < matrix.n_cols; i++)
-  //   remove(fileNames[i].c_str());
+  for(size_t i = 0; i < matrix.n_cols; i++)
+    remove(fileNames[i].c_str());
 
   // remove the temp directory 
   rmdir("_tempimage_")
