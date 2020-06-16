@@ -35,7 +35,7 @@ class SummaryWriter
                      double value,
                      Filewriter& fw);
   /**
-   * A function to create a image summary.
+   * A function to create an image summary.
    * 
    * @param tag Tag to uniquely identify the image type.
    * @param step The step at which scaler was logged.
@@ -78,7 +78,7 @@ class SummaryWriter
                     const std::string& displayName = "",
                     const std::string& description = "");
   /**
-   * A overloaded function to create multiple image summary that is store
+   * A overloaded function to create multiple image summary that is stored
    * in arma::mat 
    * 
    * Please not that this function is very slow since the image has to be 

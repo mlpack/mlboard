@@ -7,7 +7,7 @@ These examples help you to understand SummaryWriter::Image API in depth
 
   1. [Log a single image](#1-single-image)
   2. [Log multiple image](#2-multiple-image)
-  3. [Log multiple image store in arma::mat](#3-multiple-image-arma-mat)
+  3. [Log multiple image stored in arma::mat](#3-multiple-image-arma-mat)
   4. [Log images stored at a location](#4-multiple-image-stored-at-location)
 
 ### 1. Single Image
