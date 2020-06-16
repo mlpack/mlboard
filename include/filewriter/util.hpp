@@ -11,9 +11,9 @@ namespace mlboard {
 namespace util {
 
 /**
- * Function to encode images at a given path to a string
+ * Function to encode images to a string given their paths.
  * 
- * @param filePaths A vetor of filepath of images to be encoded.
+ * @param filePaths A vector of filepath of images to be encoded.
  * @param encodedImages Output vector to store the encoded string format image.
  */
 void EncodeImage(vector<std::string>& filePaths,

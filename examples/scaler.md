@@ -8,7 +8,7 @@ These examples help you to understand SummaryWriter::Scaler API in depth
 
 ### 1. Scaler Value
 
-A scaler value could be logged using the following API
+A scaler value could be logged using the following API:
 
 ```
 void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
@@ -31,16 +31,6 @@ Following is a snippet that would log some scaler values.
 using namespace std;
 using namespace mlboard;
 
-// A function to mock that summary creation takes 10 sec.
-void mockfunc(const std::string& tag,
-              int step,
-              double value,
-              FileWriter& fw)
-{
-    std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,fw);
-}
-
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -49,10 +39,10 @@ int main()
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
     // Creating a scaler summary.
-    mockfunc("tag",1,1.1,f1);
-    mockfunc("tag",2,2.1,f1);
-    mockfunc("tag",3,3.1,f1);
-    mockfunc("tag",4,4.1,f1);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("tag",1,1.1,f1);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("tag",2,2.1,f1);
+
+    // This will allow you to indicate that you have logged all your data.
     f1.Close();
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -60,8 +50,6 @@ int main()
   
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-
-    // This will allow you to indicate that you have logged all your data.
 
     google::protobuf::ShutdownProtobufLibrary();
 }

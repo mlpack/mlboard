@@ -118,6 +118,8 @@ int main()
     mockfunc("tag", 2, 2.1, f1);
     mockfunc("tag", 3, 3.1, f1);
     mockfunc("tag", 4, 4.1, f1);
+
+    // This will allow you to indicate that you have logged all your data.
     f1.Close();
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -126,7 +128,7 @@ int main()
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 
-    // This will allow you to indicate that you have logged all your data.
+    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
 
@@ -203,7 +205,7 @@ Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thr
 
 ### 3. Supported Summary types 
 
-Following are the Summary you could log using mlbaord:
+Following are the Summary you could log using mlboard:
 
 - [Scaler Summary](examples/scaler.md)
 - [Image Summary](examples/image.md)
