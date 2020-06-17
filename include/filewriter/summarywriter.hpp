@@ -79,7 +79,7 @@ class SummaryWriter
                     const std::string& description = "");
   /**
    * A overloaded function to create multiple image summary that is stored
-   * in arma::mat 
+   * in armadillo matrix (arma::mat).
    * 
    * Please not that this function is very slow since the image has to be 
    * processed and then converted to summary and hence this has to be run in
