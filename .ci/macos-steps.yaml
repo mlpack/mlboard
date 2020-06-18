@@ -13,7 +13,7 @@ steps:
 # Install mlpack
 - script: |
     brew install mlpack
-  displayName: 'Installing Mlpack'
+  displayName: 'Installing mlpack'
 
 # Install protobuf
 - script: |

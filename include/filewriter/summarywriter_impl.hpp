@@ -54,14 +54,16 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
 template<typename Filewriter>
 void SummaryWriter<Filewriter>::Image(const std::string& tag,
                                       int step,
-                                      const std::vector<std::string>& encodedImages,
+                                      const std::vector<std::string>& 
+                                        encodedImages,
                                       int height,
                                       int width,
                                       Filewriter& fw,
                                       const std::string& displayName,
                                       const std::string& description)
 {
-  mlboard::SummaryMetadata_PluginData *pluginData = new SummaryMetadata::PluginData();
+  mlboard::SummaryMetadata_PluginData *pluginData =
+    new SummaryMetadata::PluginData();
   pluginData->set_plugin_name("images");
   mlboard::SummaryMetadata *meta = new SummaryMetadata();
   meta->set_display_name(displayName == "" ? tag : displayName);
@@ -97,9 +99,9 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
   // Create a temp directry 
   int check = mkdir("_tempimage_",0777);
 
-  // Create a vector of temp file names 
+  // Create a vector of temp file names
   std::vector<std::string> fileNames(matrix.n_cols);
-  for(size_t i = 0; i < matrix.n_cols; i++)
+  for (size_t i = 0; i < matrix.n_cols; i++)
     fileNames[i] = "_tempimage_/"+std::to_string(i)+".png";
 
   mlpack::data::Save(fileNames, matrix, info, false);
@@ -107,12 +109,13 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
   std::vector<std::string> encodedImages;
   mlboard::util::EncodeImage(fileNames, encodedImages);
 
-  Image(tag, step, encodedImages , info.Height(), info.Width(), fw, displayName, description);
-  // Remove all the files 
-  for(size_t i = 0; i < matrix.n_cols; i++)
+  Image(tag, step, encodedImages , info.Height(),
+    info.Width(), fw, displayName, description);
+  // Remove all the files
+  for (size_t i = 0; i < matrix.n_cols; i++)
     remove(fileNames[i].c_str());
 
-  // remove the temp directory 
+  // remove the temp directory
   rmdir("_tempimage_");
 }
 

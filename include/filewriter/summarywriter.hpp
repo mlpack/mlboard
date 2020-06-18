@@ -106,7 +106,6 @@ class SummaryWriter
                     const std::string& displayName = "",
                     const std::string& description = "");
 
-
 };
 
 } // namespace mlboard
