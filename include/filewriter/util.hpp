@@ -16,8 +16,8 @@ namespace util {
  * @param filePaths A vector of filepath of images to be encoded.
  * @param encodedImages Output vector to store the encoded string format image.
  */
-void EncodeImage(vector<std::string>& filePaths,
-                 std::vector<std::string>>& encodedImages)
+void EncodeImage(std::vector<std::string>& filePaths,
+                 std::vector<std::string>& encodedImages);
 
 } // namespace util
 } // namespace mlboard
