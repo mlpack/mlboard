@@ -40,7 +40,7 @@ steps:
 # Install Mlpack
 - script: |
     sudo apt-get install libmlpack-dev
-  displayName: 'Installing Mlpack'
+  displayName: 'Installing mlpack'
 
 # Configure mlboard (CMake)
 - script: mkdir build && cd build && cmake ..

@@ -31,7 +31,6 @@ The API accepts `tag`, `step`, `encodedImage` (Image data in encoded format) and
 Following is a snippet that would log a single image for 1 step in temp directory.
 
 ```
-
 #include <mlboard/mlboard.hpp>
 #include <iostream>
 #include <chrono> 
@@ -69,10 +68,9 @@ int main()
 
     google::protobuf::ShutdownProtobufLibrary();
 }
-
 ```
 
-The output would be as follows : 
+The output would be as follows: 
 
 <p>
 <img src = "assets/single_image.png" width = "300" height = "200"/>
@@ -140,10 +138,9 @@ int main()
 
     google::protobuf::ShutdownProtobufLibrary();
 }
-
 ```
 
-The output would be as follows : 
+The output would be as follows: 
 
 <p>
 <img src = "assets/multiple_image.png" width = "300" height = "200"/>
@@ -152,6 +149,7 @@ The output would be as follows :
 ### 3. Multiple Image Arma Mat
 
 Since we would be logging mlpack's metrics there are chances when we would have to visualize images stored in `arma::mat` and thus you can use the following API to directly log Armadillo matrices:
+
 
 ```
 void SummaryWriter<Filewriter>::Image(const std::string& tag,
@@ -209,7 +207,6 @@ int main()
 
     google::protobuf::ShutdownProtobufLibrary();
 }
-
 ```
 
 The output would be similar to [Log multiple image](#2-multiple-image)
@@ -268,5 +265,4 @@ int main()
 
     google::protobuf::ShutdownProtobufLibrary();
 }
-
 ```
