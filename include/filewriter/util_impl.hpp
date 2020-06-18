@@ -11,15 +11,15 @@
 namespace mlboard {
 namespace util {
 
-void EncodeImage(vector<std::string>& filePaths,
-                 std::vector<std::string>>& encodedImages)
+void EncodeImage(std::vector<std::string>& filePaths,
+                 std::vector<std::string>& encodedImages)
 {
   std::ifstream fin;
   encodedImages.resize(filePaths.size());
   for(size_t i = 0; i < encodedImages.size(); i++)
   {
     std::ostringstream ss;
-    fin.open(fileNames[i], std::ios::binary);
+    fin.open(filePaths[i], std::ios::binary);
     ss << fin.rdbuf();
     encodedImages[i] = ss.str();
     fin.close();
