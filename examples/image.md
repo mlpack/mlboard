@@ -1,7 +1,7 @@
 
 ## Logging Image 
 
-These examples help you to understand SummaryWriter::Image API in depth
+These examples help you to understand SummaryWriter::Image API in depth.
 
 ### 0. API 
 
@@ -12,7 +12,7 @@ These examples help you to understand SummaryWriter::Image API in depth
 
 ### 1. Single Image
 
-A single Image could be logged using the following API
+A single Image could be logged using the following API.
 
 ```
 SummaryWriter<Filewriter>::Image(const std::string& tag,
@@ -78,7 +78,7 @@ The output would be as follows:
 
 ### 2. Multiple Image
 
-To log multiple image at an instance you can use the following api:
+To log multiple image at an instance you can use the following API:
 
 ```
 void SummaryWriter<Filewriter>::Image(const std::string& tag,
@@ -148,7 +148,7 @@ The output would be as follows:
 
 ### 3. Multiple Image Arma Mat
 
-Since we would we logging mlpack's metrics there are chances when we would have images stored in `arma::mat` and thus you can use the following api to log images stores in `arma::mat`:
+Since we would be logging mlpack's metrics there are chances when we would have to visualize images stored in `arma::mat` and thus you can use the following API to directly log Armadillo matrices:
 
 ```
 void SummaryWriter<Filewriter>::Image(const std::string& tag,
