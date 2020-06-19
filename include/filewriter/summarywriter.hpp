@@ -7,7 +7,7 @@
 
 #include <../core.hpp"
 #include "filewriter.hpp"
-#include "../proto.hpp"
+#include <proto/summary.pb.h>
 
 namespace mlboard {
 
