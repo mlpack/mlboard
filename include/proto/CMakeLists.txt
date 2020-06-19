@@ -1,5 +1,3 @@
-INCLUDE(FindProtobuf)
-FIND_PACKAGE(Protobuf REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})
 file(GLOB ProtoFiles "${CMAKE_CURRENT_SOURCE_DIR}/*.proto")
 

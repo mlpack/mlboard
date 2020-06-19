@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_TESTS "Build tests." ON)
+INCLUDE(FindProtobuf)
+FIND_PACKAGE(Protobuf REQUIRED)
 
 ADD_SUBDIRECTORY(include/proto)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
@@ -15,6 +17,7 @@ file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/filewriter/*.hpp")
 file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 
 message("PRIONTING AJSDFMDASF")
+MESSAGE( STATUS, "Protobuf sam libs is ${PROTOBUF_LIBRARIES}")
 foreach(loop_var ${headerfiles})
         message("value is ${loop_var}")
 endforeach(loop_var)
