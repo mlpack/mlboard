@@ -22,7 +22,7 @@ steps:
   displayName: 'CMake'
 
 # Build mlpack
-- script: cd build && make 
+- script: cd build/include && ln -s /usr/local/include/google ./google && cd ../ && make 
   displayName: 'Build'
 
 # Run test
