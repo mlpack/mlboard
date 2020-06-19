@@ -11,6 +11,17 @@ option(BUILD_TESTS "Build tests." ON)
 ADD_SUBDIRECTORY(include/proto)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
+file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/filewriter/*.hpp")
+file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
+
+message("PRIONTING AJSDFMDASF")
+foreach(loop_var ${headerfiles})
+        message("value is ${loop_var}")
+endforeach(loop_var)
+message(${headerfiles})
+file(COPY ${headerfiles}
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include/filewriter/)
+
 add_library(mlboard INTERFACE)
 target_include_directories(mlboard INTERFACE
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

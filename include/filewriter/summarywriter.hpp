@@ -5,7 +5,7 @@
 #ifndef MLBOARD_SUMMARY_WRITER_HPP
 #define MLBOARD_SUMMARY_WRITER_HPP
 
-#include <../core.hpp"
+#include <core.hpp>
 #include "filewriter.hpp"
 #include <proto/summary.pb.h>
 
