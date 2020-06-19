@@ -10,6 +10,6 @@
 TEST_CASE("MOCK_TEST", "MOCK")
 {
     mlboard::FileWriter f1("jeffin");
-    f1.close(); 
+    f1.Close(); 
     REQUIRE(1 <= 2);
 }

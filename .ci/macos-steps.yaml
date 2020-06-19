@@ -24,3 +24,7 @@ steps:
 # Build mlpack
 - script: cd build && make 
   displayName: 'Build'
+
+# Run test
+- script: ./mlboard_tests   
+  displayName: 'Running test'
