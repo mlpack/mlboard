@@ -3,7 +3,7 @@ mlpack visualization tool
 
 mlboard is a tool that allows you to log mlpack data in the format that the TensorBoard frontend can render in browsers.
 
-Mlboard is still in the development phase. You can track the development ideas [here](https://www.mlpack.org/gsocblog/Jeffin2020CBP.html)
+mlboard is still in the development phase. You can track the development ideas [here](https://www.mlpack.org/gsocblog/Jeffin2020CBP.html)
 
 ### 0. Contents
 
@@ -16,42 +16,55 @@ For mlboard to run, you have to install protobuf
 
 - For Mac OS 
 
-`brew install protobuf`
+```
+brew install protobuf
+```
 
 - For debian-based systems
 
-`sudo apt-get install libprotobuf-dev protobuf-compiler`
+```
+sudo apt-get install libprotobuf-dev protobuf-compiler
+```
 
 would be sufficient. 
 
 Make a build directory.  The directory can have any name, but 'build' is
 sufficient.
 
+```
     $ mkdir build
     $ cd build
+```
 
 The next step is to run CMake to configure the project.  Running CMake is the
 equivalent to running `./configure` with autotools. 
 
+```
     $ cmake ../
+```
 
 Once CMake is configured, building the library is as simple as typing 'make'.
 
+```
     $ make
+```
 
 If you wish to install mlboard to `/usr/local/include/mlboard/`, `/usr/local/lib/`,
 and `/usr/local/bin/`, make sure you have root privileges (or write permissions 
 to those three directories), and simply type
 
+```
     $ make install
+```
 
 and the mlboard headers are found in `/usr/local/include/mlpack/`.
 
 ### 2. Usage
 
-To generate summary data you can make use of `fileWriter` class and `SummaryWriter` class.
+To generate summary data you can make use of `FileWriter` class and `SummaryWriter` class.
 
-For creating a summary, you have to call the specific summary type function from `SummaryWriter` class, for example to log a scaler summary you can call the scaler function as `mlboard::SummaryWriter<mlboard::fileWriter>::scalar(tag,step,value,filewriterobject);`. 
+For creating a summary, you have to call the specific summary type function from `SummaryWriter` class, for example to log a scaler summary you can call the scaler function as:
+`mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,filewriterobject);`. 
 
 Irrespective of the summary type, you always have to pass the filewriter object that is responsible for first creating events using this summary and then putting that into a queue and then finally writing those events into the file through the logger, which is running asynchronously.
 
@@ -76,13 +89,13 @@ void mockfunc(const std::string& tag,
               FileWriter& fw)
 {
     std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::scalar(tag,step,value,fw);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,fw);
 }
 
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    // creating a FileWriter object that is responsible for logging the summary.
+    // Creating a FileWriter object that is responsible for logging the summary.
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
@@ -91,7 +104,7 @@ int main()
     mockfunc("tag",2,2.1,f1);
     mockfunc("tag",3,3.1,f1);
     mockfunc("tag",4,4.1,f1);
-    f1.close();
+    f1.Close();
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
     std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
@@ -107,15 +120,15 @@ int main()
 
 You can then use tensorboard to visualize the scaler by using a simple command: `tensorboard --logdir .`
 
-The above snippet of code would print the time taken for the scaler to log
+The above snippet of code would print the time taken for the scaler to log.
 
 ```
 elapsed time: 44.6872s
 ```
 
-Above timing is 40s (summary creation time) + 4s (flush timing i.e time taken to write event files)
+Above timing is 40s (summary creation time) + 4s (flush timing i.e time taken to write event files).
 
-Alternatively you can execute the logging in an async manner which would be faster at many instances by using `std::async`, here is a snippet which allows you to do the same operation but much faster as compared to the previous code
+Alternatively you can execute the logging in an async manner which would be faster at many instances by using `std::async`, here is a snippet which allows you to do the same operation but much faster as compared to the previous code.
 
 ```
 #include <mlboard/mlboard.hpp>
@@ -134,7 +147,7 @@ void mockfunc(const std::string& tag,
               FileWriter& fw)
 {
     std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::scalar(tag,step,value,fw);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,fw);
 }
 
 int main()
@@ -153,7 +166,7 @@ int main()
     result3.get();
     result4.get();
 
-    f1.close();  
+    f1.Close();  
 
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -173,8 +186,8 @@ The total time of execution would be reduced to 14 sec since they all are execut
 elapsed time: 14.0004s
 ```
 
-Above timing is 10s (summary creation time) + 4s (flush timing i.e time taken to write event files )
+Above timing is 10s (summary creation time) + 4s (flush timing i.e time taken to write event files).
 
 As you can see from both the snippet, the flush timing remains same since deafult flush timing are `5000 milliseconds` and we are able to get approx same flush time, for both of the above code. The significant reduction was in summary creation time becuase of async function calling.
 
-Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thread::sleep_for( std::chrono::seconds(10));` inside the `mockfunc` (to mock a behavior of writing a summary which has a lot of data), so that there could be a clear difference between the two codes 
+Note: Just to benchmark, a waiting time of 10 sec was added using `std::this_thread::sleep_for( std::chrono::seconds(10));` inside the `mockfunc` (to mock a behavior of writing a summary which has a lot of data), so that there could be a clear difference between the two codes.
