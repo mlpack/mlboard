@@ -5,7 +5,7 @@
 #ifndef MLBOARD_SHARED_QUEUE_HPP
 #define MLBOARD_SHARED_QUEUE_HPP
 
-#include "../core.hpp"
+#include <mlboard/core.hpp>
 
 namespace mlboard {
 

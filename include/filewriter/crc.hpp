@@ -5,7 +5,7 @@
 #ifndef CRC__HPP
 #define CRC__HPP
 
-#include "../core.hpp"
+#include <mlboard/core.hpp>
 
 int crc32file(char *name, uint32_t *crc, long *charcnt);
 uint32_t crc32buf(const char *buf, size_t len);

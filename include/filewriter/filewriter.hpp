@@ -5,7 +5,7 @@
 #ifndef MLBOARD_FILE_WRITER_HPP
 #define MLBOARD_FILE_WRITER_HPP
 
-#include "../core.hpp"
+#include <mlboard/core.hpp>
 #include <proto/event.pb.h>
 #include "sharedqueue.hpp"
 

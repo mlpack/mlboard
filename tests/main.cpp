@@ -3,7 +3,7 @@
  */
 
 #include <iostream>
-#include "core.hpp"
+#include <mlboard/core.hpp>
 
 //#define CATCH_CONFIG_MAIN  // catch.hpp will define main()
 #define CATCH_CONFIG_RUNNER  // we will define main()

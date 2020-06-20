@@ -5,7 +5,7 @@
 #ifndef MLBOARD_SUMMARY_WRITER_IMPL_HPP
 #define MLBOARD_SUMMARY_WRITER_IMPL_HPP
 
-#include "../core.hpp"
+#include <mlboard/core.hpp>
 #include "summarywriter.hpp"
 
 namespace mlboard {
