@@ -21,10 +21,10 @@ steps:
     cmake ..
   displayName: 'CMake'
 
-# Build mlpack
-- script: cd build/include && ln -s /usr/local/include/google ./google && cd ../ && make 
+# Build mlboard
+- script: cd build && make
   displayName: 'Build'
 
 # Run test
-- script: ./mlboard_tests   
+- script: cd build && ./mlboard_tests
   displayName: 'Running test'

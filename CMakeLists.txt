@@ -16,12 +16,6 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/filewriter/*.hpp")
 file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 
-message("PRIONTING AJSDFMDASF")
-MESSAGE( STATUS, "Protobuf sam libs is ${PROTOBUF_LIBRARIES}")
-foreach(loop_var ${headerfiles})
-        message("value is ${loop_var}")
-endforeach(loop_var)
-message(${headerfiles})
 file(COPY ${headerfiles}
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include/filewriter/)
 
@@ -32,9 +26,6 @@ target_include_directories(mlboard INTERFACE
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/mlboard)
-
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/proto
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/mlboard/)
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/proto
 DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
