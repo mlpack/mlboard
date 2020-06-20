@@ -88,7 +88,7 @@ void FileWriter::Close()
 
 FileWriter::~FileWriter()
 {
-  if(close_)
+  if (close_)
     Close();
 }
 

@@ -85,7 +85,7 @@ class FileWriter
   //! Path of the folder where the events file will be written.
   std::string logdir;
 
-  //! Time for next write operation of events in a file. 
+  //! Time for next write operation of events in a file.
   std::time_t nexttime;
 
   //! Filestream object that would help writing the events to the file.
