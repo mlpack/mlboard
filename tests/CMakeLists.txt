@@ -11,7 +11,7 @@ target_include_directories(mlboard_tests PRIVATE ${CMAKE_BINARY_DIR}/include ${P
 
 target_link_libraries(mlboard_tests 
     mlboard 
-    ${CMAKE_BINARY_DIR}/include/proto/libproto.a
+    proto
     ${PROTOBUF_LIBRARIES})
 
 
