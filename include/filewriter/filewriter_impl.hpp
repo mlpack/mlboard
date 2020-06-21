@@ -18,7 +18,8 @@ FileWriter::FileWriter(std::string logdir,
   std::string currentTime =
       std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
       p1.time_since_epoch()).count());
-  this->logdir = logdir + "/events.out.tfevents." + currentTime + ".v2";
+  this->logdir = logdir;
+  this->filename = this->logdir + "/events.out.tfevents." + currentTime + ".v2";
   close_ = true;
   this->flushmilis = flushmilis;
   size_t &maxSize = this->q.MaxSize();
@@ -26,7 +27,7 @@ FileWriter::FileWriter(std::string logdir,
   thread_ = new std::thread(&FileWriter::WriteSummary, this);
   nexttime =
       std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-  outfile.open(this->logdir, std::fstream::out |
+  outfile.open(this->filename, std::fstream::out |
       std::ios::trunc | std::ios::binary);
 }
 

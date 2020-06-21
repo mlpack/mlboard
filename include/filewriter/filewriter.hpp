@@ -28,7 +28,7 @@ class FileWriter
   * @param maxQeueSize The maximum number of event to be store at a time.
   * @param flushmilis Interval to perform the writing operation (milliseconds).
   */
-  FileWriter(std::string logdir,
+  FileWriter(std::string logdir = "./",
              int maxQueueSize = 10,
              size_t flushmilis = 5000);
 
@@ -65,6 +65,8 @@ class FileWriter
 
   //! Get the path of log directory.
   std::string LogDir() const { return logdir; }
+  //! Get the filename where event is being written to.
+  std::string FileName() const { return filename; }
   //! Modify the flushmilis.
   size_t& FlushMilis() { return flushmilis; }
   //! Get the flushmilis.
@@ -84,6 +86,9 @@ class FileWriter
 
   //! Path of the folder where the events file will be written.
   std::string logdir;
+
+  //! File name to which the thread is currently writing to.
+  std::string filename;
 
   //! Time for next write operation of events in a file.
   std::time_t nexttime;

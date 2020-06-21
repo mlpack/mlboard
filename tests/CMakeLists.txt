@@ -1,7 +1,7 @@
 # The tests that need to be compiled.
 set(MLBOARD_TESTS_SOURCES
     main.cpp
-    mock_test.cpp
+    filewriter_test.cpp
 )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
