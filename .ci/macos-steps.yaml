@@ -4,16 +4,27 @@ steps:
   clean: true
   fetchDepth: 1
 
-# Install Build Dependencies
+# Install Build Dependencies.
+# Install mlpack from master to get new functionalities instantly.
 - script: |
     set -e
     sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
+    unset BOOST_ROOT
+    pip install cython numpy pandas zipp configparser
+    brew install openblas armadillo boost
+    git clone --depth 1 https://github.com/mlpack/jenkins-conf.git conf
+    git clone --depth 1 https://github.com/mlpack/mlpack.git
   displayName: 'Install Build Dependencies'
 
-# Install mlpack
+# Configure CMake Args for mlpack.
 - script: |
-    brew install mlpack
-  displayName: 'Installing mlpack'
+    unset BOOST_ROOT
+    cd mlpack && mkdir build && cd build && cmake $(CMakeArgs-mlpack) ..
+  displayName: 'CMake for mlpack'
+
+# Install mlpack
+- script: cd mlpack/build && make install -j2
+  displayName: 'Install mlpack'
 
 # Install protobuf
 - script: |
@@ -24,8 +35,8 @@ steps:
 - script: |
     mkdir build && cd build
     cmake ..
-  displayName: 'CMake'
+  displayName: 'CMake for mlboard'
 
 # Build mlpack
 - script: cd build && make 
-  displayName: 'Build'
+  displayName: 'Build mlboard'
