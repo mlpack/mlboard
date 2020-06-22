@@ -43,6 +43,8 @@ equivalent to running `./configure` with autotools.
     $ cmake ../
 ```
 
+Note : The test build are by default `ON`, you can avoid building test by providing args to CMake as `cmake -DBUILD_TESTS=OFF ../`
+
 Once CMake is configured, building the library is as simple as typing 'make'.
 
 ```

@@ -3,7 +3,7 @@
  * @author Jeffin Sam
  */
 #include "catch.hpp"
-#include "mlboard.hpp"
+#include <mlboard/mlboard.hpp>
 #include <unistd.h>
 #include <sstream>
 #include <cstdio>
@@ -17,7 +17,9 @@ TEST_CASE("Writing two files at a time", "[FileWriter]")
     mlboard::FileWriter f1,f2;
     mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1",1,1.1,f1);
     mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_2",1,1.1,f2);
+
     REQUIRE(f1.FileName() == f2.FileName());
+    // Remove event files and directories.
     remove(f1.FileName().c_str());
 }
 
@@ -38,7 +40,7 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
     REQUIRE(f1.FileName().substr(8,f1.FileName().length()) ==
         f2.FileName().substr(8,f2.FileName().length()));
 
-    // Remove temp dirs.
+    // Remove event files and directories.
     remove(f1.FileName().c_str());
     remove(f2.FileName().c_str());
     rmdir("_temp1_");
@@ -61,7 +63,8 @@ TEST_CASE("Writing a summary to file", "[FileWriter]")
     stat(f1.FileName().c_str(), &results);
 
     REQUIRE(results.st_size > 0);
+
+    // Remove event files and directories.
     remove(f1.FileName().c_str());
-    // Remove temp dirs.
     rmdir("_temp1_");
 }

@@ -16,5 +16,4 @@ int main(int argc, char** argv)
   std::cout << "Start testing " << std::endl;
   // google::protobuf::ShutdownProtobufLibrary();
   return Catch::Session().run(argc, argv);
-  
 }
