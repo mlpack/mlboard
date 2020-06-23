@@ -33,7 +33,6 @@ void mockfunc(const std::string& tag,
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
     // Creating a FileWriter object that is responsible for logging the summary.
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
@@ -52,8 +51,6 @@ int main()
   
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
 
@@ -69,7 +66,7 @@ Above timing is 40s (summary creation time) + 4s (flush timing i.e time taken to
 
 Alternatively you can execute the logging in an async manner which would be faster at many instances by using `std::async`, here is a snippet which allows you to do the same operation but much faster as compared to the previous code.
 
-```
+```cpp
 #include <mlboard/mlboard.hpp>
 #include <iostream>
 #include <chrono> 
@@ -91,7 +88,6 @@ void mockfunc(const std::string& tag,
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
@@ -113,8 +109,6 @@ int main()
   
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 
 ```

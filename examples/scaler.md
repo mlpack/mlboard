@@ -21,7 +21,7 @@ The API accepts `tag`, `step`, `value` (Scaler value) and `Filewriter` object.
 
 Following is a snippet that would log some scaler values.
 
-```
+```cpp
 #include <mlboard/mlboard.hpp>
 #include <iostream>
 #include <chrono> 
@@ -33,7 +33,6 @@ using namespace mlboard;
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
     // Creating a FileWriter object that is responsible for logging the summary.
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
@@ -50,7 +49,5 @@ int main()
   
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
