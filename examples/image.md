@@ -30,7 +30,7 @@ The API accepts `tag`, `step`, `encodedImage` (Image data in encoded format) and
 
 Following is a snippet that would log a single image for 1 step in temp directory.
 
-```
+```cpp
 #include <mlboard/mlboard.hpp>
 #include <iostream>
 #include <chrono> 
@@ -42,8 +42,6 @@ using namespace mlboard;
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
-
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
@@ -64,9 +62,6 @@ int main()
     
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-    std::cout<<"hellow"<<std::endl;
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
 
@@ -95,7 +90,7 @@ The API accepts `tag`, `step`, `encodedImage` (A vector of Image data in encoded
 
 Following is a snippet that would log a multiple image for 1 step in temp directory.
 
-```
+```cpp
 #include <mlboard/mlboard.hpp>
 #include <iostream>
 #include <chrono> 
@@ -134,9 +129,6 @@ int main()
     
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-    std::cout<<"hellow"<<std::endl;
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
 
@@ -165,7 +157,7 @@ The API accepts `tag`, `step`, `encodedImage` (An `arma::mat` which has image da
 
 Following is a snippet that would log a multiple image which is stored in `arma::mat` for 1 step in temp directory.
 
-```
+```cpp
 #include <mlboard/mlboard.hpp>
 #include <iostream>
 #include <chrono> 
@@ -177,8 +169,6 @@ using namespace mlboard;
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
-
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
@@ -203,9 +193,6 @@ int main()
     
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-    std::cout<<"hellow"<<std::endl;
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
 
@@ -228,7 +215,7 @@ The function accepts a vector of string which has filePath of the image to be co
 
 An example using the above utility could be:
 
-```
+```cpp
 #include <mlboard/mlboard.hpp>
 #include <iostream>
 #include <chrono> 
@@ -240,8 +227,6 @@ using namespace mlboard;
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
-
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
@@ -261,8 +246,5 @@ int main()
     
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-    std::cout<<"hellow"<<std::endl;
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
