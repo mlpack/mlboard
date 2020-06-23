@@ -11,7 +11,7 @@ Following is a snippet that would log scaler for 4 steps in temp directory.
 
 You can compile the following snippet using : `g++ main.cpp -lproto -lprotobuf -lpthread` 
 
-```
+```cpp
 #include <mlboard/mlboard.hpp>
 #include <iostream>
 #include <chrono> 
@@ -27,8 +27,8 @@ void mockfunc(const std::string& tag,
               double value,
               FileWriter& fw)
 {
-    std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,fw);
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
 }
 
 int main()
@@ -38,11 +38,11 @@ int main()
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
-    // Creating a scaler summary.
-    mockfunc("tag",1,1.1,f1);
-    mockfunc("tag",2,2.1,f1);
-    mockfunc("tag",3,3.1,f1);
-    mockfunc("tag",4,4.1,f1);
+    // Creating a scalar summary.
+    mockfunc("tag", 1, 1.1, f1);
+    mockfunc("tag", 2, 2.1, f1);
+    mockfunc("tag", 3, 3.1, f1);
+    mockfunc("tag", 4, 4.1, f1);
     
     // This will allow you to indicate that you have logged all your data.
     f1.Close();
@@ -96,10 +96,10 @@ int main()
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
 
-    std::future<void> result1 = async(std::launch::async,   mockfunc,"tag",1,1.1,std::ref(f1));
-    std::future<void> result2 = async(std::launch::async,   mockfunc, "tag",2,1.2,std::ref(f1));
-    std::future<void> result3 = async(std::launch::async,   mockfunc,"tag",3,1.3,std::ref(f1));
-    std::future<void> result4 = async(std::launch::async,  mockfunc, "tag",4,1.4,std::ref(f1));
+    std::future<void> result1 = async(std::launch::async, mockfunc,"tag", 1, 1.1, std::ref(f1));
+    std::future<void> result2 = async(std::launch::async, mockfunc, "tag", 2, 1.2, std::ref(f1));
+    std::future<void> result3 = async(std::launch::async, mockfunc,"tag", 3, 1.3, std::ref(f1));
+    std::future<void> result4 = async(std::launch::async, mockfunc, "tag", 4, 1.4, std::ref(f1));
     result1.get();
     result2.get();
     result3.get();

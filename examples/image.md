@@ -55,8 +55,8 @@ int main()
     string image(ss.str());
     fin.close();
     mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-         "Test Image", 1, image , 512, 512, 3, f1, "Sample Image",
-         "This is a Sample image logged using mlboard ");
+         "Test Image", 1, image, 512, 512, 3, f1, "Sample Image",
+         "This is a Sample image logged using mlboard.");
 
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -125,8 +125,8 @@ int main()
     ss.str("");
     fin.close();
     mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-         "Test Image", 1, encodedImages , 512, 512, f1, "Sample Image",
-         "This is a Sample image logged using mlboard ");
+         "Test Image", 1, encodedImages, 512, 512, f1, "Sample Image",
+         "This is a Sample image logged using mlboard.");
 
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -194,8 +194,8 @@ int main()
 
     // Now we can log the matrix.
     mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-         "Multiple Image", 1, matrix , info, f1, "Sample Multiple Image",
-         "This is a Sample image logged using mlboard ");
+         "Multiple Image", 1, matrix, info, f1, "Sample Multiple Image",
+         "This is a Sample image logged using mlboard.");
 
     end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end - start;
@@ -252,8 +252,8 @@ int main()
         encodedImages);
 
     mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-         "Test Image", 1, encodedImages , 512, 512, f1, "Sample Image",
-         "This is a Sample image logged using mlboard ");
+         "Test Image", 1, encodedImages, 512, 512, f1, "Sample Image",
+         "This is a Sample image logged using mlboard.");
 
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
