@@ -12,8 +12,6 @@
 
 int main(int argc, char** argv)
 {
-  // GOOGLE_PROTOBUF_VERIFY_VERSION;
   std::cout << "Start testing " << std::endl;
-  // google::protobuf::ShutdownProtobufLibrary();
   return Catch::Session().run(argc, argv);
 }

@@ -96,7 +96,6 @@ void mockfunc(const std::string& tag,
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
     // Creating a FileWriter object that is responsible for logging the summary.
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
@@ -115,8 +114,6 @@ int main()
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 
     // This will allow you to indicate that you have logged all your data.
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
 
@@ -154,7 +151,6 @@ void mockfunc(const std::string& tag,
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
@@ -176,8 +172,6 @@ int main()
   
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 
 ```
