@@ -62,9 +62,9 @@ and the mlboard headers are found in `/usr/local/include/mlpack/`.
 
 ### 2. Supported Summary types 
 
-Following are the Summary you could log using mlboard:
+Following are the Summary types you could log using mlboard:
 
 - [Scaler Summary](examples/scaler.md)
 - [Image Summary](examples/image.md)
 
-Please glance [Getting started](examples/getting-started.md) to know more about how to use mlboard.
+Please glance at [Getting started](examples/getting-started.md) to know more about how to use mlboard.
