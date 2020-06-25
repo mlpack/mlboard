@@ -43,8 +43,6 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
     // Remove event files and directories.
     remove(f1.FileName().c_str());
     remove(f2.FileName().c_str());
-    rmdir("_temp1_");
-    rmdir("_temp2_");
 }
 
 /**
@@ -66,5 +64,4 @@ TEST_CASE("Writing a summary to file", "[FileWriter]")
 
     // Remove event files and directories.
     remove(f1.FileName().c_str());
-    rmdir("_temp1_");
 }
