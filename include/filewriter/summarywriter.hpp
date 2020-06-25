@@ -33,6 +33,18 @@ class SummaryWriter
                      int step,
                      double value,
                      Filewriter& fw);
+  /**
+   * A function to create a text summary.
+   * 
+   * @param tag Tag to uniquely identify the scaler type.
+   * @param step The step at which scaler was logged.
+   * @param value Text value to be logged.
+   * @param fw Filewriter object.
+   */
+  static void Text(const std::string& tag,
+                   int step,
+                   const std::string& text);
+
 };
 
 } // namespace mlboard
