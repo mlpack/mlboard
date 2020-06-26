@@ -24,9 +24,9 @@ void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
 }
 
 template<typename Filewriter>
-void SummaryWriter<Filewriter>::Text(const string &tag,
+void SummaryWriter<Filewriter>::Text(const std::string &tag,
                                      int step,
-                                     const string& text,
+                                     const std::string& text,
                                      Filewriter& fw)
 {
     mlboard::SummaryMetadata_PluginData *pluginData =
