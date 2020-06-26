@@ -99,7 +99,7 @@ void mockfunc(const std::string& tag,
               FileWriter& fw)
 {
     std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,fw);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
 }
 
 int main()
@@ -109,10 +109,10 @@ int main()
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
     // Creating a scaler summary.
-    mockfunc("tag",1,1.1,f1);
-    mockfunc("tag",2,2.1,f1);
-    mockfunc("tag",3,3.1,f1);
-    mockfunc("tag",4,4.1,f1);
+    mockfunc("tag", 1, 1.1, f1);
+    mockfunc("tag", 2, 2.1, f1);
+    mockfunc("tag", 3, 3.1, f1);
+    mockfunc("tag", 4, 4.1, f1);
     f1.Close();
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -154,7 +154,7 @@ void mockfunc(const std::string& tag,
               FileWriter& fw)
 {
     std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,fw);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
 }
 
 int main()
@@ -163,10 +163,10 @@ int main()
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
 
-    std::future<void> result1 = async(std::launch::async,   mockfunc,"tag",1,1.1,std::ref(f1));
-    std::future<void> result2 = async(std::launch::async,   mockfunc, "tag",2,1.2,std::ref(f1));
-    std::future<void> result3 = async(std::launch::async,   mockfunc,"tag",3,1.3,std::ref(f1));
-    std::future<void> result4 = async(std::launch::async,  mockfunc, "tag",4,1.4,std::ref(f1));
+    std::future<void> result1 = async(std::launch::async, mockfunc, "tag", 1, 1.1, std::ref(f1));
+    std::future<void> result2 = async(std::launch::async, mockfunc, "tag", 2, 1.2, std::ref(f1));
+    std::future<void> result3 = async(std::launch::async, mockfunc, "tag", 3, 1.3, std::ref(f1));
+    std::future<void> result4 = async(std::launch::async, mockfunc, "tag", 4, 1.4, std::ref(f1));
     result1.get();
     result2.get();
     result3.get();

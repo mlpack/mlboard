@@ -33,8 +33,10 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
     mkdir("_temp2_",0777);
 
     mlboard::FileWriter f1("_temp1_"), f2("_temp2_");
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1",1,1.1,f1);
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_2",1,1.1,f2);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1", 1,
+        1.1, f1);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_2", 1,
+        1.1, f2);
     REQUIRE(f1.FileName() != f2.FileName());
 
     REQUIRE(f1.FileName().substr(8,f1.FileName().length()) ==
@@ -56,7 +58,8 @@ TEST_CASE("Writing a summary to file", "[FileWriter]")
     mlboard::FileWriter f1("_temp1_");
 
     for (int i = 1; i < 25; i++)
-        mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1",i,1.1,f1);
+        mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1",
+        i, 1.1, f1);
 
     stat(f1.FileName().c_str(), &results);
 
