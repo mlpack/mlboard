@@ -40,7 +40,7 @@ class SummaryWriter
    * @param step The step at which scaler was logged.
    * @param value Text value to be logged.
    * @param fw Filewriter object.
-   */  
+   */
   static void Text(const std::string& tag,
                    int step,
                    const std::string& text,
