@@ -29,8 +29,8 @@ TEST_CASE("Writing two files at a time", "[FileWriter]")
 TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
 {
     // Create temp dirs.
-    mkdir("_temp1_",0777);
-    mkdir("_temp2_",0777);
+    mkdir("_temp1_");
+    mkdir("_temp2_");
 
     mlboard::FileWriter f1("_temp1_"), f2("_temp2_");
     mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1", 1,
@@ -53,7 +53,7 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
 TEST_CASE("Writing a summary to file", "[FileWriter]")
 {
     // Create temp dirs.
-    mkdir("_temp1_",0777);
+    mkdir("_temp1_");
     struct stat results;
     mlboard::FileWriter f1("_temp1_");
 

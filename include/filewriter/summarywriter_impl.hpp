@@ -97,7 +97,7 @@ void SummaryWriter<Filewriter>::Image(
 
 {
   // Create a temp directory. 
-  int check = mkdir("_tempimage_",0777);
+  int check = mkdir("_tempimage_");
 
   // Create a vector of temp file names.
   std::vector<std::string> fileNames(matrix.n_cols);
