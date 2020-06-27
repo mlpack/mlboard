@@ -67,7 +67,11 @@ to those three directories), and simply type
 
 and the mlboard headers are found in `/usr/local/include/mlpack/`.
 
-To run
+To run test, you can issue the following command:
+
+```
+    $ ./mlboard_tests
+```
 
 ### 2. Usage
 
