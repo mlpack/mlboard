@@ -52,15 +52,15 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
   fw.CreateEvent(step, summary);
 }
 template<typename Filewriter>
-void SummaryWriter<Filewriter>::Image(const std::string& tag,
-                                      int step,
-                                      const std::vector<std::string>& 
-                                        encodedImages,
-                                      int height,
-                                      int width,
-                                      Filewriter& fw,
-                                      const std::string& displayName,
-                                      const std::string& description)
+void SummaryWriter<Filewriter>::Image(
+    const std::string& tag,
+    int step,
+    const std::vector<std::string>& encodedImages,
+    int height,
+    int width,
+    Filewriter& fw,
+    const std::string& displayName,
+    const std::string& description)
 {
   mlboard::SummaryMetadata_PluginData *pluginData =
     new SummaryMetadata::PluginData();
@@ -96,10 +96,10 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
                     const std::string& description)
 
 {
-  // Create a temp directry 
+  // Create a temp directory. 
   int check = mkdir("_tempimage_",0777);
 
-  // Create a vector of temp file names
+  // Create a vector of temp file names.
   std::vector<std::string> fileNames(matrix.n_cols);
   for (size_t i = 0; i < matrix.n_cols; i++)
     fileNames[i] = "_tempimage_/"+std::to_string(i)+".png";
@@ -111,11 +111,11 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
 
   Image(tag, step, encodedImages , info.Height(),
     info.Width(), fw, displayName, description);
-  // Remove all the files
+  // Remove all the files.
   for (size_t i = 0; i < matrix.n_cols; i++)
     remove(fileNames[i].c_str());
 
-  // remove the temp directory
+  // Remove the temp directory.
   rmdir("_tempimage_");
 }
 

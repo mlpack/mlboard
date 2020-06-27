@@ -81,4 +81,6 @@ Following are the Summary types you could log using mlboard:
 - [Scaler Summary](examples/scaler.md)
 - [Image Summary](examples/image.md)
 
+### 3. Usage
+
 Please glance at [Getting started](examples/getting-started.md) to know more about how to use mlboard.
