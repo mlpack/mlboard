@@ -44,10 +44,18 @@ equivalent to running `./configure` with autotools.
     $ cmake ../
 ```
 
-Once CMake is configured, building the library is as simple as typing 'make'.
+Note : The test build are by default `ON`, you can avoid building test by providing args to CMake as `cmake -DBUILD_TESTS=OFF ../`
+
+Once CMake is configured, building the library is as simple as typing 'make'. This will build all library components as well as 'mlboard_tests'.
 
 ```
     $ make
+```
+
+Note : If you only want to build test you can hit
+
+```
+    $ make mlboard_tests
 ```
 
 If you wish to install mlboard to `/usr/local/include/mlboard/`, `/usr/local/lib/`,
@@ -59,6 +67,12 @@ to those three directories), and simply type
 ```
 
 and the mlboard headers are found in `/usr/local/include/mlpack/`.
+
+To run test, you can issue the following command:
+
+```
+    $ ./mlboard_tests
+```
 
 ### 2. Supported Summary types 
 
