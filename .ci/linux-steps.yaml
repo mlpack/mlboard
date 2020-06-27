@@ -4,6 +4,33 @@ steps:
   clean: true
   fetchDepth: 1
 
+# Install Build Dependencies.
+# Install mlpack from master to get new functionalities instantly.
+- script: |
+    git clone --depth 1 https://github.com/mlpack/jenkins-conf.git conf
+    git clone --depth 1 https://github.com/mlpack/mlpack.git
+    mkdir data
+    sudo add-apt-repository ppa:mhier/libboost-latest
+    sudo apt-get update
+    # Remove BOOST_ROOT from the environment to prevent attempting to use a
+    # boost which is incompatible with the compiler.
+    unset BOOST_ROOT
+    echo "##vso[task.setvariable variable=BOOST_ROOT]"$BOOST_ROOT
+    sudo apt-get install -y --allow-unauthenticated liblapack-dev g++ libboost1.70-dev libarmadillo-dev xz-utils
+    curl https://data.kurg.org/armadillo-8.400.0.tar.xz | tar -xvJ && cd armadillo*
+    cmake . && make && sudo make install && cd ..
+  displayName: 'Install Build Dependencies'
+
+# Configure CMake Args for mlpack.
+- script: |
+    unset BOOST_ROOT
+    cd mlpack && mkdir build && cd build && cmake $(CMakeArgs-mlpack) ..
+  displayName: 'CMake for mlpack'
+
+# Install mlpack
+- script: cd mlpack/build && sudo make install -j2
+  displayName: 'Install mlpack'
+
 # Install protobuf
 - script: |
     sudo apt-get update
@@ -12,8 +39,12 @@ steps:
 
 # Configure mlboard (CMake)
 - script: mkdir build && cd build && cmake ..
-  displayName: 'CMake'
+  displayName: 'CMake for mlboard'
 
 # Build mlboard
 - script: cd build && make
-  displayName: 'Build'
+  displayName: 'Build mlboard'
+
+# Run test
+- script: cd build && ./mlboard_tests
+  displayName: 'Running test'
