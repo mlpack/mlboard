@@ -97,7 +97,12 @@ void SummaryWriter<Filewriter>::Image(
 
 {
   // Create a temp directory. 
-  int check = mkdir("_tempimage_");
+  int check;
+  #if defined(_WIN32)
+    check = mkdir("_tempimage_");
+  #else
+    check = mkdir("_tempimage_", 0777);
+  #endif
 
   // Create a vector of temp file names.
   std::vector<std::string> fileNames(matrix.n_cols);
@@ -114,9 +119,6 @@ void SummaryWriter<Filewriter>::Image(
   // Remove all the files.
   for (size_t i = 0; i < matrix.n_cols; i++)
     remove(fileNames[i].c_str());
-
-  // Remove the temp directory.
-  rmdir("_tempimage_");
 }
 
 } // namespace mlboard

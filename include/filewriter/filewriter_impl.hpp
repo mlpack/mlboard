@@ -91,6 +91,31 @@ FileWriter::~FileWriter()
 {
   if (close_)
     Close();
+
+  std::regex regExp("(_temp)(.*)");
+
+  // Delete all the folder created during processing
+  struct dirent *entry;
+  DIR *dir = opendir("./");
+
+  if (dir == NULL)
+  {
+    return;
+  }
+  while ((entry = readdir(dir)) != NULL)
+  {
+    if (entry->d_name != "." && entry->d_name != ".."
+      && std::regex_match(entry->d_name, regExp) == true)
+    {
+      int status = rmdir(entry->d_name);
+      if (status == -1)
+      {
+        std::cout << "Error while removing temp directory: " << entry->d_name
+            << std::endl;
+      }
+    }
+  }
+  closedir(dir);
 }
 
 } // namespace mlboard
