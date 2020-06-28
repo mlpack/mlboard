@@ -8071,7 +8071,7 @@ namespace Generators {
 
     template<>
     auto all<int>() -> Generator<int> {
-        return range( std::numeric_limits<int>::min(), std::numeric_limits<int>::max() );
+        return range( (std::numeric_limits<int>::min)(), (std::numeric_limits<int>::max)() );
     }
 
 } // namespace Generators
