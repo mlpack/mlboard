@@ -17,7 +17,6 @@
   #include <direct.h>
 #endif
 
-
 void removeTempDirs()
 {
   std::regex regExp("(_temp)(.*)");
