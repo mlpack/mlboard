@@ -1,5 +1,5 @@
-#ifndef MLPACK_CORE_HPP
-#define MLPACK_CORE_HPP
+#ifndef MLBOARD_CORE_HPP
+#define MLBOARD_CORE_HPP
 
 #include <cmath>
 #include <utility>
@@ -23,5 +23,6 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <regex>
+#include <mlboard/mlboard.hpp>
 
 #endif

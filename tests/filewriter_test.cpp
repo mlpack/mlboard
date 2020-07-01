@@ -2,12 +2,13 @@
  * @file filewriter_test.cpp
  * @author Jeffin Sam
  */
-#include "catch.hpp"
-#include <mlboard/mlboard.hpp>
+
+#include <mlboard/core.hpp>
 #include <unistd.h>
 #include <sstream>
 #include <cstdio>
 #include <sys/stat.h>
+#include "catch.hpp"
 /**
  * Test two Filewriter objects created at the same time.
  */

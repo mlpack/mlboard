@@ -2,9 +2,9 @@
  * @file util_test.cpp
  * @author Jeffin Sam
  */
-#include "catch.hpp"
-#include <mlboard/mlboard.hpp>
 #include <mlboard/core.hpp>
+#include "catch.hpp"
+
 
 /**
  * Test EncodeImage utitlity function.
