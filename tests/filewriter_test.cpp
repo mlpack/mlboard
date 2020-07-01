@@ -2,13 +2,16 @@
  * @file filewriter_test.cpp
  * @author Jeffin Sam
  */
-
+#include "catch.hpp"
 #include <mlboard/core.hpp>
-#include <unistd.h>
 #include <sstream>
 #include <cstdio>
 #include <sys/stat.h>
-#include "catch.hpp"
+
+// For windows mkdir.
+#ifdef _WIN32
+    #include <direct.h>
+#endif
 /**
  * Test two Filewriter objects created at the same time.
  */
@@ -29,14 +32,14 @@ TEST_CASE("Writing two files at a time", "[FileWriter]")
  */
 TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
 {
-  // Create temp dirs.
-  #if defined(_WIN32)
-      mkdir("_temp1_");
-      mkdir("_temp2_");
-  #else
-      mkdir("_temp1_", 0777);
-      mkdir("_temp2_", 0777 );
-  #endif
+    // Create temp dirs.
+    #if defined(_WIN32)
+        _mkdir("_temp1_");
+        _mkdir("_temp2_");
+    #else 
+        mkdir("_temp1_",0777);
+        mkdir("_temp2_",0777);
+    #endif
 
   mlboard::FileWriter f1("_temp1_"), f2("_temp2_");
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1", 1,
@@ -58,16 +61,15 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
  */
 TEST_CASE("Writing a summary to file", "[FileWriter]")
 {
-  // Create temp dirs.
-  // Create temp dirs.
-  #if defined(_WIN32)
-      mkdir("_temp1_");
-  #else
-      mkdir("_temp1_", 0777);
-  #endif
-
-  struct stat results;
-  mlboard::FileWriter f1("_temp1_");
+    // Create temp dirs.
+    #if defined(_WIN32)
+        _mkdir("_temp1_");
+    #else 
+        mkdir("_temp1_",0777);
+    #endif
+    
+    struct stat results;
+    mlboard::FileWriter f1("_temp1_");
 
   for (int i = 1; i < 25; i++)
       mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1",

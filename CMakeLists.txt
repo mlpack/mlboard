@@ -97,6 +97,7 @@ file(COPY ${headerfiles}
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include/mlboard/)
 
 add_library(mlboard INTERFACE)
+include_directories(${CMAKE_INCLUDE_PATH})
 target_include_directories(mlboard INTERFACE
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
