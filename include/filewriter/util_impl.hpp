@@ -16,7 +16,7 @@ inline void EncodeImage(std::vector<std::string>& filePaths,
 {
   std::ifstream fin;
   encodedImages.resize(filePaths.size());
-  for(size_t i = 0; i < encodedImages.size(); i++)
+  for (size_t i = 0; i < encodedImages.size(); i++)
   {
     std::ostringstream ss;
     fin.open(filePaths[i], std::ios::binary);

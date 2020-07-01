@@ -74,7 +74,7 @@ void SummaryWriter<Filewriter>::Image(
   tensor->set_dtype(mlboard::DataType::DT_STRING);
   tensor->add_string_val(std::to_string(width));
   tensor->add_string_val(std::to_string(height));
-  for (const std::string& image: encodedImages)
+  for (const std::string& image : encodedImages)
       tensor->add_string_val(image);
 
   mlboard::Summary *summary = new Summary();
@@ -96,7 +96,7 @@ void SummaryWriter<Filewriter>::Image(
                     const std::string& description)
 
 {
-  // Create a temp directory. 
+  // Create a temp directory.
   int check;
   #if defined(_WIN32)
     check = mkdir("_tempimage_");

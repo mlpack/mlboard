@@ -105,7 +105,6 @@ class SummaryWriter
                     Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
-
 };
 
 } // namespace mlboard

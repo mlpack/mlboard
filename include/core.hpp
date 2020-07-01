@@ -22,7 +22,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <dirent.h>
-#include <regex>
+#include <regex> // NOLINT
 #include <mlboard/mlboard.hpp>
 
 #endif

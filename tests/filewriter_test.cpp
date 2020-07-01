@@ -14,7 +14,7 @@
  */
 TEST_CASE("Writing two files at a time", "[FileWriter]")
 {
-  // Both files created at same time and hence there should be only one file.
+  // Both files created at the same time and hence there should be only one file.
   mlboard::FileWriter f1, f2;
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1", 1, 1.1, f1);
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_2", 1, 1.1, f2);

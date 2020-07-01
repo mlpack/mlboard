@@ -6,8 +6,8 @@ These examples help you to understand SummaryWriter::Image API in depth.
 ### 0. API 
 
   1. [Log a single image](#1-single-image)
-  2. [Log multiple image](#2-multiple-image)
-  3. [Log multiple image stored in arma::mat](#3-multiple-image-arma-mat)
+  2. [Log multiple images](#2-multiple-images)
+  3. [Log multiple image sstored in arma::mat](#3-multiple-images-arma-mat)
   4. [Log images stored at a location](#4-multiple-image-stored-at-location)
 
 ### 1. Single Image
@@ -68,7 +68,7 @@ The output would be similar to:
 <img src = "assets/single_image.png" width = "800" height = "400"/>
 </p>
 
-### 2. Multiple Image
+### 2. Multiple Images
 
 To log multiple image at an instance you can use the following API:
 
@@ -130,7 +130,7 @@ The output would be similar to:
 <img src = "assets/multiple_image.png" width = "800" height = "400"/>
 </p>
 
-### 3. Multiple Image Arma Mat
+### 3. Multiple Images Arma Mat
 
 Since we would be logging mlpack's metrics there are chances when we would have to visualize images stored in `arma::mat` and thus you can use the following API to directly log Armadillo matrices:
 
