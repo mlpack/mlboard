@@ -1,3 +1,6 @@
+#ifndef MLPACK_CORE_HPP
+#define MLPACK_CORE_HPP
+
 #include <cmath>
 #include <utility>
 #include <iostream>
@@ -20,3 +23,5 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <regex>
+
+#endif
