@@ -4,6 +4,7 @@
  */
 #include "catch.hpp"
 #include <mlboard/mlboard.hpp>
+#include <mlboard/core.hpp>
 
 /**
  * Test EncodeImage utitlity function.

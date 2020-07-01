@@ -6,6 +6,10 @@ project(mlboard
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Include modules in the CMake directory.
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
+
 option(BUILD_TESTS "Build tests." ON)
 INCLUDE(FindProtobuf)
 # Armadillo 
@@ -69,6 +73,13 @@ FIND_PACKAGE(Protobuf REQUIRED)
 
 ADD_SUBDIRECTORY(include/proto)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+
+set(MLBOARD_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
+                        ${ARMADILLO_INCLUDE_DIR}
+                        ${PROTOBUF_INCLUDE_DIR}
+                        )
+
+include_directories(${MMLBOARD_INCLUDE_DIRS})
 
 file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/filewriter/*.hpp")
 
