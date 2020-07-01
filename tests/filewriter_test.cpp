@@ -8,7 +8,7 @@
 #include <cstdio>
 #include <sys/stat.h>
 
-// for windows mkdir
+// For windows mkdir.
 #ifdef _WIN32
     #include <direct.h>
 #endif

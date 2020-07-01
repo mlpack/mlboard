@@ -11,10 +11,10 @@
 #define CATCH_CONFIG_RUNNER  // We will define main().
 #include "catch.hpp"
 
-// for windows rmdir
+// For windows rmdir.
 #ifdef _WIN32
   #include <io.h>
-  #include 	<direct.h>
+  #include <direct.h>
 #endif
 
 
@@ -35,11 +35,11 @@ void removeTempDirs()
       && std::regex_match(entry->d_name, regExp) == true)
     {
       int status; 
-    #if defined(_WIN32)
-      status = _rmdir(entry->d_name);
-    #else
-      status = rmdir(entry->d_name);
-    #endif
+      #if defined(_WIN32)
+        status = _rmdir(entry->d_name);
+      #else
+        status = rmdir(entry->d_name);
+      #endif
       if (status == -1)
       {
         std::cout << "Error while removing temp directory: " << entry->d_name
