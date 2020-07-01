@@ -69,7 +69,7 @@
 /*     using byte-swap instructions.                                   */
 
 // http://stackoverflow.com/a/26612761
-static uint32_t crc_32_tab[] = {
+inline static uint32_t crc_32_tab[] = {
     0x00000000, 0xf26b8303, 0xe13b70f7, 0x1350f3f4,
     0xc79a971f, 0x35f1141c, 0x26a1e7e8, 0xd4ca64eb,
     0x8ad958cf, 0x78b2dbcc, 0x6be22838, 0x9989ab3b,
@@ -136,12 +136,12 @@ static uint32_t crc_32_tab[] = {
     0xbe2da0a5, 0x4c4623a6, 0x5f16d052, 0xad7d5351,
 };
 
-uint32_t updateCRC32(unsigned char ch, uint32_t crc)
+inline uint32_t updateCRC32(unsigned char ch, uint32_t crc)
 {
       return UPDC32(ch, crc);
 }
 
-int crc32file(char *name, uint32_t *crc, long *charcnt)
+inline int crc32file(char *name, uint32_t *crc, long *charcnt)
 {
       FILE *fin;
       uint32_t oldcrc32;
@@ -175,7 +175,7 @@ int crc32file(char *name, uint32_t *crc, long *charcnt)
       return 0;
 }
 
-uint32_t crc32buf(const char *buf, size_t len)
+inline uint32_t crc32buf(const char *buf, size_t len)
 {
       uint32_t oldcrc32;
 
@@ -189,7 +189,7 @@ uint32_t crc32buf(const char *buf, size_t len)
       return ~oldcrc32;
 }
 
-uint32_t masked_crc32c(const char *buf, size_t len) {
+inline uint32_t masked_crc32c(const char *buf, size_t len) {
     uint32_t crc = crc32buf(buf, len);
     return (crc >> 15 | crc << 17) + 0xa282ead8;
 }

@@ -10,7 +10,7 @@
 namespace mlboard {
 
 
-FileWriter::FileWriter(std::string logdir,
+inline FileWriter::FileWriter(std::string logdir,
                        int maxQueueSize,
                        std::size_t flushmilis)
 {
@@ -31,7 +31,7 @@ FileWriter::FileWriter(std::string logdir,
       std::ios::trunc | std::ios::binary);
 }
 
-void FileWriter::WriteSummary()
+inline void FileWriter::WriteSummary()
 {
   // This is a thread that will continously write summary one by one into file.
   while (true)
@@ -65,7 +65,7 @@ void FileWriter::WriteSummary()
   }
 }
 
-void FileWriter::CreateEvent(size_t step, mlboard::Summary *summary)
+inline void FileWriter::CreateEvent(size_t step, mlboard::Summary *summary)
 {
     Event event;
     double wall_time = time(nullptr);
@@ -75,19 +75,19 @@ void FileWriter::CreateEvent(size_t step, mlboard::Summary *summary)
     q.Push(event);
 }
 
-void FileWriter::Flush()
+inline void FileWriter::Flush()
 {
   // Flush everything successfully and close the thread.
   thread_->join();
 }
 
-void FileWriter::Close()
+inline void FileWriter::Close()
 {
   close_ = false;
   Flush();
 }
 
-FileWriter::~FileWriter()
+inline FileWriter::~FileWriter()
 {
   if (close_)
     Close();
