@@ -23,3 +23,20 @@ jobs:
 
   steps:
   - template: macos-steps.yaml
+
+  # Windows build.
+- job: WindowsVS15
+  timeoutInMinutes: 360
+  displayName: Windows VS15
+  pool:
+    vmImage: vs2017-win2016
+
+  strategy:
+    matrix:
+      Plain:
+          CMakeArgs-mlpack: '-DDEBUG=ON -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+          CMakeGenerator: '-G "Visual Studio 15 2017 Win64"'
+          MSBuildVersion: '15.0'
+
+  steps:
+  - template: windows-steps.yaml
