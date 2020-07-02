@@ -134,6 +134,8 @@ steps:
     cd build
     cmake $(CMakeGenerator) `
     -DBUILD_TESTS=ON `
+    -DBLAS_LIBRARIES:FILEPATH=$(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\libopenblas.dll.a `
+    -DLAPACK_LIBRARIES:FILEPATH=$(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\libopenblas.dll.a `
     -DARMADILLO_INCLUDE_DIR="..\armadillo-8.400.0\include" `
     -DARMADILLO_LIBRARY="..\armadillo-8.400.0\Release\armadillo.lib" `
     -DProtobuf_INCLUDE_DIR="..\protobuf\src\" `
