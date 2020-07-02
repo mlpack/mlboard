@@ -43,10 +43,18 @@ equivalent to running `./configure` with autotools.
     $ cmake ../
 ```
 
-Once CMake is configured, building the library is as simple as typing 'make'.
+Note : The test build are by default `ON`, you can avoid building test by providing args to CMake as `cmake -DBUILD_TESTS=OFF ../`
+
+Once CMake is configured, building the library is as simple as typing 'make'. This will build all library components as well as 'mlboard_tests'.
 
 ```
     $ make
+```
+
+Note : If you only want to build test you can hit
+
+```
+    $ make mlboard_tests
 ```
 
 If you wish to install mlboard to `/usr/local/include/mlboard/`, `/usr/local/lib/`,
@@ -58,6 +66,12 @@ to those three directories), and simply type
 ```
 
 and the mlboard headers are found in `/usr/local/include/mlpack/`.
+
+To run test, you can issue the following command:
+
+```
+    $ ./mlboard_tests
+```
 
 ### 2. Usage
 
@@ -89,21 +103,20 @@ void mockfunc(const std::string& tag,
               FileWriter& fw)
 {
     std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,fw);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
 }
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
     // Creating a FileWriter object that is responsible for logging the summary.
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
     // Creating a scaler summary.
-    mockfunc("tag",1,1.1,f1);
-    mockfunc("tag",2,2.1,f1);
-    mockfunc("tag",3,3.1,f1);
-    mockfunc("tag",4,4.1,f1);
+    mockfunc("tag", 1, 1.1, f1);
+    mockfunc("tag", 2, 2.1, f1);
+    mockfunc("tag", 3, 3.1, f1);
+    mockfunc("tag", 4, 4.1, f1);
     f1.Close();
     end = std::chrono::system_clock::now(); 
     std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -113,8 +126,6 @@ int main()
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 
     // This will allow you to indicate that you have logged all your data.
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 ```
 
@@ -147,20 +158,19 @@ void mockfunc(const std::string& tag,
               FileWriter& fw)
 {
     std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,fw);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
 }
 
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
     FileWriter f1("temp");
 
-    std::future<void> result1 = async(std::launch::async,   mockfunc,"tag",1,1.1,std::ref(f1));
-    std::future<void> result2 = async(std::launch::async,   mockfunc, "tag",2,1.2,std::ref(f1));
-    std::future<void> result3 = async(std::launch::async,   mockfunc,"tag",3,1.3,std::ref(f1));
-    std::future<void> result4 = async(std::launch::async,  mockfunc, "tag",4,1.4,std::ref(f1));
+    std::future<void> result1 = async(std::launch::async, mockfunc, "tag", 1, 1.1, std::ref(f1));
+    std::future<void> result2 = async(std::launch::async, mockfunc, "tag", 2, 1.2, std::ref(f1));
+    std::future<void> result3 = async(std::launch::async, mockfunc, "tag", 3, 1.3, std::ref(f1));
+    std::future<void> result4 = async(std::launch::async, mockfunc, "tag", 4, 1.4, std::ref(f1));
     result1.get();
     result2.get();
     result3.get();
@@ -174,8 +184,6 @@ int main()
   
     std::cout << "finished computation at " << std::ctime(&end_time) 
               << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
-
-    google::protobuf::ShutdownProtobufLibrary();
 }
 
 ```

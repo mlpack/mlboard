@@ -1,0 +1,171 @@
+steps:
+- checkout: self
+  clean: true
+  fetchDepth: 1
+- task: NuGetToolInstaller@0
+  inputs:
+    versionSpec: '5.3.0'
+
+# Fetch build dependencies
+- powershell: |
+    nuget install OpenBLAS -o $(Agent.ToolsDirectory)
+    nuget install boost -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_unit_test_framework-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_program_options-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_random-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_serialization-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_math_c99-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_filesystem-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_system-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_date_time-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install boost_regex-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
+    nuget install OpenBLAS -o $(Agent.ToolsDirectory)
+
+    mkdir -p $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_program_options-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_math_c99-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_random-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_serialization-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_unit_test_framework-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_filesystem-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_system-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_date_time-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+    cp $(Agent.ToolsDirectory)/boost_regex-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
+
+    git clone https://github.com/tronkko/dirent.git
+    cp "dirent/include/dirent.h" "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/include"
+    cp "dirent/include/dirent.h" "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/include"
+    cp "dirent/include/dirent.h" "C:/Program Files (x86)/include"
+    cp "dirent/include/dirent.h" "C:/Program Files/include"  
+  displayName: 'Fetch build dependencies'
+
+# Configure armadillo
+- bash: |
+    git clone --depth 1 https://github.com/mlpack/jenkins-conf.git conf
+
+    curl -O http://www.ratml.org/misc/armadillo-8.400.0.tar.gz -o armadillo-8.400.0.tar.gz
+    tar -xzvf armadillo-8.400.0.tar.gz
+
+    cd armadillo-8.400.0/ && cmake $(CMakeGenerator) \
+    -DBLAS_LIBRARY:FILEPATH=$(Agent.ToolsDirectory)/OpenBLAS.0.2.14.1/lib/native/lib/x64/libopenblas.dll.a \
+    -DLAPACK_LIBRARY:FILEPATH=$(Agent.ToolsDirectory)/OpenBLAS.0.2.14.1/lib/native/lib/x64/libopenblas.dll.a \
+    -DCMAKE_PREFIX:FILEPATH=../../armadillo \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_BUILD_TYPE=Release .
+  displayName: 'Configure armadillo'
+
+# Build armadillo
+- task: MSBuild@1
+  inputs:
+    solution: 'armadillo-8.400.0/*.sln'
+    msbuildLocationMethod: 'location'
+    msbuildVersion: $(MSBuildVersion)
+    configuration: 'Release'
+    msbuildArchitecture: 'x64'
+    msbuildArguments: /m /p:BuildInParallel=true
+    clean: false
+    maximumCpuCount: false
+  displayName: 'Build armadillo'
+
+# Configure mlpack
+- powershell: |
+    git clone --depth 1 https://github.com/mlpack/mlpack.git
+    mkdir mlpack\build
+    cd mlpack\build
+
+    cmake $(CMakeGenerator) `
+    $(CMakeArgs-mlpack) `
+    -DBLAS_LIBRARIES:FILEPATH=$(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\libopenblas.dll.a `
+    -DLAPACK_LIBRARIES:FILEPATH=$(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\libopenblas.dll.a `
+    -DARMADILLO_INCLUDE_DIR="..\..\armadillo-8.400.0\include" `
+    -DARMADILLO_LIBRARY="..\..\armadillo-8.400.0\Release\armadillo.lib" `
+    -DBOOST_INCLUDEDIR=$(Agent.ToolsDirectory)\boost.1.60.0.0\lib\native\include `
+    -DBOOST_LIBRARYDIR=$(Agent.ToolsDirectory)\boost_libs `
+    -DBUILD_JULIA_BINDINGS=OFF `
+    -DCMAKE_BUILD_TYPE=Release ..
+  displayName: 'Configure mlpack'
+
+# Build mlpack
+- task: MSBuild@1
+  inputs:
+    solution: 'mlpack/build/*.sln'
+    msbuildLocationMethod: 'location'
+    msbuildVersion: $(MSBuildVersion)
+    configuration: 'Release'
+    msbuildArchitecture: 'x64'
+    msbuildArguments: /m /p:BuildInParallel=true
+    maximumCpuCount: false
+    clean: false
+  displayName: 'Build mlpack'
+
+# Configure mlpack
+- powershell: |
+    cp $(Agent.ToolsDirectory)\boost_libs\*.* mlpack\build\
+    cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\*.* mlpack\build\
+    cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\bin\x64\*.* mlpack\build\
+  displayName: 'Configure mlpack'
+
+# Configure protobuf
+- bash: |
+    git clone https://github.com/protocolbuffers/protobuf.git
+    cd protobuf
+    git submodule update --init --recursive
+    cd cmake
+    mkdir solution && cd solution
+    cmake $(CMakeGenerator) -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../../install ..
+  displayName: 'Configure protobuf'
+
+# Build protobuf
+- task: MSBuild@1
+  inputs:
+    solution: 'protobuf/cmake/solution/*.sln'
+    msbuildLocationMethod: 'location'
+    msbuildVersion: $(MSBuildVersion)
+    configuration: 'Release'
+    msbuildArchitecture: 'x64'
+    msbuildArguments: /m /p:BuildInParallel=true
+    clean: false
+    maximumCpuCount: false
+  displayName: 'Build protobuf'
+
+- powershell: |
+    mkdir build
+    cp protobuf\cmake\solution\Release\libprotobuf.lib $(Agent.ToolsDirectory)\boost_libs\
+    cd build
+    cmake $(CMakeGenerator) `
+    -DBUILD_TESTS=ON `
+    -DARMADILLO_INCLUDE_DIR="..\armadillo-8.400.0\include" `
+    -DARMADILLO_LIBRARY="..\armadillo-8.400.0\Release\armadillo.lib" `
+    -DProtobuf_INCLUDE_DIR="..\protobuf\src\" `
+    -DPROTOBUF_LIBRARY="$(Agent.ToolsDirectory)\boost_libs\libprotobuf.lib" `
+    -DProtobuf_PROTOC_EXECUTABLE="..\protobuf\cmake\solution\Release\protoc.exe" `
+    -DMLPACK_INCLUDE_DIR="..\mlpack\build\include" `
+    -DMLPACK_LIBRARY="..\mlpack\build\Release\mlpack.lib" ..
+  displayName: 'Configure mlboard'
+
+# Build mlboard
+- task: MSBuild@1
+  inputs:
+    solution: 'build/*.sln'
+    msbuildLocationMethod: 'location'
+    msbuildVersion: $(MSBuildVersion)
+    msbuildArchitecture: 'x64'
+    configuration: 'Release'
+    msbuildArguments: /m /p:BuildInParallel=true
+    maximumCpuCount: false
+    clean: false
+  displayName: 'Build mlboard'
+
+# Run tests via ctest.
+- bash: |
+    cd build/tests
+    CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test -C Release .
+  displayName: 'Run tests via ctest'
+
+# Publish test results to Azure Pipelines
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: cTest
+    testResultsFiles: build/tests/Testing/*/Test.xml
+    failTaskOnFailedTests: true
+  displayName: 'Publish tests'

@@ -44,3 +44,7 @@ steps:
 # Build mlboard
 - script: cd build && make
   displayName: 'Build mlboard'
+
+# Run test
+- script: cd build && ./mlboard_tests
+  displayName: 'Running test'
