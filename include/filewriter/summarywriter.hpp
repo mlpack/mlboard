@@ -53,7 +53,7 @@ class SummaryWriter
                     int height,
                     int width,
                     int channel,
-                    filewriter& fw,
+                    Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
   /**
@@ -74,7 +74,7 @@ class SummaryWriter
                     const std::vector<std::string>& encodedImages,
                     int height,
                     int width,
-                    filewriter& fw,
+                    Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
   /**
@@ -98,14 +98,13 @@ class SummaryWriter
    * @param desctiption Metadata for description of image.
    */  
   template<typename eT>
-  static void image(const std::string& tag,
+  static void Image(const std::string& tag,
                     int step,
                     arma::Mat<eT>& matrix,
                     mlpack::data::ImageInfo& info,
-                    filewriter& fw,
+                    Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
-
 };
 
 } // namespace mlboard

@@ -28,18 +28,15 @@ Following is a snippet that would log some scaler values.
 #include <ctime> 
 #include <future>
 
-using namespace std;
-using namespace mlboard;
-
 int main()
 {
     // Creating a FileWriter object that is responsible for logging the summary.
     std::chrono::time_point<std::chrono::system_clock> start, end; 
     start = std::chrono::system_clock::now(); 
-    FileWriter f1("temp");
+    mlboard::FileWriter f1("temp");
     // Creating a scaler summary.
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("tag",1,1.1,f1);
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("tag",2,2.1,f1);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("tag", 1, 1.1, f1);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("tag", 2, 2.1, f1);
 
     // This will allow you to indicate that you have logged all your data.
     f1.Close();

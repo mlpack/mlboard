@@ -1,3 +1,6 @@
+#ifndef MLBOARD_CORE_HPP
+#define MLBOARD_CORE_HPP
+
 #include <cmath>
 #include <utility>
 #include <iostream>
@@ -18,3 +21,8 @@
 #include <mlpack/core.hpp>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <dirent.h>
+#include <regex> // NOLINT
+#include <mlboard/mlboard.hpp>
+
+#endif

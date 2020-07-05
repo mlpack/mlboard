@@ -36,7 +36,7 @@ steps:
     cp "dirent/include/dirent.h" "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/include"
     cp "dirent/include/dirent.h" "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/include"
     cp "dirent/include/dirent.h" "C:/Program Files (x86)/include"
-    cp "dirent/include/dirent.h" "C:/Program Files/include"  
+    cp "dirent/include/dirent.h" "C:/Program Files/include"
   displayName: 'Fetch build dependencies'
 
 # Configure armadillo
@@ -134,6 +134,10 @@ steps:
     cd build
     cmake $(CMakeGenerator) `
     -DBUILD_TESTS=ON `
+    -DBLAS_LIBRARIES:FILEPATH=$(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\libopenblas.dll.a `
+    -DLAPACK_LIBRARIES:FILEPATH=$(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\libopenblas.dll.a `
+    -DBOOST_INCLUDEDIR=$(Agent.ToolsDirectory)\boost.1.60.0.0\lib\native\include `
+    -DBOOST_LIBRARYDIR=$(Agent.ToolsDirectory)\boost_libs `
     -DARMADILLO_INCLUDE_DIR="..\armadillo-8.400.0\include" `
     -DARMADILLO_LIBRARY="..\armadillo-8.400.0\Release\armadillo.lib" `
     -DProtobuf_INCLUDE_DIR="..\protobuf\src\" `
@@ -141,6 +145,10 @@ steps:
     -DProtobuf_PROTOC_EXECUTABLE="..\protobuf\cmake\solution\Release\protoc.exe" `
     -DMLPACK_INCLUDE_DIR="..\mlpack\build\include" `
     -DMLPACK_LIBRARY="..\mlpack\build\Release\mlpack.lib" ..
+
+    cp $(Agent.ToolsDirectory)\boost_libs\*.* build\include\
+    cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\*.* build\include\
+    cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\bin\x64\*.* build\include\
   displayName: 'Configure mlboard'
 
 # Build mlboard

@@ -48,4 +48,3 @@ steps:
 # Run test
 - script: cd build && ./mlboard_tests
   displayName: 'Running test'
-

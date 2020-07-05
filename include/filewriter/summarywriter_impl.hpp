@@ -22,14 +22,14 @@ void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
     v->set_simple_value(value);
     fw.CreateEvent(step, summary);
 }
-template<typename filewriter>
-void SummaryWriter<filewriter>::image(const std::string& tag,
+template<typename Filewriter>
+void SummaryWriter<Filewriter>::Image(const std::string& tag,
                                       int step,
                                       const std::string& encodedImage,
                                       int height,
                                       int width,
                                       int channel,
-                                      filewriter& fw,
+                                      Filewriter& fw,
                                       const std::string& displayName,
                                       const std::string& description)
 {
@@ -51,16 +51,16 @@ void SummaryWriter<filewriter>::image(const std::string& tag,
 
   fw.CreateEvent(step, summary);
 }
-template<typename filewriter>
-void SummaryWriter<filewriter>::image(const std::string& tag,
-                                      int step,
-                                      const std::vector<std::string>& 
-                                        encodedImages,
-                                      int height,
-                                      int width,
-                                      filewriter& fw,
-                                      const std::string& displayName,
-                                      const std::string& description)
+template<typename Filewriter>
+void SummaryWriter<Filewriter>::Image(
+    const std::string& tag,
+    int step,
+    const std::vector<std::string>& encodedImages,
+    int height,
+    int width,
+    Filewriter& fw,
+    const std::string& displayName,
+    const std::string& description)
 {
   mlboard::SummaryMetadata_PluginData *pluginData =
     new SummaryMetadata::PluginData();
@@ -74,7 +74,7 @@ void SummaryWriter<filewriter>::image(const std::string& tag,
   tensor->set_dtype(mlboard::DataType::DT_STRING);
   tensor->add_string_val(std::to_string(width));
   tensor->add_string_val(std::to_string(height));
-  for (const std::string& image: encodedImages)
+  for (const std::string& image : encodedImages)
       tensor->add_string_val(image);
 
   mlboard::Summary *summary = new Summary();
@@ -83,30 +83,27 @@ void SummaryWriter<filewriter>::image(const std::string& tag,
   v->set_allocated_tensor(tensor);
   v->set_allocated_metadata(meta);
   fw.CreateEvent(step, summary);
-  mlpack::data::ImageInfo info(5, 5, 3, 90);
-  	FILE *fp;
-	 fp = tmpfile();
-  arma::Mat<unsigned char> im1;
-  size_t dimension = info.Width() * info.Height() * info.Channels();
-  im1 = arma::randi<arma::Mat<unsigned char>>(dimension, 1);
-  mlpack::data::Save("_tempimage_/APITest.bmp", im1, info, false);
 }
 
-  template<typename filewriter>
-  template<typename eT>
-  void SummaryWriter<filewriter>::image(const std::string& tag,
-                    int step,
-                    arma::Mat<eT>& matrix,
-                    mlpack::data::ImageInfo& info,
-                    filewriter& fw,
-                    const std::string& displayName,
-                    const std::string& description)
-
+template<typename Filewriter>
+template<typename eT>
+void SummaryWriter<Filewriter>::Image(const std::string& tag,
+                int step,
+                arma::Mat<eT>& matrix,
+                mlpack::data::ImageInfo& info,
+                Filewriter& fw,
+                const std::string& displayName,
+                const std::string& description)
 {
-  // Create a temp directry 
-  int check = mkdir("_tempimage_",0777);
+  // Create a temp directory.
+  int check;
+  #if defined(_WIN32)
+    check = mkdir("_tempimage_");
+  #else
+    check = mkdir("_tempimage_", 0777);
+  #endif
 
-  // Create a vector of temp file names
+  // Create a vector of temp file names.
   std::vector<std::string> fileNames(matrix.n_cols);
   for (size_t i = 0; i < matrix.n_cols; i++)
     fileNames[i] = "_tempimage_/"+std::to_string(i)+".png";
@@ -118,12 +115,9 @@ void SummaryWriter<filewriter>::image(const std::string& tag,
 
   Image(tag, step, encodedImages , info.Height(),
     info.Width(), fw, displayName, description);
-  // Remove all the files
+  // Remove all the files.
   for (size_t i = 0; i < matrix.n_cols; i++)
     remove(fileNames[i].c_str());
-
-  // remove the temp directory
-  rmdir("_tempimage_");
 }
 
 } // namespace mlboard

@@ -68,11 +68,19 @@ to those three directories), and simply type
 
 and the mlboard headers are found in `/usr/local/include/mlpack/`.
 
+To run test, you can issue the following command:
+
+```
+    $ ./mlboard_tests
+```
+
 ### 2. Supported Summary types 
 
 Following are the Summary types you could log using mlboard:
 
 - [Scaler Summary](examples/scaler.md)
 - [Image Summary](examples/image.md)
+
+### 3. Usage
 
 Please glance at [Getting started](examples/getting-started.md) to know more about how to use mlboard.
