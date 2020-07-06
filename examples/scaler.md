@@ -10,7 +10,7 @@ These examples help you to understand SummaryWriter::Scaler API in depth
 
 A scaler value could be logged using the following API:
 
-```
+```cpp
 void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
                                        int step,
                                        double value,

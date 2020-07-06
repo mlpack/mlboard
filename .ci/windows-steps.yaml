@@ -146,9 +146,9 @@ steps:
     -DMLPACK_INCLUDE_DIR="..\mlpack\build\include" `
     -DMLPACK_LIBRARY="..\mlpack\build\Release\mlpack.lib" ..
 
-    cp $(Agent.ToolsDirectory)\boost_libs\*.* build\include\
-    cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\*.* build\include\
-    cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\bin\x64\*.* build\include\
+    cp $(Agent.ToolsDirectory)\boost_libs\*.* include\
+    cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\*.* include\
+    cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\bin\x64\*.* include\
   displayName: 'Configure mlboard'
 
 # Build mlboard

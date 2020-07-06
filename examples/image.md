@@ -137,12 +137,12 @@ Since we would be logging mlpack's metrics there are chances when we would have 
 
 ```cpp
 void SummaryWriter<Filewriter>::Image(const std::string& tag,
-                int step,
-                arma::Mat<eT>& matrix,
-                mlpack::data::ImageInfo& info,
-                Filewriter& fw,
-                const std::string& displayName,
-                const std::string& description)
+                                      int step,
+                                      arma::Mat<eT>& matrix,
+                                      mlpack::data::ImageInfo& info,
+                                      Filewriter& fw,
+                                      const std::string& displayName,
+                                      const std::string& description)
 ```
 
 The API accepts `tag`, `step`, `encodedImage` (An `arma::mat` which has image data) and then the `mlpack::data::ImageInfo` object along with filewriter object and Name and description.

@@ -11,7 +11,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 option(BUILD_TESTS "Build tests." ON)
-INCLUDE(FindProtobuf)
+include(FindProtobuf)
 # Armadillo 
 
 find_package(Armadillo 8.400.0 REQUIRED)
@@ -69,10 +69,10 @@ endif ()
 
 find_package(MLPACK REQUIRED)
 
-FIND_PACKAGE(Protobuf REQUIRED)
+find_package(Protobuf REQUIRED)
 
-ADD_SUBDIRECTORY(include/proto)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+add_subdirectory(include/proto)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(MLBOARD_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}

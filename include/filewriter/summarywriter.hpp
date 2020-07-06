@@ -1,5 +1,5 @@
 /**
- * @file summarywriter.hpp
+ * @file filewriter/summarywriter.hpp
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_SUMMARY_WRITER_HPP
