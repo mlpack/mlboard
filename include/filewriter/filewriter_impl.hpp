@@ -7,6 +7,11 @@
 
 #include "filewriter.hpp"
 
+#ifdef _WIN32
+  #include <io.h>
+  #include <direct.h>
+#endif
+
 namespace mlboard {
 
 
