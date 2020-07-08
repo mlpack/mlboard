@@ -52,7 +52,7 @@ int main()
 }
 ```
 
-The output would be as follows: 
+The output would be similar to:
 
 <p>
 <img src = "assets/text.png" width = "800" height = "400"/>

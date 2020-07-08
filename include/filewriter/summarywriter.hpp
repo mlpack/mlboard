@@ -45,7 +45,6 @@ class SummaryWriter
                    int step,
                    const std::string& text,
                    Filewriter& fw);
-
 };
 
 } // namespace mlboard
