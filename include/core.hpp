@@ -24,9 +24,10 @@
 #include <regex> // NOLINT
 #include <mlboard/mlboard.hpp>
 
-// For windows mkdir.
+// For windows rmdir.
 #ifdef _WIN32
-    #include <direct.h>
+  #include <io.h>
+  #include <direct.h>
 #endif
 
 #endif
