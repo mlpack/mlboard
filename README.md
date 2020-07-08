@@ -74,7 +74,7 @@ To run test, you can issue the following command:
     $ ./mlboard_tests
 ```
 
-### 2. Supported Summary types 
+### 2. Supported Summary types
 
 Following are the Summary types you could log using mlboard:
 

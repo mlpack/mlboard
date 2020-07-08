@@ -58,6 +58,25 @@ else()
   endif ()
 endif()
 
+# Remove this when serialization is removed from mlpack
+set(Boost_ADDITIONAL_VERSIONS
+  "1.49.0" "1.50.0" "1.51.0" "1.52.0" "1.53.0" "1.54.0" "1.55.0")
+find_package(Boost 1.49
+    COMPONENTS
+      serialization
+    REQUIRED
+)
+
+# In Visual Studio, automatic linking is performed, so we don't need to worry
+# about it.  Clear the list of libraries to link against and let Visual Studio
+# handle it.
+if (MSVC)
+  link_directories(${Boost_LIBRARY_DIRS})
+  set(Boost_LIBRARIES "")
+endif ()
+
+link_directories(${Boost_LIBRARY_DIRS})
+
 if (WIN32)
   find_package(LAPACK REQUIRED)
   find_package(BLAS REQUIRED)
