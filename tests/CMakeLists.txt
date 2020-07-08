@@ -11,11 +11,14 @@ add_executable(mlboard_tests ${MLBOARD_TESTS_SOURCES})
 set(MLBOARD_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
                         ${PROTOBUF_INCLUDE_DIR}
+                        ${Boost_INCLUDE_DIRS})
                         )
 
 set(MLBOARD_LIBRARIES ${MLPACK_LIBRARY}
                      ${ARMADILLO_LIBRARIES}
-                     ${PROTOBUF_LIBRARIES})
+                     ${PROTOBUF_LIBRARIES}
+                     ${Boost_LIBRARIES})
+                     )
 
 target_include_directories(mlboard_tests PRIVATE ${CMAKE_BINARY_DIR}/include ${MLBOARD_INCLUDE_DIRS})
 
