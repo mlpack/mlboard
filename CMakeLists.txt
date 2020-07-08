@@ -98,7 +98,7 @@ set(MLBOARD_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${PROTOBUF_INCLUDE_DIR}
                         )
 
-include_directories(${MMLBOARD_INCLUDE_DIRS})
+include_directories(${MLBOARD_INCLUDE_DIRS})
 
 file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/filewriter/*.hpp")
 
