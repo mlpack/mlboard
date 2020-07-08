@@ -107,7 +107,12 @@ inline FileWriter::~FileWriter()
     if (entry->d_name != "." && entry->d_name != ".."
       && std::regex_match(entry->d_name, regExp) == true)
     {
-      int status = rmdir(entry->d_name);
+      int status;
+      #if defined(_WIN32)
+        status = _rmdir(entry->d_name);
+      #else
+        status = rmdir(entry->d_name);
+      #endif
       if (status == -1)
       {
         std::cout << "Error while removing temp directory: " << entry->d_name
