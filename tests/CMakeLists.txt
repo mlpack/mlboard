@@ -2,6 +2,7 @@
 set(MLBOARD_TESTS_SOURCES
     main.cpp
     filewriter_test.cpp
+    summarywriter_test.cpp
     util_test.cpp
 )
 

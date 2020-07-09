@@ -97,7 +97,7 @@ inline FileWriter::~FileWriter()
   if (close_)
     Close();
 
-  std::regex regExp("(_temp)(.*)");
+  std::regex regExp("(_preprocess)(.*)");
 
   // Delete all the directories created during processing.
   struct dirent *entry;

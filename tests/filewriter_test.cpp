@@ -56,31 +56,3 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
   remove(f2.FileName().c_str());
 }
 
-/**
- * Test the summary writer.
- */
-TEST_CASE("Writing a summary to file", "[FileWriter]")
-{
-	// Create temp dirs.
-	#if defined(_WIN32)
-			_mkdir("_temp1_");
-	#else 
-			mkdir("_temp1_",0777);
-	#endif
-	
-	struct stat results;
-	mlboard::FileWriter f1("_temp1_");
-
-  for (int i = 1; i < 25; i++)
-  {
-		mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1",
-		i, 1.1, f1);
-  }  
-
-  stat(f1.FileName().c_str(), &results);
-
-  REQUIRE(results.st_size > 0);
-
-  // Remove event files.
-  remove(f1.FileName().c_str());
-}

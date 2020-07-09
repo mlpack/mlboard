@@ -98,15 +98,15 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
   // Create a temp directory.
   int check;
   #if defined(_WIN32)
-    check = mkdir("_tempimage_");
+    check = mkdir("_preprocess_");
   #else
-    check = mkdir("_tempimage_", 0777);
+    check = mkdir("_preprocess_", 0777);
   #endif
 
   // Create a vector of temp file names.
   std::vector<std::string> fileNames(matrix.n_cols);
   for (size_t i = 0; i < matrix.n_cols; i++)
-    fileNames[i] = "_tempimage_/"+std::to_string(i)+".png";
+    fileNames[i] = "_preprocess_/"+std::to_string(i)+".png";
 
   mlpack::data::Save(fileNames, matrix, info, false);
 

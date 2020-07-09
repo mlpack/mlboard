@@ -43,7 +43,7 @@ int main()
     start = std::chrono::system_clock::now(); 
     mlboard::FileWriter f1("temp");
     
-    ifstream fin("./assets/single_image.png", ios::binary);
+    ifstream fin("./assets/single_image.jpg", ios::binary);
     ostringstream ss;
 
     ss << fin.rdbuf();
@@ -66,7 +66,7 @@ int main()
 The output would be similar to: 
 
 <p>
-<img src = "assets/single_image.png" width = "800" height = "400"/>
+<img src = "assets/single_image.jpg" width = "800" height = "400"/>
 </p>
 
 ### 2. Multiple Images
@@ -101,13 +101,13 @@ int main()
     start = std::chrono::system_clock::now(); 
     mlboard::FileWriter f1("temp");
     
-    ifstream fin("./assets/multiple_image.png", ios::binary);
+    ifstream fin("./assets/multiple_image.jpg", ios::binary);
     ostringstream ss;
     vector<string>encodedImages;
     ss << fin.rdbuf();
     encodedImages.push_back(ss.str());
     fin.close();
-    fin.open("./assets/single_image.png", ios::binary);
+    fin.open("./assets/single_image.jpg", ios::binary);
     ss << fin.rdbuf();
     encodedImages.push_back(ss.str());
     ss.str("");
@@ -128,7 +128,7 @@ int main()
 The output would be similar to: 
 
 <p>
-<img src = "assets/multiple_image.png" width = "800" height = "400"/>
+<img src = "assets/multiple_image.jpg" width = "800" height = "400"/>
 </p>
 
 ### 3. Multiple Images Arma Mat
@@ -166,8 +166,8 @@ int main()
     // If you aldeardy have a matrix with images you can avoid the following lines.
     arma::Mat<unsigned char> matrix;
     mlpack::data::ImageInfo info;
-    std::vector<std::string> files = {"./assets/single_image.png",
-         "./assets/mltiple_image.png"};
+    std::vector<std::string> files = {"./assets/single_image.jpg",
+         "./assets/mltiple_image.jpg"};
 
     // Creating the matrix which has image.
     mlpack::data::Load(files, matrix, info, false);
@@ -220,8 +220,8 @@ int main()
  
     // Using the utitlity function encodeImages stored at current location
     vector<string>encodedImages;   
-    mlboard::util::EncodeImage({"./assets/single_image.png",
-        "./assets/mltiple_image.png"}, encodedImages);
+    mlboard::util::EncodeImage({"./assets/single_image.jpg",
+        "./assets/mltiple_image.jpg"}, encodedImages);
 
     mlboard::SummaryWriter<mlboard::FileWriter>::Image(
          "Test Image", 1, encodedImages, 512, 512, f1, "Sample Image",

@@ -11,6 +11,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 option(BUILD_TESTS "Build tests." ON)
+option(KEEP_LOGS "Keep the files generated during test." OFF)
+
 include(FindProtobuf)
 # Armadillo 
 
@@ -98,11 +100,16 @@ set(MLBOARD_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${PROTOBUF_INCLUDE_DIR}
                         )
 
+if (KEEP_LOGS)
+        add_definitions(-DKEEP_LOGS)
+        message("keep logs is ${KEEP_LOGS}")
+endif()
+
 include_directories(${MLBOARD_INCLUDE_DIRS})
 
 file(GLOB headerfiles "${CMAKE_CURRENT_SOURCE_DIR}/include/filewriter/*.hpp")
 
-file(GLOB datafiles "${CMAKE_CURRENT_SOURCE_DIR}/examples/assets/*.png")
+file(GLOB datafiles "${CMAKE_CURRENT_SOURCE_DIR}/examples/assets/*.*")
 
 file(COPY ${datafiles}
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data/)

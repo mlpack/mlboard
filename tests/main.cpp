@@ -53,9 +53,22 @@ int main(int argc, char** argv)
 {
   std::cout << "Start testing " << std::endl;
 
+    // Create temp dirs.
+    #if defined(_WIN32)
+        _mkdir("_templogs");
+        _mkdir("_templogs");
+    #else 
+        mkdir("_templogs", 0777);
+        mkdir("_templogs", 0777);
+    #endif
+
   int testStatus = Catch::Session().run(argc, argv);
 
-  removeTempDirs();
+	#ifndef KEEP_LOGS
+    std::cout<<"exuecute is ending \n";
+    removeTempDirs();
+  #endif
+
 
   return testStatus;
 }

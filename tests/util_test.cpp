@@ -11,8 +11,8 @@
  */
 TEST_CASE("Test EncodeImage utitlity function", "[UtilFunction]")
 {
-	std::vector<std::string> filePaths = {"data/multiple_image.png",
-			"data/single_image.png"};
+	std::vector<std::string> filePaths = {"data/multiple_image.jpg",
+			"data/single_image.jpg"};
 	std::vector<std::string> encodeImage;
 	mlboard::util::EncodeImage(filePaths,encodeImage);
 	REQUIRE(encodeImage.size() == 2);
