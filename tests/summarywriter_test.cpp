@@ -71,7 +71,7 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to 
   f1->Close();
 
 	#ifndef KEEP_LOGS
-		remove(f1.FileName().c_str());
+		remove(f1->FileName().c_str());
 	#endif
 }
 
