@@ -32,14 +32,14 @@ TEST_CASE("Writing two files at a time", "[FileWriter]")
  */
 TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
 {
-    // Create temp dirs.
-    #if defined(_WIN32)
-        _mkdir("_temp1_");
-        _mkdir("_temp2_");
-    #else 
-        mkdir("_temp1_",0777);
-        mkdir("_temp2_",0777);
-    #endif
+	// Create temp dirs.
+  #if defined(_WIN32)
+    _mkdir("_temp1_");
+    _mkdir("_temp2_");
+  #else 
+    mkdir("_temp1_",0777);
+    mkdir("_temp2_",0777);
+  #endif
 
   mlboard::FileWriter f1("_temp1_"), f2("_temp2_");
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1", 1,

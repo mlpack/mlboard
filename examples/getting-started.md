@@ -3,7 +3,7 @@
 To generate summary data you can make use of `FileWriter` class and `SummaryWriter` class.
 
 For creating a summary, you have to call the specific summary type function from `SummaryWriter` class, for example to log a scaler summary you can call the scaler function as:
-`mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag,step,value,filewriterobject);`. 
+`mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, filewriterobject);`. 
 
 Irrespective of the summary type, you always have to pass the filewriter object that is responsible for first creating events using this summary and then putting that into a queue and then finally writing those events into the file through the logger, which is running asynchronously.
 
@@ -27,30 +27,30 @@ void mockfunc(const std::string& tag,
               double value,
               FileWriter& fw)
 {
-    std::this_thread::sleep_for(std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
+  std::this_thread::sleep_for(std::chrono::seconds(10));
+  mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
 }
 
 int main()
 {
-    // Creating a FileWriter object that is responsible for logging the summary.
-    std::chrono::time_point<std::chrono::system_clock> start, end; 
-    start = std::chrono::system_clock::now(); 
-    FileWriter f1("temp");
-    // Creating a scalar summary.
-    mockfunc("tag", 1, 1.1, f1);
-    mockfunc("tag", 2, 2.1, f1);
-    mockfunc("tag", 3, 3.1, f1);
-    mockfunc("tag", 4, 4.1, f1);
-    
-    // This will allow you to indicate that you have logged all your data.
-    f1.Close();
-    end = std::chrono::system_clock::now(); 
-    std::chrono::duration<double> elapsed_seconds = end - start; 
-    std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+  // Creating a FileWriter object that is responsible for logging the summary.
+  std::chrono::time_point<std::chrono::system_clock> start, end; 
+  start = std::chrono::system_clock::now(); 
+  FileWriter f1("temp");
+  // Creating a scalar summary.
+  mockfunc("tag", 1, 1.1, f1);
+  mockfunc("tag", 2, 2.1, f1);
+  mockfunc("tag", 3, 3.1, f1);
+  mockfunc("tag", 4, 4.1, f1);
   
-    std::cout << "finished computation at " << std::ctime(&end_time) 
-              << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
+  // This will allow you to indicate that you have logged all your data.
+  f1.Close();
+  end = std::chrono::system_clock::now(); 
+  std::chrono::duration<double> elapsed_seconds = end - start; 
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+
+  std::cout << "finished computation at " << std::ctime(&end_time) 
+            << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
 ```
 
@@ -82,33 +82,33 @@ void mockfunc(const std::string& tag,
               double value,
               FileWriter& fw)
 {
-    std::this_thread::sleep_for( std::chrono::seconds(10));
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
+  std::this_thread::sleep_for( std::chrono::seconds(10));
+  mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
 }
 
 int main()
 {
-    std::chrono::time_point<std::chrono::system_clock> start, end; 
-    start = std::chrono::system_clock::now(); 
-    FileWriter f1("temp");
+  std::chrono::time_point<std::chrono::system_clock> start, end; 
+  start = std::chrono::system_clock::now(); 
+  FileWriter f1("temp");
 
-    std::future<void> result1 = async(std::launch::async, mockfunc, "tag", 1, 1.1, std::ref(f1));
-    std::future<void> result2 = async(std::launch::async, mockfunc, "tag", 2, 1.2, std::ref(f1));
-    std::future<void> result3 = async(std::launch::async, mockfunc,     "tag", 3, 1.3, std::ref(f1));
-    std::future<void> result4 = async(std::launch::async, mockfunc, "tag", 4, 1.4, std::ref(f1));
-    result1.get();
-    result2.get();
-    result3.get();
-    result4.get();
+  std::future<void> result1 = async(std::launch::async, mockfunc, "tag", 1, 1.1, std::ref(f1));
+  std::future<void> result2 = async(std::launch::async, mockfunc, "tag", 2, 1.2, std::ref(f1));
+  std::future<void> result3 = async(std::launch::async, mockfunc, "tag", 3, 1.3, std::ref(f1));
+  std::future<void> result4 = async(std::launch::async, mockfunc, "tag", 4, 1.4, std::ref(f1));
+  result1.get();
+  result2.get();
+  result3.get();
+  result4.get();
 
-    f1.Close();  
+  f1.Close();  
 
-    end = std::chrono::system_clock::now(); 
-    std::chrono::duration<double> elapsed_seconds = end - start; 
-    std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
-  
-    std::cout << "finished computation at " << std::ctime(&end_time) 
-              << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
+  end = std::chrono::system_clock::now(); 
+  std::chrono::duration<double> elapsed_seconds = end - start; 
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+
+  std::cout << "finished computation at " << std::ctime(&end_time) 
+            << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
 
 ```

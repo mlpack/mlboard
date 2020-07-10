@@ -62,8 +62,7 @@ int main(int argc, char** argv)
 
   int testStatus = Catch::Session().run(argc, argv);
 
-	#ifndef KEEP_LOGS
-    std::cout<<"exuecute is ending \n";
+  #ifndef KEEP_TEST_LOGS
     removeTempDirs();
   #endif
 

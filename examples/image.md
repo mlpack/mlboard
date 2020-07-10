@@ -39,27 +39,27 @@ Following is a snippet that would log a single image for 1 step in temp director
 
 int main()
 {
-    std::chrono::time_point<std::chrono::system_clock> start, end; 
-    start = std::chrono::system_clock::now(); 
-    mlboard::FileWriter f1("temp");
-    
-    ifstream fin("./assets/single_image.jpg", ios::binary);
-    ostringstream ss;
+  std::chrono::time_point<std::chrono::system_clock> start, end; 
+  start = std::chrono::system_clock::now(); 
+  mlboard::FileWriter f1("temp");
+  
+  ifstream fin("./assets/single_image.jpg", ios::binary);
+  ostringstream ss;
 
-    ss << fin.rdbuf();
-    string image(ss.str());
-    fin.close();
-    mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-         "Test Image", 1, image, 512, 512, 3, f1, "Sample Image",
-         "This is a Sample image logged using mlboard.");
+  ss << fin.rdbuf();
+  string image(ss.str());
+  fin.close();
+  mlboard::SummaryWriter<mlboard::FileWriter>::Image(
+        "Test Image", 1, image, 512, 512, 3, f1, "Sample Image",
+        "This is a Sample image logged using mlboard.");
 
-    f1.Close();
-    end = std::chrono::system_clock::now(); 
-    std::chrono::duration<double> elapsed_seconds = end - start; 
-    std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
-    
-    std::cout << "finished computation at " << std::ctime(&end_time) 
-              << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
+  f1.Close();
+  end = std::chrono::system_clock::now(); 
+  std::chrono::duration<double> elapsed_seconds = end - start; 
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+  
+  std::cout << "finished computation at " << std::ctime(&end_time) 
+            << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
 ```
 
@@ -97,31 +97,31 @@ Following is a snippet that would log a multiple image for 1 step in temp direct
 
 int main()
 {
-    std::chrono::time_point<std::chrono::system_clock> start, end; 
-    start = std::chrono::system_clock::now(); 
-    mlboard::FileWriter f1("temp");
-    
-    ifstream fin("./assets/multiple_image.jpg", ios::binary);
-    ostringstream ss;
-    vector<string>encodedImages;
-    ss << fin.rdbuf();
-    encodedImages.push_back(ss.str());
-    fin.close();
-    fin.open("./assets/single_image.jpg", ios::binary);
-    ss << fin.rdbuf();
-    encodedImages.push_back(ss.str());
-    ss.str("");
-    fin.close();
-    mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-         "Test Image", 1, encodedImages, 512, 512, f1, "Sample Image",
-         "This is a Sample image logged using mlboard.");
-    f1.Close();
-    end = std::chrono::system_clock::now(); 
-    std::chrono::duration<double> elapsed_seconds = end - start; 
-    std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
-    
-    std::cout << "finished computation at " << std::ctime(&end_time) 
-              << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
+  std::chrono::time_point<std::chrono::system_clock> start, end; 
+  start = std::chrono::system_clock::now(); 
+  mlboard::FileWriter f1("temp");
+  
+  ifstream fin("./assets/multiple_image.jpg", ios::binary);
+  ostringstream ss;
+  vector<string>encodedImages;
+  ss << fin.rdbuf();
+  encodedImages.push_back(ss.str());
+  fin.close();
+  fin.open("./assets/single_image.jpg", ios::binary);
+  ss << fin.rdbuf();
+  encodedImages.push_back(ss.str());
+  ss.str("");
+  fin.close();
+  mlboard::SummaryWriter<mlboard::FileWriter>::Image(
+        "Test Image", 1, encodedImages, 512, 512, f1, "Sample Image",
+        "This is a Sample image logged using mlboard.");
+  f1.Close();
+  end = std::chrono::system_clock::now(); 
+  std::chrono::duration<double> elapsed_seconds = end - start; 
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+  
+  std::cout << "finished computation at " << std::ctime(&end_time) 
+            << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
 ```
 
@@ -158,31 +158,31 @@ Following is a snippet that would log a multiple image which is stored in `arma:
 
 int main()
 {
-    std::chrono::time_point<std::chrono::system_clock> start, end; 
-    start = std::chrono::system_clock::now(); 
-    mlboard::FileWriter f1("temp");
-    
-    // Following line are just there to come up with a arma::mat of images.
-    // If you aldeardy have a matrix with images you can avoid the following lines.
-    arma::Mat<unsigned char> matrix;
-    mlpack::data::ImageInfo info;
-    std::vector<std::string> files = {"./assets/single_image.jpg",
-         "./assets/mltiple_image.jpg"};
+  std::chrono::time_point<std::chrono::system_clock> start, end; 
+  start = std::chrono::system_clock::now(); 
+  mlboard::FileWriter f1("temp");
+  
+  // Following line are just there to come up with a arma::mat of images.
+  // If you aldeardy have a matrix with images you can avoid the following lines.
+  arma::Mat<unsigned char> matrix;
+  mlpack::data::ImageInfo info;
+  std::vector<std::string> files = {"./assets/single_image.jpg",
+        "./assets/single_image.jpg"};
 
-    // Creating the matrix which has image.
-    mlpack::data::Load(files, matrix, info, false);
+  // Creating the matrix which has image.
+  mlpack::data::Load(files, matrix, info, false);
 
-    // Now we can log the matrix.
-    mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-         "Multiple Image", 1, matrix, info, f1, "Sample Multiple Image",
-         "This is a Sample image logged using mlboard.");
-    f1.Close();
-    end = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
-    std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
-    
-    std::cout << "finished computation at " << std::ctime(&end_time) 
-              << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
+  // Now we can log the matrix.
+  mlboard::SummaryWriter<mlboard::FileWriter>::Image(
+        "Multiple Image", 1, matrix, info, f1, "Sample Multiple Image",
+        "This is a Sample image logged using mlboard.");
+  f1.Close();
+  end = std::chrono::system_clock::now();
+  std::chrono::duration<double> elapsed_seconds = end - start;
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+  
+  std::cout << "finished computation at " << std::ctime(&end_time) 
+            << "elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 ```
 
@@ -214,24 +214,24 @@ An example using the above utility could be:
 
 int main()
 {
-    std::chrono::time_point<std::chrono::system_clock> start, end; 
-    start = std::chrono::system_clock::now(); 
-    mlobard::FileWriter f1("temp");
- 
-    // Using the utitlity function encodeImages stored at current location
-    vector<string>encodedImages;   
-    mlboard::util::EncodeImage({"./assets/single_image.jpg",
-        "./assets/mltiple_image.jpg"}, encodedImages);
+  std::chrono::time_point<std::chrono::system_clock> start, end; 
+  start = std::chrono::system_clock::now(); 
+  mlobard::FileWriter f1("temp");
 
-    mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-         "Test Image", 1, encodedImages, 512, 512, f1, "Sample Image",
-         "This is a Sample image logged using mlboard.");
-    f1.Close();
-    end = std::chrono::system_clock::now(); 
-    std::chrono::duration<double> elapsed_seconds = end - start; 
-    std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
-    
-    std::cout << "finished computation at " << std::ctime(&end_time) 
-              << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
+  // Using the utitlity function encodeImages stored at current location
+  vector<string>encodedImages;   
+  mlboard::util::EncodeImage({"./assets/single_image.jpg",
+      "./assets/mltiple_image.jpg"}, encodedImages);
+
+  mlboard::SummaryWriter<mlboard::FileWriter>::Image(
+        "Test Image", 1, encodedImages, 512, 512, f1, "Sample Image",
+        "This is a Sample image logged using mlboard.");
+  f1.Close();
+  end = std::chrono::system_clock::now(); 
+  std::chrono::duration<double> elapsed_seconds = end - start; 
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+  
+  std::cout << "finished computation at " << std::ctime(&end_time) 
+            << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
 ```

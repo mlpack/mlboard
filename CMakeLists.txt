@@ -11,7 +11,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 option(BUILD_TESTS "Build tests." ON)
-option(KEEP_LOGS "Keep the files generated during test." OFF)
+option(KEEP_TEST_LOGS "Keep the files generated during test." OFF)
 
 include(FindProtobuf)
 # Armadillo 
@@ -100,9 +100,9 @@ set(MLBOARD_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${PROTOBUF_INCLUDE_DIR}
                         )
 
-if (KEEP_LOGS)
-        add_definitions(-DKEEP_LOGS)
-        message("keep logs is ${KEEP_LOGS}")
+if (KEEP_TEST_LOGS)
+        add_definitions(-DKEEP_TEST_LOGS)
+        message("keep logs is ${KEEP_TEST_LOGS}")
 endif()
 
 include_directories(${MLBOARD_INCLUDE_DIRS})

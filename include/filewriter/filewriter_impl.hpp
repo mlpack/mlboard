@@ -72,12 +72,12 @@ inline void FileWriter::WriteSummary()
 
 inline void FileWriter::CreateEvent(size_t step, mlboard::Summary *summary)
 {
-    Event event;
-    double wall_time = time(nullptr);
-    event.set_wall_time(wall_time);
-    event.set_step(step);
-    event.set_allocated_summary(summary);
-    q.Push(event);
+  Event event;
+  double wall_time = time(nullptr);
+  event.set_wall_time(wall_time);
+  event.set_step(step);
+  event.set_allocated_summary(summary);
+  q.Push(event);
 }
 
 inline void FileWriter::Flush()

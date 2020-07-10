@@ -1,5 +1,5 @@
 /**
- * @file filewriter_test.cpp
+ * @file tests/filewriter_test.cpp
  * @author Jeffin Sam
  */
 #include "catch.hpp"
@@ -13,11 +13,12 @@
     #include <direct.h>
 #endif
 
-class SummaryWriterTestsFixture {
+class SummaryWriterTestsFixture
+{
  public:
   static mlboard::FileWriter* f1;
   static size_t currentSize;
- };
+};
 
 mlboard::FileWriter* SummaryWriterTestsFixture::f1;
 size_t SummaryWriterTestsFixture::currentSize = 0;
@@ -42,7 +43,8 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a Image summary to file", "
 /**
  * Test the scaler summary.
  */
-TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a scaler summary to file", "[SummaryWriter]")
+TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a scaler summary to file",
+                 "[SummaryWriter]")
 {	
   for (int i = 1; i < 25; i++)
   {
@@ -54,7 +56,8 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a scaler summary to file", 
 /**
  * Test multiple Image summary.
  */
-TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to file", "[SummaryWriter]")
+TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to file",
+                 "[SummaryWriter]")
 {	
   arma::Mat<unsigned char> matrix;
   mlpack::data::ImageInfo info;
@@ -70,8 +73,8 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to 
       "This is a Sample multiple image logged using mlboard.");
   f1->Close();
 
-	#ifndef KEEP_LOGS
-		remove(f1->FileName().c_str());
-	#endif
+  #ifndef KEEP_TEST_LOGS
+    remove(f1->FileName().c_str());
+  #endif
 }
 
