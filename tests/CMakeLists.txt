@@ -2,6 +2,7 @@
 set(MLBOARD_TESTS_SOURCES
     main.cpp
     filewriter_test.cpp
+    summarywriter_test.cpp
 )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
