@@ -2,7 +2,7 @@
 # This module defines
 #  BLAS_LIBRARIES, the libraries needed to use BLAS.
 #  BLAS_FOUND, If false, do not try to use BLAS.
-# also defined, but not for general use are
+# Also defined, but not for general use are
 #  BLAS_LIBRARY, where to find the BLAS library.
 
 set(BLAS_NAMES ${BLAS_NAMES} blas)

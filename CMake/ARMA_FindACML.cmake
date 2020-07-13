@@ -2,7 +2,7 @@
 # This module defines
 #  ACML_LIBRARIES, the libraries needed to use ACML.
 #  ACML_FOUND, If false, do not try to use ACML.
-# also defined, but not for general use are
+# Also defined, but not for general use are
 #  ACML_LIBRARY, where to find the ACML library.
 
 set(ACML_NAMES ${ACML_NAMES} acml)

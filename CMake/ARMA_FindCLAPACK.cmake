@@ -3,7 +3,7 @@
 #  CLAPACK_INCLUDE_DIR
 #  CLAPACK_LIBRARIES
 #  CLAPACK_FOUND
-# also defined, but not for general use are
+# Also defined, but not for general use are
 #  CLAPACK_LIBRARY, where to find the library.
 
 find_path(CLAPACK_INCLUDE_DIR clapack.h

@@ -1,14 +1,14 @@
-## Logging Scaler Values 
+## Logging Scalar Values 
 
-These examples help you to understand SummaryWriter::Scaler API in depth
+These examples help you to understand SummaryWriter::scalar API in depth
 
 ### 0. API 
 
-  1. [Log a scaler value](#1-scaler-value)
+  1. [Log a scalar value](#1-scalar-value)
 
-### 1. Scaler Value
+### 1. Scalar Value
 
-A scaler value could be logged using the following API:
+A scalar value could be logged using the following API:
 
 ```cpp
 void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
@@ -17,9 +17,9 @@ void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
                                        Filewriter& fw)
 ```
 
-The API accepts `tag`, `step`, `value` (Scaler value) and `Filewriter` object.
+The API accepts `tag`, `step`, `value` (scalar value) and `Filewriter` object.
 
-Following is a snippet that would log some scaler values.
+Following is a snippet that would log some scalar values.
 
 ```cpp
 #include <mlboard/mlboard.hpp>
@@ -34,7 +34,7 @@ int main()
   std::chrono::time_point<std::chrono::system_clock> start, end; 
   start = std::chrono::system_clock::now(); 
   mlboard::FileWriter f1("temp");
-  // Creating a scaler summary.
+  // Creating a scalar summary.
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("tag", 1, 1.1, f1);
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("tag", 2, 2.1, f1);
 

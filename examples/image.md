@@ -163,7 +163,7 @@ int main()
   mlboard::FileWriter f1("temp");
   
   // Following line are just there to come up with a arma::mat of images.
-  // If you aldeardy have a matrix with images you can avoid the following lines.
+  // If you already have a matrix with images you can avoid the following lines.
   arma::Mat<unsigned char> matrix;
   mlpack::data::ImageInfo info;
   std::vector<std::string> files = {"./assets/single_image.jpg",

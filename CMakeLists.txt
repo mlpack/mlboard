@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 option(BUILD_TESTS "Build tests." ON)
 option(KEEP_TEST_LOGS "Keep the files generated during test." OFF)
+option(USE_OPENMP "If available, use OpenMP for parallelization." OFF)
 
 include(FindProtobuf)
 # Armadillo 
@@ -104,6 +105,16 @@ if (KEEP_TEST_LOGS)
         add_definitions(-DKEEP_TEST_LOGS)
         message("keep logs is ${KEEP_TEST_LOGS}")
 endif()
+
+if (USE_OPENMP)
+  message(WARNING "Only use OpenMP if mlpack has been compiled with OpenMP.")
+  find_package(OpenMP)
+endif ()
+
+if (OPENMP_FOUND)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif ()
 
 include_directories(${MLBOARD_INCLUDE_DIRS})
 

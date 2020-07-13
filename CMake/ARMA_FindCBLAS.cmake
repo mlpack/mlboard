@@ -3,7 +3,7 @@
 #  CBLAS_INCLUDE_DIR
 #  CBLAS_LIBRARIES
 #  CBLAS_FOUND
-# also defined, but not for general use are
+# Also defined, but not for general use are
 #  CBLAS_LIBRARY, where to find the library.
 
 find_path(CBLAS_INCLUDE_DIR cblas.h

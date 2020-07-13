@@ -74,6 +74,12 @@ To run test, you can issue the following command:
     $ ./mlboard_tests
 ```
 
+Also if you wish to keep the logs generated while running the test, you could compile it with the following command
+
+```
+    $ cmake -DKEEP_TEST_LOGS=ON ../
+```
+
 ### 2. Supported Summary types
 
 Following are the Summary types you could log using mlboard:

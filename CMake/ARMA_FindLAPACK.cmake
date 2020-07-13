@@ -2,7 +2,7 @@
 # This module defines
 #  LAPACK_LIBRARIES, the libraries needed to use LAPACK.
 #  LAPACK_FOUND, If false, do not try to use LAPACK.
-# also defined, but not for general use are
+# Also defined, but not for general use are
 #  LAPACK_LIBRARY, where to find the LAPACK library.
 
 set(LAPACK_NAMES ${LAPACK_NAMES} lapack)

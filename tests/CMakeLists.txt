@@ -12,9 +12,10 @@ add_executable(mlboard_tests ${MLBOARD_TESTS_SOURCES})
 set(MLBOARD_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
                         ${PROTOBUF_INCLUDE_DIR}
-                        ${Boost_INCLUDE_DIRS})
+                        ${BOOST_INCLUDE_DIRS})
 
 set(MLBOARD_LIBRARIES ${MLPACK_LIBRARY}
+                     ${COMPILER_SUPPORT_LIBRARIES}
                      ${ARMADILLO_LIBRARIES}
                      ${PROTOBUF_LIBRARIES}
                      ${Boost_LIBRARIES})

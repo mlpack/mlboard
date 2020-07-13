@@ -2,7 +2,7 @@
 # This module defines
 #  OpenBLAS_LIBRARIES, the libraries needed to use OpenBLAS.
 #  OpenBLAS_FOUND, If false, do not try to use OpenBLAS.
-# also defined, but not for general use are
+# Also defined, but not for general use are
 #  OpenBLAS_LIBRARY, where to find the OpenBLAS library.
 
 set(OpenBLAS_NAMES ${OpenBLAS_NAMES} openblas)

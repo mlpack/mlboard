@@ -2,7 +2,7 @@
 # This module defines
 #  ACMLMP_LIBRARIES, the libraries needed to use ACMLMP.
 #  ACMLMP_FOUND, If false, do not try to use ACMLMP.
-# also defined, but not for general use are
+# Also defined, but not for general use are
 #  ACMLMP_LIBRARY, where to find the ACMLMP library.
 
 set(ACMLMP_NAMES ${ACMLMP_NAMES} acml_mp)
