@@ -1,5 +1,5 @@
 /**
- * @file main.cpp
+ * @file tests/main.cpp
  * @author Jeffin Sam
  */
 
