@@ -8,6 +8,8 @@
 #include <mlboard/core.hpp>
 #include "filewriter.hpp"
 #include <proto/summary.pb.h>
+#include <proto/projector_config.pb.h>
+#include <google/protobuf/text_format.h>
 
 namespace mlboard {
 
@@ -33,6 +35,12 @@ class SummaryWriter
                      int step,
                      double value,
                      Filewriter& fw);
+  static void Embedding(const std::string &tensorName,
+                        const std::string &tensordataPath,
+                        Filewriter& fw,
+                        const std::string &metadataPath = "",
+                        const std::vector<size_t> &tensorShape = std::vector<size_t>());
+
 };
 
 } // namespace mlboard
