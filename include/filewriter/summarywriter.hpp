@@ -8,6 +8,7 @@
 #include <mlboard/core.hpp>
 #include "filewriter.hpp"
 #include <proto/summary.pb.h>
+#include <proto/plugin_pr_curve.pb.h>
 
 namespace mlboard {
 
