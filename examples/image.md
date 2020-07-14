@@ -186,7 +186,7 @@ int main()
 
 The output would be similar to [Log multiple image](#2-multiple-image)
 
-Note : This api takes quite a time to log the image since it first have to process the image stored in `arma::mat`. The way it process is, it saves the image using `mlpack::data::Load()` api for image and then reads it back in encoded format. It is something similar to what mxnet logging tool does [here](https://github.com/TeamHG-Memex/tensorboard_logger/blob/0ec6f1147b7cea8c4b68d26637781ccd8ec036b9/tensorboard_logger/tensorboard_logger.py#L157). Hence it is recomended to log image summary using a `arma::mat` in a seperate thread to avoid increase in training time.
+Note : This api takes quite a time to log the image since it first have to process the image stored in `arma::mat`. The way it process is, it saves the image using `mlpack::data::Load()` api for image and then reads it back in encoded format. It is something similar to what mxnet logging tool does [here](https://github.com/TeamHG-Memex/tensorboard_logger/blob/0ec6f1147b7cea8c4b68d26637781ccd8ec036b9/tensorboard_logger/tensorboard_logger.py#L157). Hence it is recomended to log image summary using a `arma::mat` in a seperate thread to avoid increase in training time. Also make sure that all the images are of same height and width,since mlapck::load() function only supports loading images of same sizes.
 
 ### 4. Multiple Image stored at location
 

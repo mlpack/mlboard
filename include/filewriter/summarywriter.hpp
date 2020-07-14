@@ -88,7 +88,9 @@ class SummaryWriter
    * processed and then converted to summary and hence this has to be run in
    * seperate thread so that this function doesn't hinder any other operation.
    * Also you can avoid creating a thread if logging time is not of concern for
-   * the application.
+   * the application. Also make sure that all the images are of same height and
+   * width, since mlapck::load() function only supports loading images of same
+   * sizes.
    * 
    * @param tag Tag to uniquely identify the image type.
    * @param step The step at which scaler was logged.

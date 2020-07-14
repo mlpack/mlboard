@@ -16,8 +16,8 @@ namespace mlboard {
 
 
 inline FileWriter::FileWriter(std::string logdir,
-                       int maxQueueSize,
-                       std::size_t flushmilis)
+                              int maxQueueSize,
+                              std::size_t flushmilis)
 {
   const auto p1 = std::chrono::system_clock::now();
   std::string currentTime =
