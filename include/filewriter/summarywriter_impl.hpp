@@ -51,6 +51,7 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
 
   fw.CreateEvent(step, summary);
 }
+
 template<typename Filewriter>
 void SummaryWriter<Filewriter>::Image(
     const std::string& tag,
@@ -113,8 +114,9 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
   std::vector<std::string> encodedImages;
   mlboard::util::EncodeImage(fileNames, encodedImages);
 
-  Image(tag, step, encodedImages , info.Height(),
+  Image(tag, step, encodedImages, info.Height(),
     info.Width(), fw, displayName, description);
+
   // Remove all the files.
   for (size_t i = 0; i < matrix.n_cols; i++)
     remove(fileNames[i].c_str());

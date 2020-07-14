@@ -21,12 +21,12 @@ SummaryWriter<Filewriter>::Image(const std::string& tag,
                                  int height,
                                  int width,
                                  int channel,
-                                 Filewriter& fw,
+                                 mlboard::Filewriter& fw,
                                  const std::string& displayName,
                                  const std::string& description)
 ```
 
-The API accepts `tag`, `step`, `encodedImage` (Image data in encoded format) and then the metadata about image along with filewriter object and Name and description.
+The API accepts `tag`, `step`, `encodedImage` (Image data in encoded format), the metadata about image (height and width) along with `mlboard::Filewriter` object, Name and description.
 
 Following is a snippet that would log a single image for 1 step in temp directory.
 
@@ -43,16 +43,14 @@ int main()
   start = std::chrono::system_clock::now(); 
   mlboard::FileWriter f1("temp");
   
-  ifstream fin("./assets/single_image.jpg", ios::binary);
-  ostringstream ss;
-
+  std::ifstream fin("./assets/single_image.jpg", std::ios::binary);
+  std::ostringstream ss;
   ss << fin.rdbuf();
-  string image(ss.str());
+  std::string image(ss.str());
   fin.close();
   mlboard::SummaryWriter<mlboard::FileWriter>::Image(
         "Test Image", 1, image, 512, 512, 3, f1, "Sample Image",
         "This is a Sample image logged using mlboard.");
-
   f1.Close();
   end = std::chrono::system_clock::now(); 
   std::chrono::duration<double> elapsed_seconds = end - start; 
@@ -79,12 +77,12 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
                                       const std::vector<std::string>& encodedImages,
                                       int height,
                                       int width,
-                                      Filewriter& fw,
+                                      mlboard::Filewriter& fw,
                                       const std::string& displayName,
                                       const std::string& description)
 ```
 
-The API accepts `tag`, `step`, `encodedImage` (A vector of Image data in encoded format) and then the metadata about image along with filewriter object and Name and description.
+The API accepts `tag`, `step`, `encodedImage` (A vector of Image data in encoded format), the metadata about images (height and width) along with `mlboard::Filewriter` object, Name and description.
 
 Following is a snippet that would log a multiple image for 1 step in temp directory.
 
@@ -101,13 +99,13 @@ int main()
   start = std::chrono::system_clock::now(); 
   mlboard::FileWriter f1("temp");
   
-  ifstream fin("./assets/multiple_image.jpg", ios::binary);
-  ostringstream ss;
-  vector<string>encodedImages;
+  std::ifstream fin("./assets/multiple_image.jpg", std::ios::binary);
+  std::ostringstream ss;
+  std::vector<std::string>encodedImages;
   ss << fin.rdbuf();
   encodedImages.push_back(ss.str());
   fin.close();
-  fin.open("./assets/single_image.jpg", ios::binary);
+  fin.open("./assets/single_image.jpg", std::ios::binary);
   ss << fin.rdbuf();
   encodedImages.push_back(ss.str());
   ss.str("");
@@ -140,12 +138,12 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
                                       int step,
                                       arma::Mat<eT>& matrix,
                                       mlpack::data::ImageInfo& info,
-                                      Filewriter& fw,
+                                      mlboard::Filewriter& fw,
                                       const std::string& displayName,
                                       const std::string& description)
 ```
 
-The API accepts `tag`, `step`, `encodedImage` (An `arma::mat` which has image data) and then the `mlpack::data::ImageInfo` object along with filewriter object and Name and description.
+The API accepts `tag`, `step`, `encodedImage` (An `arma::mat` which has image data), `mlpack::data::ImageInfo` object, `mlboard::Filewriter` object, name and description.
 
 Following is a snippet that would log a multiple image which is stored in `arma::mat` for 1 step in temp directory.
 
@@ -197,7 +195,7 @@ There are many occasion when a user wants to log images which are there in a cur
 The utility allows you to convert an image given its path into Encodedformat which can be logged to a file. The api is:
 
 ```cpp
-void EncodeImage(vector<std::string>& filePaths,
+void EncodeImage(std::vector<std::string>& filePaths,
                  std::vector<std::string>>& encodedImages)
 ```
 
@@ -216,13 +214,12 @@ int main()
 {
   std::chrono::time_point<std::chrono::system_clock> start, end; 
   start = std::chrono::system_clock::now(); 
-  mlobard::FileWriter f1("temp");
-
+  mlboard::FileWriter f1("temp");
   // Using the utitlity function encodeImages stored at current location
-  vector<string>encodedImages;   
-  mlboard::util::EncodeImage({"./assets/single_image.jpg",
-      "./assets/mltiple_image.jpg"}, encodedImages);
-
+  std::vector<std::string>encodedImages;
+  std::vector<std::string>filePaths = {"./assets/single_image.jpg",
+      "./assets/multiple_image.jpg"};
+  mlboard::util::EncodeImage(filePaths, encodedImages);
   mlboard::SummaryWriter<mlboard::FileWriter>::Image(
         "Test Image", 1, encodedImages, 512, 512, f1, "Sample Image",
         "This is a Sample image logged using mlboard.");

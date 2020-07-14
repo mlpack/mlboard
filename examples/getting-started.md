@@ -18,14 +18,11 @@ You can compile the following snippet using : `g++ main.cpp -lproto -lprotobuf -
 #include <ctime> 
 #include <future>
 
-using namespace std;
-using namespace mlboard;
-
 // A function to mock that summary creation takes 10 sec.
 void mockfunc(const std::string& tag,
               int step,
               double value,
-              FileWriter& fw)
+              mlboard::FileWriter& fw)
 {
   std::this_thread::sleep_for(std::chrono::seconds(10));
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
@@ -36,7 +33,7 @@ int main()
   // Creating a FileWriter object that is responsible for logging the summary.
   std::chrono::time_point<std::chrono::system_clock> start, end; 
   start = std::chrono::system_clock::now(); 
-  FileWriter f1("temp");
+  mlboard::FileWriter f1("temp");
   // Creating a scalar summary.
   mockfunc("tag", 1, 1.1, f1);
   mockfunc("tag", 2, 2.1, f1);
@@ -48,7 +45,6 @@ int main()
   end = std::chrono::system_clock::now(); 
   std::chrono::duration<double> elapsed_seconds = end - start; 
   std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
-
   std::cout << "finished computation at " << std::ctime(&end_time) 
             << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
@@ -73,14 +69,11 @@ Alternatively you can execute the logging in an async manner which would be fast
 #include <ctime> 
 #include <future>
 
-using namespace std;
-using namespace mlboard;
-
 // A function to mock that summary creation takes 10 sec.
 void mockfunc(const std::string& tag,
               int step,
               double value,
-              FileWriter& fw)
+              mlboard::FileWriter& fw)
 {
   std::this_thread::sleep_for( std::chrono::seconds(10));
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, fw);
@@ -90,8 +83,7 @@ int main()
 {
   std::chrono::time_point<std::chrono::system_clock> start, end; 
   start = std::chrono::system_clock::now(); 
-  FileWriter f1("temp");
-
+  mlboard::FileWriter f1("temp");
   std::future<void> result1 = async(std::launch::async, mockfunc, "tag", 1, 1.1, std::ref(f1));
   std::future<void> result2 = async(std::launch::async, mockfunc, "tag", 2, 1.2, std::ref(f1));
   std::future<void> result3 = async(std::launch::async, mockfunc, "tag", 3, 1.3, std::ref(f1));
@@ -100,17 +92,13 @@ int main()
   result2.get();
   result3.get();
   result4.get();
-
   f1.Close();  
-
   end = std::chrono::system_clock::now(); 
   std::chrono::duration<double> elapsed_seconds = end - start; 
   std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
-
   std::cout << "finished computation at " << std::ctime(&end_time) 
             << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
-
 ```
 
 The total time of execution would be reduced to 14 sec since they all are executing parallelly.

@@ -23,6 +23,7 @@ TEST_CASE("Writing two files at a time", "[FileWriter]")
   mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_2", 1, 1.1, f2);
 
   REQUIRE(f1.FileName() == f2.FileName());
+
   // Remove event files.
   remove(f1.FileName().c_str());
 }
@@ -55,4 +56,3 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
   remove(f1.FileName().c_str());
   remove(f2.FileName().c_str());
 }
-

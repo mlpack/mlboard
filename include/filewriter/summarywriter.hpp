@@ -34,6 +34,7 @@ class SummaryWriter
                      int step,
                      double value,
                      Filewriter& fw);
+
   /**
    * A function to create an image summary.
    * 
@@ -56,6 +57,7 @@ class SummaryWriter
                     Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
+
   /**
    * A overloaded function to create multiple image summary.
    * 
@@ -77,6 +79,7 @@ class SummaryWriter
                     Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
+
   /**
    * A overloaded function to create multiple image summary that is stored
    * in armadillo matrix (arma::mat).

@@ -1,6 +1,6 @@
 ## Logging Scalar Values 
 
-These examples help you to understand SummaryWriter::scalar API in depth
+These examples help you to understand SummaryWriter::scalar API in depth.
 
 ### 0. API 
 
@@ -14,10 +14,10 @@ A scalar value could be logged using the following API:
 void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
                                        int step,
                                        double value,
-                                       Filewriter& fw)
+                                       mlboard::Filewriter& fw)
 ```
 
-The API accepts `tag`, `step`, `value` (scalar value) and `Filewriter` object.
+The API accepts `tag`, `step`, `value` (scalar value) and `mlboard::Filewriter` object.
 
 Following is a snippet that would log some scalar values.
 
