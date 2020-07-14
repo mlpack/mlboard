@@ -48,7 +48,7 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing text summary to file",
       " Project developed during GSoc 2020 ", *f1);
   f1->Close();
 
-	#ifndef KEEP_LOGS
-		remove(f1->FileName().c_str());
-	#endif
+  #ifndef KEEP_LOGS
+    remove(f1->FileName().c_str());
+  #endif
 }

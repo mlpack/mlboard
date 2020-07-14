@@ -58,7 +58,7 @@ int main(int argc, char** argv)
   #if defined(_WIN32)
       _mkdir("_templogs");
   #else 
-      mkdir("_templogs",0777);
+      mkdir("_templogs", 0777);
   #endif
 
   int testStatus = Catch::Session().run(argc, argv);

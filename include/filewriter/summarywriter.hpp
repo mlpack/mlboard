@@ -33,6 +33,7 @@ class SummaryWriter
                      int step,
                      double value,
                      Filewriter& fw);
+
   /**
    * A function to create a text summary.
    * 

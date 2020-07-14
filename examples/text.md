@@ -14,10 +14,10 @@ A text value could be logged using the following API:
 void SummaryWriter<Filewriter>::Text(const std::string &tag,
                                      int step,
                                      const std::string& text,
-                                     Filewriter& fw)
+                                     mlboard::Filewriter& fw)
 ```
 
-The API accepts `tag`, `step`, `value` (String value) and `Filewriter` object.
+The API accepts `tag`, `step`, `value` (String value) and `mlboard::Filewriter` object.
 
 Following is a snippet that would log some text values.
 
