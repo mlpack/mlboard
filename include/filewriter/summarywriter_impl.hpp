@@ -73,6 +73,36 @@ void SummaryWriter<Filewriter>::Embedding(
     fw.CreateEvent(1, summary);
 }
 
+template<typename Filewriter>
+void SummaryWriter<Filewriter>::Embedding(
+      const std::string& tensorName,
+      const arma::mat& tensordata,
+      const std::vector<std::string> &metadata,
+      Filewriter& fw,
+      const std::string& tensordataPath,
+      const std::string& metadataPath)
+{
+  mlpack::data::Save(tensordataPath, tensordata);
+  if (metadata.size() > 0)
+  {
+    if (metadata.size() != tensor.size())
+    {
+        throw std::runtime_error("tensor size != metadata size");
+    }
+    ofstream metadataFile(metadataPath);
+    if (!metadataFile.is_open())
+    {
+        throw std::runtime_error("failed to open metadata file " +
+        metadataPath);
+    }
+    for (const auto &meta : metadata) metadataFile << meta << endl;
+    metadataFile.close();
+  }
+  std::vector<size_t> tensor_shape = {tensordata.n_rows, tensordata.n_cols};
+  return Embedding(tensor_name, tensordataPath, metadataPath,
+                        tensor_shape);
+
+}
 } // namespace mlboard
 
 #endif

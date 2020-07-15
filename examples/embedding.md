@@ -1,0 +1,59 @@
+## Logging Embedding
+
+These examples help you to understand `SummaryWriter::Embedding()` API in depth.
+
+### 0. API 
+
+  1. [Log Embedding](#1-embedding)
+  2. [Log multiple images stored in arma::mat](#2-embedding-arma-mat)
+
+### 1. Embedding
+
+A embedding could be logged using the following API:
+
+```cpp
+void Embedding(const std::string &tensorName,
+               const std::string &tensordataPath,
+               Filewriter& fw,
+               const std::string &metadataPath,
+               const std::vector<size_t> &tensorShape);
+```
+
+The API accepts `tag`, `step`, `value` (String value) and `mlboard::Filewriter` object.
+
+Following is a snippet that would log some text values.
+
+```cpp
+#include <mlboard/mlboard.hpp>
+#include <iostream>
+#include <chrono> 
+#include <ctime> 
+#include <future>
+int main()
+{
+  // Creating a FileWriter object that is responsible for logging the summary.
+  std::chrono::time_point<std::chrono::system_clock> start, end; 
+  start = std::chrono::system_clock::now(); 
+  mlboard::FileWriter f1("temp");
+  // Log embedding.
+  // Make sure the path are relative to the log directory.
+  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab",
+       "../examples/assets/vecs.tsv",f1,"../examples/assets/meta.tsv");
+  
+  // This will allow you to indicate that you have logged all your data.
+  f1.Close();
+  end = std::chrono::system_clock::now(); 
+  std::chrono::duration<double> elapsed_seconds = end - start; 
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+  std::cout << "finished computation at " << std::ctime(&end_time) 
+            << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
+}
+```
+
+The output would be similar to:
+
+<p>
+<img src = "assets/embedding.jpg" width = "800" height = "400"/>
+</p>
+
+### 2. Embedding Arma Mat

@@ -35,11 +35,17 @@ class SummaryWriter
                      int step,
                      double value,
                      Filewriter& fw);
-  static void Embedding(const std::string &tensorName,
-                        const std::string &tensordataPath,
+  static void Embedding(const std::string& tensorName,
+                        const std::string& tensordataPath,
                         Filewriter& fw,
-                        const std::string &metadataPath = "",
-                        const std::vector<size_t> &tensorShape = std::vector<size_t>());
+                        const std::string& metadataPath = "",
+                        const std::vector<size_t>& tensorShape = std::vector<size_t>());
+  static void Embedding(const std::string& tensorName,
+                        const arma::mat& tensordata,
+                        const std::vector<std::string>& metadata,
+                        Filewriter& fw,
+                        const std::string& tensordataPath = "",
+                        const std::string& metadataPath = "");
 
 };
 
