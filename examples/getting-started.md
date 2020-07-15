@@ -2,12 +2,12 @@
 
 To generate summary data you can make use of `FileWriter` class and `SummaryWriter` class.
 
-For creating a summary, you have to call the specific summary type function from `SummaryWriter` class, for example to log a scaler summary you can call the scaler function as:
+For creating a summary, you have to call the specific summary type function from `SummaryWriter` class, for example to log a scalar summary you can call the scalar function as:
 `mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, filewriterobject);`. 
 
 Irrespective of the summary type, you always have to pass the filewriter object that is responsible for first creating events using this summary and then putting that into a queue and then finally writing those events into the file through the logger, which is running asynchronously.
 
-Following is a snippet that would log scaler for 4 steps in temp directory.
+Following is a snippet that would log scalar for 4 steps in temp directory.
 
 You can compile the following snippet using : `g++ main.cpp -lproto -lprotobuf -lpthread` 
 
@@ -50,9 +50,9 @@ int main()
 }
 ```
 
-You can then use tensorboard to visualize the scaler by using a simple command: `tensorboard --logdir .`
+You can then use tensorboard to visualize the scalar by using a simple command: `tensorboard --logdir .`
 
-The above snippet of code would print the time taken for the scaler to log.
+The above snippet of code would print the time taken for the scalar to log.
 
 ```
 elapsed time: 44.6872s

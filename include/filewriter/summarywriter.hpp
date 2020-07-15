@@ -23,11 +23,11 @@ class SummaryWriter
 {
  public:
   /**
-   * A function to create a scaler summary.
+   * A function to create a scalar summary.
    * 
-   * @param tag Tag to uniquely identify the scaler type.
-   * @param step The step at which scaler was logged.
-   * @param value Scaler value to be logged.
+   * @param tag Tag to uniquely identify the scalar type.
+   * @param step The step at which scalar was logged.
+   * @param value scalar value to be logged.
    * @param fw Filewriter object.
    */
   static void Scalar(const std::string& tag,
@@ -39,7 +39,7 @@ class SummaryWriter
    * A function to create an image summary.
    * 
    * @param tag Tag to uniquely identify the image type.
-   * @param step The step at which scaler was logged.
+   * @param step The step at which scalar was logged.
    * @param encodedImage Image encoded in string datatype.
    * @param height Height of image.
    * @param width Width of image.
@@ -62,7 +62,7 @@ class SummaryWriter
    * A overloaded function to create multiple image summary.
    * 
    * @param tag Tag to uniquely identify the image type.
-   * @param step The step at which scaler was logged.
+   * @param step The step at which scalar was logged.
    * @param encodedImages A vector of Images encoded in string datatype.
    * @param height Height of image.
    * @param width Width of image.
@@ -93,7 +93,7 @@ class SummaryWriter
    * sizes.
    * 
    * @param tag Tag to uniquely identify the image type.
-   * @param step The step at which scaler was logged.
+   * @param step The step at which scalar was logged.
    * @param matrix Matrix which holds the information about images.
    * @param height Height of image.
    * @param width Width of image.

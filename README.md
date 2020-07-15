@@ -84,7 +84,7 @@ If you wish to keep the logs generated while running the test, you could compile
 
 Following are the Summary types you could log using mlboard:
 
-- [Scaler Summary](examples/scaler.md)
+- [Scalar Summary](examples/scalar.md)
 - [Image Summary](examples/image.md)
 
 ### 3. Usage
