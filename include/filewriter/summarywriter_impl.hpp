@@ -194,12 +194,12 @@ void SummaryWriter<Filewriter>::Embedding(
         throw std::runtime_error("failed to open metadata file " +
         metadataPath);
     }
-    for (const auto &meta : metadata) metadataFile << meta << endl;
+    for (const std::string& meta : metadata)
+      metadataFile << meta << endl;
     metadataFile.close();
   }
   std::vector<size_t> tensor_shape = {tensordata.n_rows, tensordata.n_cols};
-  return Embedding(tensor_name, tensordataPath, metadataPath,
-                        tensor_shape);
+  Embedding(tensor_name, tensordataPath, metadataPath, tensor_shape);
 
 }
 } // namespace mlboard
