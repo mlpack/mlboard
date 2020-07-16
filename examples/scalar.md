@@ -1,6 +1,6 @@
 ## Logging Scalar Values 
 
-These examples help you to understand SummaryWriter::scalar API in depth.
+These examples help you to understand `mlboard::SummaryWriter::scalar()` API in depth.
 
 ### 0. API 
 

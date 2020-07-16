@@ -3,6 +3,7 @@
 To generate summary data you can make use of `FileWriter` class and `SummaryWriter` class.
 
 For creating a summary, you have to call the specific summary type function from `SummaryWriter` class, for example to log a scalar summary you can call the scalar function as:
+
 `mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, filewriterobject);`. 
 
 Irrespective of the summary type, you always have to pass the filewriter object that is responsible for first creating events using this summary and then putting that into a queue and then finally writing those events into the file through the logger, which is running asynchronously.

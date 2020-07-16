@@ -27,7 +27,7 @@ class SummaryWriter
    * 
    * @param tag Tag to uniquely identify the scalar type.
    * @param step The step at which scalar was logged.
-   * @param value scalar value to be logged.
+   * @param value Scalar value to be logged.
    * @param fw Filewriter object.
    */
   static void Scalar(const std::string& tag,
@@ -46,7 +46,7 @@ class SummaryWriter
    * @param channel Channel of image.
    * @param fw Filewriter object.
    * @param displayName Metadata for displaying Name of image.
-   * @param desctiption Metadata for description of image.
+   * @param description Metadata for the description of the image.
    */
   static void Image(const std::string& tag,
                     int step,
