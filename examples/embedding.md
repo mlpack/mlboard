@@ -19,9 +19,9 @@ void Embedding(const std::string &tensorName,
                const std::vector<size_t> &tensorShape);
 ```
 
-The API accepts `tag`, `step`, `value` (String value) and `mlboard::Filewriter` object.
+The API accepts `tensorName`, `tensordataPath`, `mlboard::Filewriter` object and option values such as `metadataPath` and `tensorShape`.
 
-Following is a snippet that would log some text values.
+Following is a snippet that would log some embedding values.
 
 ```cpp
 #include <mlboard/mlboard.hpp>
@@ -57,3 +57,53 @@ The output would be similar to:
 </p>
 
 ### 2. Embedding Arma Mat
+
+You could log embedding values stored in `arma::mat` using the following api:
+
+```cpp
+void Embedding(const std::string& tensorName,
+               const arma::mat& tensorData,
+               const std::vector<std::string>& metadata,
+               Filewriter& fw,
+               std::string tensordataPath = "",
+               std::string metadataPath = "");
+```
+
+Following is a snippet that would log some embedding values stored in `arma::mat`.
+
+```cpp
+#include <mlboard/mlboard.hpp>
+#include <iostream>
+#include <chrono> 
+#include <ctime> 
+#include <future>
+int main()
+{
+  // Creating a FileWriter object that is responsible for logging the summary.
+  std::chrono::time_point<std::chrono::system_clock> start, end; 
+  start = std::chrono::system_clock::now(); 
+  mlboard::FileWriter f1("temp");
+  // Log embedding.
+  arma::mat temp;
+  mlpack::data::Load("./examples/assets/vecs.tsv", temp);
+  std::cout<<"rows"<<temp.n_rows<<" "<<temp.n_cols<<std::endl;
+  vector<string> meta;
+  std::string line;
+  ifstream meta_file("./examples/assets/meta.tsv");
+  while (getline(meta_file, line))
+  {
+    meta.push_back(line);
+  }
+  meta_file.close();
+
+  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp, meta, f1);
+  
+  // This will allow you to indicate that you have logged all your data.
+  f1.Close();
+  end = std::chrono::system_clock::now(); 
+  std::chrono::duration<double> elapsed_seconds = end - start; 
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end); 
+  std::cout << "finished computation at " << std::ctime(&end_time) 
+            << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
+}
+```

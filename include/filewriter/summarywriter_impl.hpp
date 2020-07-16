@@ -178,29 +178,38 @@ void SummaryWriter<Filewriter>::Embedding(
       const arma::mat& tensordata,
       const std::vector<std::string> &metadata,
       Filewriter& fw,
-      const std::string& tensordataPath,
-      const std::string& metadataPath)
+      std::string tensordataPath,
+      std::string metadataPath)
 {
+  // Deafult file name
+  if(tensordataPath == "")
+    tensordataPath = "tensor.tsv";
+  if(metadataPath == "")
+    metadataPath = "meta.tsv";
   mlpack::data::Save(tensordataPath, tensordata);
   if (metadata.size() > 0)
   {
-    if (metadata.size() != tensor.size())
+    if (metadata.size() != tensordata.n_cols)
     {
         throw std::runtime_error("tensor size != metadata size");
     }
-    ofstream metadataFile(metadataPath);
+    std::ofstream metadataFile(metadataPath);
     if (!metadataFile.is_open())
     {
         throw std::runtime_error("failed to open metadata file " +
         metadataPath);
     }
     for (const std::string& meta : metadata)
-      metadataFile << meta << endl;
+      metadataFile << meta << std::endl;
     metadataFile.close();
   }
   std::vector<size_t> tensor_shape = {tensordata.n_rows, tensordata.n_cols};
-  Embedding(tensor_name, tensordataPath, metadataPath, tensor_shape);
-
+  // default path should be relative to logdir
+  if(tensordataPath == "")
+    tensordataPath = "../tensor.tsv";
+  if(metadataPath == "")
+    metadataPath = "../meta.tsv";
+  Embedding(tensorName, tensordataPath,fw, metadataPath, tensor_shape);
 }
 } // namespace mlboard
 
