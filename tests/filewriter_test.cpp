@@ -3,7 +3,7 @@
  * @author Jeffin Sam
  */
 #include "catch.hpp"
-#include <mlboard/mlboard.hpp>
+#include <mlboard/core.hpp>
 #include <sstream>
 #include <cstdio>
 #include <sys/stat.h>

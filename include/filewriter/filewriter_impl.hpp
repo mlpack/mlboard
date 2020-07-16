@@ -1,11 +1,16 @@
 /**
- * @file filewriter_impl.hpp
+ * @file filewriter/filewriter_impl.hpp
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_FILE_WRITER_IMPL_HPP
 #define MLBOARD_FILE_WRITER_IMPL_HPP
 
 #include "filewriter.hpp"
+
+#ifdef _WIN32
+  #include <io.h>
+  #include <direct.h>
+#endif
 
 namespace mlboard {
 
@@ -91,6 +96,36 @@ inline FileWriter::~FileWriter()
 {
   if (close_)
     Close();
+
+  std::regex regExp("(_preprocess)(.*)");
+
+  // Delete all the directories created during processing.
+  struct dirent *entry;
+  DIR *dir = opendir("./");
+
+  if (dir == NULL)
+  {
+    return;
+  }
+  while ((entry = readdir(dir)) != NULL)
+  {
+    if (entry->d_name != "." && entry->d_name != ".."
+      && std::regex_match(entry->d_name, regExp) == true)
+    {
+      int status;
+      #if defined(_WIN32)
+        status = _rmdir(entry->d_name);
+      #else
+        status = rmdir(entry->d_name);
+      #endif
+      if (status == -1)
+      {
+        std::cout << "Error while removing temp directory: " << entry->d_name
+            << std::endl;
+      }
+    }
+  }
+  closedir(dir);
 }
 
 } // namespace mlboard
