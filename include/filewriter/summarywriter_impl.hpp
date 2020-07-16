@@ -122,6 +122,110 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
     remove(fileNames[i].c_str());
 }
 
+template<typename Filewriter>
+void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
+                                        const std::vector<double>& labels,
+                                        const std::vector<double>& predictions,
+                                        Filewriter& fw,
+                                        int threshold,
+                                        std::vector<double>weights,
+                                        const std::string& displayName,
+                                        const std::string& description)
+{
+    // Pr plugin
+    mlboard::PrCurvePluginData *pr_curve_plugin = new PrCurvePluginData();
+    pr_curve_plugin->set_version(0);
+    pr_curve_plugin->set_num_thresholds(threshold);
+    std::string pr_curve_content;
+    pr_curve_plugin->SerializeToString(&pr_curve_content);
+
+    // PluginMeta data
+    mlboard::SummaryMetadata_PluginData *plugin_data =
+        new SummaryMetadata::PluginData();
+    plugin_data->set_plugin_name("pr_curves");
+    plugin_data->set_content(pr_curve_content);
+
+    // Summary Meta data
+    mlboard::SummaryMetadata *meta = new SummaryMetadata();
+    meta->set_display_name(displayName == "" ? tag : displayName);
+    meta->set_summary_description(description);
+    meta->set_allocated_plugin_data(plugin_data);
+
+    // misbheaves when thresholds is greater than 127
+    threshold = std::min(threshold,127);
+    double min_count = 1e-7;
+    std::vector<std::vector<double>> data;
+    while (weights.size()<labels.size())
+    {
+        weights.push_back(1.0);
+    }
+    std::vector<double>edges;
+    mlboard::util::histogramEdges({0, (double)threshold - 1},
+      threshold, edges);
+    std::vector<double> tp(edges.size(), 0), fp(edges.size(), 0);
+    
+    for (size_t i = 0; i < labels.size(); ++i)
+    {
+        float v = labels[i];
+        int item = predictions[i] * (threshold -1);
+        auto lb =
+            lower_bound(edges.begin(), edges.end(), item);
+        if(*lb != item)
+            lb--;        
+        tp[lb - edges.begin()] = tp[lb - edges.begin()] + (v * weights[i]);
+        fp[lb - edges.begin()] = fp[lb - edges.begin()] + ((1 - v) * weights[i]);
+        
+    }
+
+    // Reverse cummulative sum 
+    for(int i = tp.size() - 2; i >= 0 ;i--)
+    {
+        tp[i] = tp[i] + tp[i+1];
+        fp[i] = fp[i] + fp[i+1];
+    }
+    std::vector<double> tn(tp.size()), fn(tp.size()), precision(tp.size()), recall(tp.size());
+    for(size_t i = 0; i < tp.size() ;i++)
+    {
+        fn[i] = tp[0] - tp[i];
+        tn[i] = fp[0] - fp[i];
+        precision[i] = tp[i] / std::max(min_count, tp[i] + fp[i]);
+        recall[i] = tp[i] / std::max(min_count, tp[i] + fn[i]);
+    }
+    data.push_back(tp);
+    data.push_back(fp);
+    data.push_back(tn);
+    data.push_back(fn);
+    data.push_back(precision);
+    data.push_back(recall);
+
+
+    // Prepare Tensor
+    mlboard::TensorShapeProto *tensorshape = new TensorShapeProto();
+    mlboard::TensorShapeProto_Dim *rowdim = tensorshape->add_dim();
+    rowdim->set_size(data.size());
+    mlboard::TensorShapeProto_Dim *coldim = tensorshape->add_dim();
+    coldim->set_size(data[0].size());   
+    mlboard::TensorProto *tensor = new TensorProto();
+    tensor->set_dtype(mlboard::DataType::DT_DOUBLE);
+    tensor->set_allocated_tensor_shape(tensorshape);
+    for(int i = 0; i < data.size(); i++)
+    {
+        for(int j = 0;j < data[0].size(); j++)
+        {
+            tensor->add_double_val(data[i][j]);
+        }
+    }
+
+    mlboard::Summary *summary = new Summary();
+    mlboard::Summary_Value *v = summary->add_value();
+    v->set_tag(tag);
+    v->set_allocated_tensor(tensor);
+    v->set_allocated_metadata(meta);
+
+    fw.CreateEvent(0, summary);
+
+}
+
 } // namespace mlboard
 
 #endif

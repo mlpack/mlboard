@@ -111,6 +111,15 @@ class SummaryWriter
                     Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
+
+  static void PrCurve(const std::string tag,
+                      const std::vector<double>& labels,
+                      const std::vector<double>& predictions,
+                      Filewriter& fw,
+                      int threshold = 127,
+                      std::vector<double>weights = {},
+                      const std::string& displayName = "",
+                      const std::string& description = "");
 };
 
 } // namespace mlboard

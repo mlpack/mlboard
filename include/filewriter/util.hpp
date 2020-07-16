@@ -19,6 +19,11 @@ namespace util {
 void EncodeImage(std::vector<std::string>& filePaths,
                  std::vector<std::string>& encodedImages);
 
+
+void histogramEdges(const std::vector<double>& range,
+               size_t countofBins,
+               std::vector<double>& edges);
+
 } // namespace util
 } // namespace mlboard
 
