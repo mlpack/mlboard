@@ -1,5 +1,5 @@
 /**
- * @file filewriter_impl.hpp
+ * @file filewriter/filewriter_impl.hpp
  * @author Jeffin Sam
  */
 #ifndef MLBOARD_FILE_WRITER_IMPL_HPP
@@ -7,12 +7,17 @@
 
 #include "filewriter.hpp"
 
+#ifdef _WIN32
+  #include <io.h>
+  #include <direct.h>
+#endif
+
 namespace mlboard {
 
 
-FileWriter::FileWriter(std::string logdir,
-                       int maxQueueSize,
-                       std::size_t flushmilis)
+inline FileWriter::FileWriter(std::string logdir,
+                              int maxQueueSize,
+                              std::size_t flushmilis)
 {
   const auto p1 = std::chrono::system_clock::now();
   std::string currentTime =
@@ -31,7 +36,7 @@ FileWriter::FileWriter(std::string logdir,
       std::ios::trunc | std::ios::binary);
 }
 
-void FileWriter::WriteSummary()
+inline void FileWriter::WriteSummary()
 {
   // This is a thread that will continously write summary one by one into file.
   while (true)
@@ -65,32 +70,62 @@ void FileWriter::WriteSummary()
   }
 }
 
-void FileWriter::CreateEvent(size_t step, mlboard::Summary *summary)
+inline void FileWriter::CreateEvent(size_t step, mlboard::Summary *summary)
 {
-    Event event;
-    double wall_time = time(nullptr);
-    event.set_wall_time(wall_time);
-    event.set_step(step);
-    event.set_allocated_summary(summary);
-    q.Push(event);
+  Event event;
+  double wall_time = time(nullptr);
+  event.set_wall_time(wall_time);
+  event.set_step(step);
+  event.set_allocated_summary(summary);
+  q.Push(event);
 }
 
-void FileWriter::Flush()
+inline void FileWriter::Flush()
 {
   // Flush everything successfully and close the thread.
   thread_->join();
 }
 
-void FileWriter::Close()
+inline void FileWriter::Close()
 {
   close_ = false;
   Flush();
 }
 
-FileWriter::~FileWriter()
+inline FileWriter::~FileWriter()
 {
   if (close_)
     Close();
+
+  std::regex regExp("(_preprocess)(.*)");
+
+  // Delete all the directories created during processing.
+  struct dirent *entry;
+  DIR *dir = opendir("./");
+
+  if (dir == NULL)
+  {
+    return;
+  }
+  while ((entry = readdir(dir)) != NULL)
+  {
+    if (entry->d_name != "." && entry->d_name != ".."
+      && std::regex_match(entry->d_name, regExp) == true)
+    {
+      int status;
+      #if defined(_WIN32)
+        status = _rmdir(entry->d_name);
+      #else
+        status = rmdir(entry->d_name);
+      #endif
+      if (status == -1)
+      {
+        std::cout << "Error while removing temp directory: " << entry->d_name
+            << std::endl;
+      }
+    }
+  }
+  closedir(dir);
 }
 
 } // namespace mlboard

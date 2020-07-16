@@ -51,11 +51,21 @@ void removeTempDirs()
 
 int main(int argc, char** argv)
 {
+  #if defined(_WIN32)
+      _mkdir("_templogs");
+  #else 
+      mkdir("_templogs", 0777);
+  #endif
+
   std::cout << "Start testing " << std::endl;
+
 
   int testStatus = Catch::Session().run(argc, argv);
 
-  removeTempDirs();
+  #ifndef KEEP_TEST_LOGS
+    removeTempDirs();
+  #endif
+
 
   return testStatus;
 }

@@ -1,3 +1,6 @@
+#ifndef MLBOARD_CORE_HPP
+#define MLBOARD_CORE_HPP
+
 #include <cmath>
 #include <utility>
 #include <iostream>
@@ -14,3 +17,17 @@
 #include <cstdint>
 #include <cstring>
 #include <future> // NOLINT
+#include <cstdio>
+#include <mlpack/core.hpp>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <regex> // NOLINT
+#include <mlboard/mlboard.hpp>
+
+// For windows rmdir.
+#ifdef _WIN32
+  #include <io.h>
+  #include <direct.h>
+#endif
+
+#endif
