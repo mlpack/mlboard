@@ -45,7 +45,6 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a Image summary to file", "
 TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a scaler summary to file",
                  "[SummaryWriter]")
 {	
-  f1 = new mlboard::FileWriter("_templogs");
   for (int i = 1; i < 25; i++)
   {
     mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("scalerSample_1",
