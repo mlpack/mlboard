@@ -10,6 +10,7 @@ mlboard is still in the development phase. You can track the development ideas [
   1. [Building mlboard from source](#1-building-the-source-code)
   2. [Supported Summary Types](#2-supported-summary-types)
   3. [Usage](examples/getting-started.md)
+  4. [Faq](examples/faq.md)
 
 ### 1. Building the source code 
 
