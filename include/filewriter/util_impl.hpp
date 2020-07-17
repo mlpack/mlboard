@@ -40,8 +40,6 @@ inline void histogramEdges(const std::vector<double>& range,
             value = value + width;
         }
 }
-
-
 } // namespace util
 } // namespace mlboard
 
