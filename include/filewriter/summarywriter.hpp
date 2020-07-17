@@ -112,12 +112,49 @@ class SummaryWriter
                     const std::string& displayName = "",
                     const std::string& description = "");
 
+  /**
+   * A function to create a prcurve summary.
+   * 
+   * @param tag Tag to uniquely identify the scalar type.
+   * @param labels Vector of ground truth values
+   * @param predictions Vector of predictions.
+   * @param fw Filewriter object.
+   * @param threshold Number of thresholds.
+   * @param weights Vector having the weights of labels,
+   *    Individual counts are multiplied by this value.
+   * @param displayName Optional name for this summary.
+   * @param description Optional long-form description for this summary.
+   */
   static void PrCurve(const std::string tag,
                       const std::vector<double>& labels,
                       const std::vector<double>& predictions,
                       Filewriter& fw,
                       int threshold = 127,
                       std::vector<double>weights = {},
+                      const std::string& displayName = "",
+                      const std::string& description = "");
+
+  /**
+   * An overloaded function to create a prcurve summary using arma
+   * vec type, Either rowvec or colvec.
+   * 
+   * @param tag Tag to uniquely identify the scalar type.
+   * @param labels Ground truth values of arma::vec type.
+   * @param predictions arma::vec of predictions.
+   * @param fw Filewriter object.
+   * @param threshold Number of thresholds.
+   * @param weights Arma::vec having the weights of labels,
+   *    Individual counts are multiplied by this value.
+   * @param displayName Optional name for this summary.
+   * @param description Optional long-form description for this summary.
+   */
+  template<typename vecType>
+  static void PrCurve(const std::string tag,
+                      const vecType& labels,
+                      const vecType& predictions,
+                      Filewriter& fw,
+                      int threshold = 127,
+                      vecType weights = {},
                       const std::string& displayName = "",
                       const std::string& description = "");
 };

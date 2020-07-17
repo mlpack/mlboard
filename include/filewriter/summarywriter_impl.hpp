@@ -223,7 +223,25 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
     v->set_allocated_metadata(meta);
 
     fw.CreateEvent(0, summary);
+}
 
+template<typename Filewriter>
+template<typename vecType>
+void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
+                                        const vecType& labels,
+                                        const vecType& predictions,
+                                        Filewriter& fw,
+                                        int threshold,
+                                        vecType weights,
+                                        const std::string& displayName,
+                                        const std::string& description)
+{
+  std::vector<double>convLables(labels.memptr(), labels.memptr() + labels.n_elem);
+  std::vector<double>convPredictions(predictions.memptr(),
+      predictions.memptr() + predictions.n_elem);
+  std::vector<double>convWeights(weights.memptr(), weights.memptr() + weights.n_elem);
+  PrCurve(tag, convLables, convPredictions, fw, threshold, convWeights,
+      displayName, description);
 }
 
 } // namespace mlboard
