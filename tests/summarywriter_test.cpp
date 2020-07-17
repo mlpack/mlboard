@@ -54,6 +54,20 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a scaler summary to file",
 }
 
 /**
+ * Test the PRCurve summary.
+ */
+TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a PrCurve summary to file",
+                 "[SummaryWriter]")
+{	
+  std::vector<double> labels = {1 ,1, 1, 1, 1 ,1 ,1 ,1 ,0 ,1};
+  std::vector<double> predictions = {0.6458941 , 0.3843817, 0.4375872,
+      0.2975346, 0.891773, 0.05671298, 0.96366274, 0.2726563,
+      0.3834415,0.47766513};
+  mlboard::SummaryWriter<mlboard::FileWriter>::PrCurve("test_pr_curve",
+      labels, predictions, *f1);
+}
+
+/**
  * Test multiple Image summary.
  */
 TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to file",
