@@ -49,6 +49,7 @@ void SummaryWriter<Filewriter>::Text(const std::string &tag,
 
   fw.CreateEvent(step, summary);
 }
+
 template<typename Filewriter>
 void SummaryWriter<Filewriter>::Image(const std::string& tag,
                                       int step,
