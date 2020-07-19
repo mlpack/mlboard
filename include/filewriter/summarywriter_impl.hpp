@@ -133,29 +133,29 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
                                         const std::string& description)
 {
     // Pr plugin
-    mlboard::PrCurvePluginData *pr_curve_plugin = new PrCurvePluginData();
-    pr_curve_plugin->set_version(0);
-    pr_curve_plugin->set_num_thresholds(threshold);
+    mlboard::PrCurvePluginData *prCurvePlugin = new PrCurvePluginData();
+    prCurvePlugin->set_version(0);
+    prCurvePlugin->set_num_thresholds(threshold);
     std::string pr_curve_content;
-    pr_curve_plugin->SerializeToString(&pr_curve_content);
+    prCurvePlugin->SerializeToString(&pr_curve_content);
 
     // PluginMeta data
-    mlboard::SummaryMetadata_PluginData *plugin_data =
+    mlboard::SummaryMetadata_PluginData *pluginData =
         new SummaryMetadata::PluginData();
-    plugin_data->set_plugin_name("pr_curves");
-    plugin_data->set_content(pr_curve_content);
+    pluginData->set_plugin_name("pr_curves");
+    pluginData->set_content(pr_curve_content);
 
     // Summary Meta data
-    mlboard::SummaryMetadata *meta = new SummaryMetadata();
-    meta->set_display_name(displayName == "" ? tag : displayName);
-    meta->set_summary_description(description);
-    meta->set_allocated_plugin_data(plugin_data);
+    mlboard::SummaryMetadata *metaData = new SummaryMetadata();
+    metaData->set_display_name(displayName == "" ? tag : displayName);
+    metaData->set_summary_description(description);
+    metaData->set_allocated_plugin_data(plugin_data);
 
     // misbheaves when thresholds is greater than 127
-    threshold = std::min(threshold,127);
-    double min_count = 1e-7;
+    threshold = (std::min)(threshold, 127);
+    double minCount = 1e-7;
     std::vector<std::vector<double>> data;
-    while (weights.size()<labels.size())
+    while (weights.size() < labels.size())
     {
         weights.push_back(1.0);
     }
@@ -170,6 +170,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
         int item = predictions[i] * (threshold -1);
         auto lb =
             lower_bound(edges.begin(), edges.end(), item);
+        // Include the exact number in previous bucket
         if(*lb != item)
             lb--;        
         tp[lb - edges.begin()] = tp[lb - edges.begin()] + (v * weights[i]);
@@ -183,13 +184,14 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
         tp[i] = tp[i] + tp[i+1];
         fp[i] = fp[i] + fp[i+1];
     }
-    std::vector<double> tn(tp.size()), fn(tp.size()), precision(tp.size()), recall(tp.size());
+    std::vector<double> tn(tp.size()), fn(tp.size()),
+        precision(tp.size()), recall(tp.size());
     for(size_t i = 0; i < tp.size() ;i++)
     {
         fn[i] = tp[0] - tp[i];
         tn[i] = fp[0] - fp[i];
-        precision[i] = tp[i] / std::max(min_count, tp[i] + fp[i]);
-        recall[i] = tp[i] / std::max(min_count, tp[i] + fn[i]);
+        precision[i] = tp[i] / (std::max)(minCount, tp[i] + fp[i]);
+        recall[i] = tp[i] / (std::max)(minCount, tp[i] + fn[i]);
     }
     data.push_back(tp);
     data.push_back(fp);
@@ -217,10 +219,10 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
     }
 
     mlboard::Summary *summary = new Summary();
-    mlboard::Summary_Value *v = summary->add_value();
-    v->set_tag(tag);
-    v->set_allocated_tensor(tensor);
-    v->set_allocated_metadata(meta);
+    mlboard::Summary_Value *value = summary->add_value();
+    value->set_tag(tag);
+    value->set_allocated_tensor(tensor);
+    value->set_allocated_metadata(meta);
 
     fw.CreateEvent(0, summary);
 }
