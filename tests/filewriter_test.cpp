@@ -1,5 +1,5 @@
 /**
- * @file test/filewriter_test.cpp
+ * @file tests/filewriter_test.cpp
  * @author Jeffin Sam
  */
 #include "catch.hpp"

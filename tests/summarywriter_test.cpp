@@ -1,5 +1,5 @@
 /**
- * @file test/summarywriter_test.cpp
+ * @file tests/summarywriter_test.cpp
  * @author Jeffin Sam
  */
 #include "catch.hpp"
@@ -13,11 +13,12 @@
     #include <direct.h>
 #endif
 
-class SummaryWriterTestsFixture {
+class SummaryWriterTestsFixture 
+{
  public:
   static mlboard::FileWriter* f1;
   static size_t currentSize;
- };
+};
 
 mlboard::FileWriter* SummaryWriterTestsFixture::f1;
 size_t SummaryWriterTestsFixture::currentSize = 0;
@@ -59,7 +60,7 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing text summary to file",
                  "[SummaryWriter]")
 {	
   mlboard::SummaryWriter<mlboard::FileWriter>::Text("add Text support ", 1,
-      "mlpack is great", *f1);
+      "Test case for checking text support in mlboard.", *f1);
   mlboard::SummaryWriter<mlboard::FileWriter>::Text("add Text support", 2,
       " Project developed during GSoc 2020 ", *f1);
 }
@@ -88,4 +89,3 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to 
     remove(f1->FileName().c_str());
   #endif
 }
-
