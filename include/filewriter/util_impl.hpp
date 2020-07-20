@@ -32,7 +32,7 @@ inline void histogramEdges(const std::vector<double>& range,
 {
         edges.clear();
         double value = range[0];
-        double width = (range[1] - range[0]) / countofBins ;
+        double width = (range[1] - range[0]) / countofBins;
         if (width == 0)
             width = 1;
         while (value <= range[1]) {

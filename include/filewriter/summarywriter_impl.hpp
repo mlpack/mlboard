@@ -149,7 +149,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
     mlboard::SummaryMetadata *metaData = new SummaryMetadata();
     metaData->set_display_name(displayName == "" ? tag : displayName);
     metaData->set_summary_description(description);
-    metaData->set_allocated_plugin_data(plugin_data);
+    metaData->set_allocated_plugin_data(pluginData);
 
     // misbheaves when thresholds is greater than 127
     threshold = (std::min)(threshold, 127);
@@ -163,7 +163,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
     mlboard::util::histogramEdges({0, (double)threshold - 1},
       threshold, edges);
     std::vector<double> tp(edges.size(), 0), fp(edges.size(), 0);
-    
+
     for (size_t i = 0; i < labels.size(); ++i)
     {
         float v = labels[i];
@@ -171,22 +171,22 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
         auto lb =
             lower_bound(edges.begin(), edges.end(), item);
         // Include the exact number in previous bucket
-        if(*lb != item)
-            lb--;        
+        if (*lb != item)
+            lb--;
         tp[lb - edges.begin()] = tp[lb - edges.begin()] + (v * weights[i]);
-        fp[lb - edges.begin()] = fp[lb - edges.begin()] + ((1 - v) * weights[i]);
-        
+        fp[lb - edges.begin()] = fp[lb - edges.begin()] +
+            ((1 - v) * weights[i]);
     }
 
-    // Reverse cummulative sum 
-    for(int i = tp.size() - 2; i >= 0 ;i--)
+    // Reverse cummulative sum
+    for (int i = tp.size() - 2; i >= 0; i--)
     {
         tp[i] = tp[i] + tp[i+1];
         fp[i] = fp[i] + fp[i+1];
     }
     std::vector<double> tn(tp.size()), fn(tp.size()),
         precision(tp.size()), recall(tp.size());
-    for(size_t i = 0; i < tp.size() ;i++)
+    for (size_t i = 0; i < tp.size(); i++)
     {
         fn[i] = tp[0] - tp[i];
         tn[i] = fp[0] - fp[i];
@@ -200,19 +200,18 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
     data.push_back(precision);
     data.push_back(recall);
 
-
     // Prepare Tensor
     mlboard::TensorShapeProto *tensorshape = new TensorShapeProto();
     mlboard::TensorShapeProto_Dim *rowdim = tensorshape->add_dim();
     rowdim->set_size(data.size());
     mlboard::TensorShapeProto_Dim *coldim = tensorshape->add_dim();
-    coldim->set_size(data[0].size());   
+    coldim->set_size(data[0].size());
     mlboard::TensorProto *tensor = new TensorProto();
     tensor->set_dtype(mlboard::DataType::DT_DOUBLE);
     tensor->set_allocated_tensor_shape(tensorshape);
-    for(int i = 0; i < data.size(); i++)
+    for (int i = 0; i < data.size(); i++)
     {
-        for(int j = 0;j < data[0].size(); j++)
+        for (int j = 0; j < data[0].size(); j++)
         {
             tensor->add_double_val(data[i][j]);
         }
@@ -222,7 +221,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
     mlboard::Summary_Value *value = summary->add_value();
     value->set_tag(tag);
     value->set_allocated_tensor(tensor);
-    value->set_allocated_metadata(meta);
+    value->set_allocated_metadata(metaData);
 
     fw.CreateEvent(0, summary);
 }
@@ -238,10 +237,12 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
                                         const std::string& displayName,
                                         const std::string& description)
 {
-  std::vector<double>convLables(labels.memptr(), labels.memptr() + labels.n_elem);
+  std::vector<double>convLables(labels.memptr(), labels.memptr() +
+      labels.n_elem);
   std::vector<double>convPredictions(predictions.memptr(),
       predictions.memptr() + predictions.n_elem);
-  std::vector<double>convWeights(weights.memptr(), weights.memptr() + weights.n_elem);
+  std::vector<double>convWeights(weights.memptr(), weights.memptr() +
+      weights.n_elem);
   PrCurve(tag, convLables, convPredictions, fw, threshold, convWeights,
       displayName, description);
 }
