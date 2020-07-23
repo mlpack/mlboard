@@ -18,10 +18,23 @@ class SummaryWriterTestsFixture
  public:
   static mlboard::FileWriter* f1;
   static size_t currentSize;
+  static bool deleteLogs;
+  ~SummaryWriterTestsFixture()
+  {
+    if(deleteLogs)
+    {
+      #if defined(_WIN32)
+        _mkdir("_templogs");
+      #else
+        mkdir("_templogs", 0777);
+      #endif
+    }
+  };  
 };
 
 mlboard::FileWriter* SummaryWriterTestsFixture::f1;
 size_t SummaryWriterTestsFixture::currentSize = 0;
+bool SummaryWriterTestsFixture::deleteLogs = false;
 
 /**
  * Test the Image summary.
@@ -71,6 +84,7 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing text summary to file",
 TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to file",
                  "[SummaryWriter]")
 {	
+  deleteLogs = true;
   arma::Mat<unsigned char> matrix;
   mlpack::data::ImageInfo info;
   std::vector<std::string> files = {"./data/single_image.jpg",
