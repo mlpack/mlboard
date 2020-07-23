@@ -19,7 +19,7 @@ class SummaryWriterTestsFixture
   static mlboard::FileWriter* f1;
   static size_t currentSize;
   static bool deleteLogs;
-  ~SummaryWriterTestsFixture()
+  SummaryWriterTestsFixture()
   {
     if(deleteLogs)
     {
@@ -28,13 +28,14 @@ class SummaryWriterTestsFixture
       #else
         mkdir("_templogs", 0777);
       #endif
+      deleteLogs = false;
     }
   };  
 };
 
 mlboard::FileWriter* SummaryWriterTestsFixture::f1;
 size_t SummaryWriterTestsFixture::currentSize = 0;
-bool SummaryWriterTestsFixture::deleteLogs = false;
+bool SummaryWriterTestsFixture::deleteLogs = true;
 
 /**
  * Test the Image summary.
