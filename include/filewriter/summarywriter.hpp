@@ -36,6 +36,19 @@ class SummaryWriter
                      Filewriter& fw);
 
   /**
+   * A function to create a text summary.
+   * 
+   * @param tag Tag to uniquely identify the scaler type.
+   * @param step The step at which scaler was logged.
+   * @param value Text value to be logged.
+   * @param fw Filewriter object.
+   */
+  static void Text(const std::string& tag,
+                   int step,
+                   const std::string& text,
+                   Filewriter& fw);
+
+  /**
    * A function to create an image summary.
    * 
    * @param tag Tag to uniquely identify the image type.

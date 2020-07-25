@@ -1,9 +1,9 @@
 /**
- * @file tests/filewriter_test.cpp
+ * @file tests/summarywriter_test.cpp
  * @author Jeffin Sam
  */
 #include "catch.hpp"
-#include <mlboard/core.hpp>
+#include <mlboard/mlboard.hpp>
 #include <sstream>
 #include <cstdio>
 #include <sys/stat.h>
@@ -13,15 +13,29 @@
     #include <direct.h>
 #endif
 
-class SummaryWriterTestsFixture
+class SummaryWriterTestsFixture 
 {
  public:
   static mlboard::FileWriter* f1;
   static size_t currentSize;
+  static bool deleteLogs;
+  SummaryWriterTestsFixture()
+  {
+    if(deleteLogs)
+    {
+      #if defined(_WIN32)
+        _mkdir("_templogs");
+      #else
+        mkdir("_templogs", 0777);
+      #endif
+      deleteLogs = false;
+    }
+  };  
 };
 
 mlboard::FileWriter* SummaryWriterTestsFixture::f1;
 size_t SummaryWriterTestsFixture::currentSize = 0;
+bool SummaryWriterTestsFixture::deleteLogs = true;
 
 /**
  * Test the Image summary.
@@ -54,11 +68,24 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a scaler summary to file",
 }
 
 /**
+ * Test text summary.
+ */
+TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing text summary to file",
+                 "[SummaryWriter]")
+{	
+  mlboard::SummaryWriter<mlboard::FileWriter>::Text("add Text support ", 1,
+      "Test case for checking text support in mlboard.", *f1);
+  mlboard::SummaryWriter<mlboard::FileWriter>::Text("add Text support", 2,
+      " Project developed during GSoc 2020 ", *f1);
+}
+
+/**
  * Test multiple Image summary.
  */
 TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to file",
                  "[SummaryWriter]")
 {	
+  deleteLogs = true;
   arma::Mat<unsigned char> matrix;
   mlpack::data::ImageInfo info;
   std::vector<std::string> files = {"./data/single_image.jpg",
@@ -77,4 +104,3 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to 
     remove(f1->FileName().c_str());
   #endif
 }
-
