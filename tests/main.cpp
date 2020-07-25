@@ -1,10 +1,13 @@
 /**
- * @file main.cpp
+ * @file tests/main.cpp
  * @author Jeffin Sam
  */
 
 #include <iostream>
 #include <mlboard/core.hpp>
+#include <mlboard/mlboard.hpp>
+#include <cstdio>
+#include <sys/stat.h>
 #include <dirent.h>
 
 //#define CATCH_CONFIG_MAIN  // catch.hpp will define main().
@@ -51,14 +54,7 @@ void removeTempDirs()
 
 int main(int argc, char** argv)
 {
-  #if defined(_WIN32)
-      _mkdir("_templogs");
-  #else 
-      mkdir("_templogs", 0777);
-  #endif
-
   std::cout << "Start testing " << std::endl;
-
 
   int testStatus = Catch::Session().run(argc, argv);
 
