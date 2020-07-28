@@ -151,7 +151,7 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
 }
 
 template<typename Filewriter>
-void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
+void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
                                         const std::vector<double>& labels,
                                         const std::vector<double>& predictions,
                                         Filewriter& fw,
@@ -256,7 +256,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
 
 template<typename Filewriter>
 template<typename vecType>
-void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
+void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
                                         const vecType& labels,
                                         const vecType& predictions,
                                         Filewriter& fw,
