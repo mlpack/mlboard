@@ -186,7 +186,16 @@ void SummaryWriter<Filewriter>::Embedding(
     tensordataPath = "tensor.tsv";
   if(metadataPath == "")
     metadataPath = "meta.tsv";
-  mlpack::data::Save(tensordataPath, tensordata);
+  std::ofstream tensordDataFile(tensordataPath);
+  // mlpack::data::Save(tensordataPath, arma::sp_mat(tensordata));
+  for (size_t i = 0; i < tensordata.n_cols; i++)
+  {
+    for (size_t j = 0; j < tensordata.n_rows; j++)
+    {
+      tensordDataFile << tensordata(j, i) << '\t';
+    }
+    tensordDataFile << "\n";
+  }
   if (metadata.size() > 0)
   {
     if (metadata.size() != tensordata.n_cols)
@@ -205,9 +214,9 @@ void SummaryWriter<Filewriter>::Embedding(
   }
   std::vector<size_t> tensor_shape = {tensordata.n_rows, tensordata.n_cols};
   // default path should be relative to logdir
-  if(tensordataPath == "")
+  if(tensordataPath == "tensor.tsv")
     tensordataPath = "../tensor.tsv";
-  if(metadataPath == "")
+  if(metadataPath == "meta.tsv")
     metadataPath = "../meta.tsv";
   Embedding(tensorName, tensordataPath,fw, metadataPath, tensor_shape);
 }
