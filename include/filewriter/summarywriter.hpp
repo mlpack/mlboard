@@ -116,7 +116,7 @@ class SummaryWriter
    * A function to create a prcurve summary.
    * 
    * @param tag Tag to uniquely identify the scalar type.
-   * @param labels Vector of ground truth values
+   * @param labels Vector of ground truth values.
    * @param predictions Vector of predictions.
    * @param fw Filewriter object.
    * @param threshold Number of thresholds.
@@ -149,7 +149,7 @@ class SummaryWriter
    * @param description Optional long-form description for this summary.
    */
   template<typename vecType>
-  static void PrCurve(const std::string tag,
+  static void PrCurve(const std::string& tag,
                       const vecType& labels,
                       const vecType& predictions,
                       Filewriter& fw,

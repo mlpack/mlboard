@@ -1,13 +1,13 @@
-## Logging PrCurve
+## Logging PR-Curve
 
 These examples help you to understand `SummaryWriter::Prcurve()` API in depth.
 
 ### 0. API 
 
-  1. [Log PrCurve](#1-prcurve)
-  2. [Log Prcurve stored in arma::vec](#2-prcurve-arma-vec)
+  1. [Log PrCurve](#1-pr-curve)
+  2. [Log Prcurve stored in arma::vec](#2-pr-curve-arma-vec)
 
-### 1. PrCurve
+### 1. PR-Curve
 
 A embedding could be logged using the following API:
 
@@ -15,7 +15,7 @@ A embedding could be logged using the following API:
 void PrCurve(const std::string tag,
              const std::vector<double>& labels,
              const std::vector<double>& predictions,
-             Filewriter& fw,
+             mlboard::Filewriter& fw,
              int threshold,
              std::vector<double>weights,
              const std::string& displayName,
@@ -38,11 +38,11 @@ int main()
   std::chrono::time_point<std::chrono::system_clock> start, end; 
   start = std::chrono::system_clock::now(); 
   mlboard::FileWriter f1("temp");
-  // Log prcurve
-  std::vector<double> labels = {1 ,1, 1, 1, 1 ,1 ,1 ,1 ,0 ,1};
-  std::vector<double> predictions = {0.6458941 , 0.3843817, 0.4375872,
+  // Log PR-Curve.
+  std::vector<double> labels = {1, 1, 1, 1, 1, 1, 1, 1, 0, 1};
+  std::vector<double> predictions = {0.6458941, 0.3843817, 0.4375872,
       0.2975346, 0.891773, 0.05671298, 0.96366274, 0.2726563,
-      0.3834415,0.47766513};
+      0.3834415, 0.47766513};
   mlboard::SummaryWriter<mlboard::FileWriter>::PrCurve("test_pr_curve",
       labels, predictions, *f1);
   
@@ -62,15 +62,15 @@ The output would be similar to:
 <img src = "assets/prcurve.jpg" width = "800" height = "400"/>
 </p>
 
-### 2. PrCurve Arma vec
+### 2. PR-Curve Arma vec
 
-You could log prcurve values stored in `arma::vec` using the following api:
+You could log prcurve values stored in `arma::vec` using the following API:
 
 ```cpp
 void PrCurve(const std::string tag,
              const vecType& labels,
              const vecType& predictions,
-             Filewriter& fw,
+             mlboard::Filewriter& fw,
              int threshold,
              vecType weights,
              const std::string& displayName,

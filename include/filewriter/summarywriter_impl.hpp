@@ -132,26 +132,26 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
                                         const std::string& displayName,
                                         const std::string& description)
 {
-    // Pr plugin
+    // Pr plugin.
     mlboard::PrCurvePluginData *prCurvePlugin = new PrCurvePluginData();
     prCurvePlugin->set_version(0);
     prCurvePlugin->set_num_thresholds(threshold);
     std::string pr_curve_content;
     prCurvePlugin->SerializeToString(&pr_curve_content);
 
-    // PluginMeta data
+    // PluginMeta data.
     mlboard::SummaryMetadata_PluginData *pluginData =
         new SummaryMetadata::PluginData();
     pluginData->set_plugin_name("pr_curves");
     pluginData->set_content(pr_curve_content);
 
-    // Summary Meta data
+    // Summary Meta data.
     mlboard::SummaryMetadata *metaData = new SummaryMetadata();
     metaData->set_display_name(displayName == "" ? tag : displayName);
     metaData->set_summary_description(description);
     metaData->set_allocated_plugin_data(pluginData);
 
-    // misbheaves when thresholds is greater than 127
+    // Misbheaves when thresholds is greater than 127
     threshold = (std::min)(threshold, 127);
     double minCount = 1e-7;
     std::vector<std::vector<double>> data;
@@ -170,7 +170,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
         int item = predictions[i] * (threshold -1);
         auto lb =
             lower_bound(edges.begin(), edges.end(), item);
-        // Include the exact number in previous bucket
+        // Include the exact number in previous bucket.
         if (*lb != item)
             lb--;
         tp[lb - edges.begin()] = tp[lb - edges.begin()] + (v * weights[i]);
@@ -178,7 +178,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
             ((1 - v) * weights[i]);
     }
 
-    // Reverse cummulative sum
+    // Reverse cummulative sum.
     for (int i = tp.size() - 2; i >= 0; i--)
     {
         tp[i] = tp[i] + tp[i+1];
@@ -200,7 +200,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string tag,
     data.push_back(precision);
     data.push_back(recall);
 
-    // Prepare Tensor
+    // Prepare Tensor.
     mlboard::TensorShapeProto *tensorshape = new TensorShapeProto();
     mlboard::TensorShapeProto_Dim *rowdim = tensorshape->add_dim();
     rowdim->set_size(data.size());
