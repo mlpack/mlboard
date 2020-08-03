@@ -24,7 +24,7 @@ void EncodeImage(std::vector<std::string>& filePaths,
  * Function to compute the edges of histogram for a set of data.
  * 
  * @param range The histogram is computed over the flattened array.
- * @param countofBins number of equal-width bins in the given range.
+ * @param countofBins Number of equal-width bins in the given range.
  * @param edges Output vector of edges for the histogram.
  */
 void histogramEdges(const std::vector<double>& range,

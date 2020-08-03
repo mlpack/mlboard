@@ -16,10 +16,10 @@ namespace mlboard {
 /**
  * Class responsible to create a summary to be logged.
  * 
- * @tparam filewriter The filewriter object whould would convert it
+ * @tparam filewriter The filewriter object which would convert it
  *    into events and then log to a file. 
  */
-template<typename Filewriter>
+template<typename Filewriter = mlboard::FileWriter>
 class SummaryWriter
 {
  public:
@@ -156,7 +156,7 @@ class SummaryWriter
    * @param predictions arma::vec of predictions.
    * @param fw Filewriter object.
    * @param threshold Number of thresholds.
-   * @param weights Arma::vec having the weights of labels,
+   * @param weights Armadillo vector having the weights of labels,
    *    Individual counts are multiplied by this value.
    * @param displayName Optional name for this summary.
    * @param description Optional long-form description for this summary.
@@ -166,7 +166,7 @@ class SummaryWriter
                       const vecType& labels,
                       const vecType& predictions,
                       Filewriter& fw,
-                      int threshold = 127,
+                      int threshold = 10,
                       vecType weights = {},
                       const std::string& displayName = "",
                       const std::string& description = "");

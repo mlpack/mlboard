@@ -179,8 +179,6 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
     metaData->set_summary_description(description);
     metaData->set_allocated_plugin_data(pluginData);
 
-    // Misbheaves when thresholds is greater than 127
-    threshold = (std::min)(threshold, 127);
     double minCount = 1e-7;
     std::vector<std::vector<double>> data;
     while (weights.size() < labels.size())

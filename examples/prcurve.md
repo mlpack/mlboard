@@ -9,17 +9,19 @@ These examples help you to understand `SummaryWriter::Prcurve()` API in depth.
 
 ### 1. PR-Curve
 
-A embedding could be logged using the following API:
+A PR Curve could be logged using the following API:
 
 ```cpp
-void PrCurve(const std::string tag,
-             const std::vector<double>& labels,
-             const std::vector<double>& predictions,
-             mlboard::Filewriter& fw,
-             int threshold,
-             std::vector<double>weights,
-             const std::string& displayName,
-             const std::string& description)
+template<typename Filewriter>
+void SummaryWriter<Filewriter>::PrCurve(
+    const std::string tag,
+    const std::vector<double>& labels,
+    const std::vector<double>& predictions,
+    mlboard::Filewriter& fw,
+    int threshold,
+    std::vector<double>weights,
+    const std::string& displayName,
+    const std::string& description)
 ```
 
 The API accepts `tag`, `labels`, `predictions`, `mlboard::Filewriter`, `thresholds`, `weights`, `displayName` and `description`.
@@ -44,7 +46,7 @@ int main()
       0.2975346, 0.891773, 0.05671298, 0.96366274, 0.2726563,
       0.3834415, 0.47766513};
   mlboard::SummaryWriter<mlboard::FileWriter>::PrCurve("test_pr_curve",
-      labels, predictions, *f1);
+      labels, predictions, f1);
   
   // This will allow you to indicate that you have logged all your data.
   f1.Close();
@@ -92,12 +94,12 @@ int main()
   start = std::chrono::system_clock::now(); 
   mlboard::FileWriter f1("temp");
   // Log prcurve.
-  arma::rowvec labels = {1 ,1, 1, 1, 1 ,1 ,1 ,1 ,0 ,1};
+  arma::rowvec labels = {1, 1, 1, 1, 1, 1, 1, 1, 0, 1};
   arma::rowvec predictions = {0.6458941 , 0.3843817, 0.4375872,
       0.2975346, 0.891773, 0.05671298, 0.96366274, 0.2726563,
-      0.3834415,0.47766513};
+      0.3834415, 0.47766513};
   mlboard::SummaryWriter<mlboard::FileWriter>::PrCurve("test_pr_curve_arma_vec",
-      labels, predictions, *f1);
+      labels, predictions, f1);
 
   // This will allow you to indicate that you have logged all your data.
   f1.Close();
@@ -108,3 +110,5 @@ int main()
             << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
 ```
+
+The output could be viewed in the image attached above.
