@@ -151,7 +151,7 @@ void SummaryWriter<Filewriter>::Image(const std::string& tag,
 }
 
 template<typename Filewriter>
-void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
+void SummaryWriter<Filewriter>::PRCurve(const std::string& tag,
                                         const std::vector<double>& labels,
                                         const std::vector<double>& predictions,
                                         Filewriter& fw,
@@ -160,24 +160,24 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
                                         const std::string& displayName,
                                         const std::string& description)
 {
-    // Pr plugin.
+    // PR-Curve plugin.
     mlboard::PrCurvePluginData *prCurvePlugin = new PrCurvePluginData();
     prCurvePlugin->set_version(0);
     prCurvePlugin->set_num_thresholds(threshold);
-    std::string pr_curve_content;
-    prCurvePlugin->SerializeToString(&pr_curve_content);
+    std::string prCurveContent;
+    prCurvePlugin->SerializeToString(&prCurveContent);
 
-    // PluginMeta data.
+    // Plugin metadata.
     mlboard::SummaryMetadata_PluginData *pluginData =
         new SummaryMetadata::PluginData();
     pluginData->set_plugin_name("pr_curves");
-    pluginData->set_content(pr_curve_content);
+    pluginData->set_content(prCurveContent);
 
-    // Summary Meta data.
-    mlboard::SummaryMetadata *metaData = new SummaryMetadata();
-    metaData->set_display_name(displayName == "" ? tag : displayName);
-    metaData->set_summary_description(description);
-    metaData->set_allocated_plugin_data(pluginData);
+    // Summary metadata.
+    mlboard::SummaryMetadata *metadata = new SummaryMetadata();
+    metadata->set_display_name(displayName == "" ? tag : displayName);
+    metadata->set_summary_description(description);
+    metadata->set_allocated_plugin_data(pluginData);
 
     double minCount = 1e-7;
     std::vector<std::vector<double>> data;
@@ -185,7 +185,7 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
     {
         weights.push_back(1.0);
     }
-    std::vector<double>edges;
+    std::vector<double> edges;
     mlboard::util::histogramEdges({0, (double)threshold - 1},
       threshold, edges);
     std::vector<double> tp(edges.size(), 0), fp(edges.size(), 0);
@@ -227,14 +227,14 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
     data.push_back(recall);
 
     // Prepare Tensor.
-    mlboard::TensorShapeProto *tensorshape = new TensorShapeProto();
-    mlboard::TensorShapeProto_Dim *rowdim = tensorshape->add_dim();
-    rowdim->set_size(data.size());
-    mlboard::TensorShapeProto_Dim *coldim = tensorshape->add_dim();
-    coldim->set_size(data[0].size());
+    mlboard::TensorShapeProto *tensorShape = new TensorShapeProto();
+    mlboard::TensorShapeProto_Dim *rowDim = tensorShape->add_dim();
+    rowDim->set_size(data.size());
+    mlboard::TensorShapeProto_Dim *colDim = tensorShape->add_dim();
+    colDim->set_size(data[0].size());
     mlboard::TensorProto *tensor = new TensorProto();
     tensor->set_dtype(mlboard::DataType::DT_DOUBLE);
-    tensor->set_allocated_tensor_shape(tensorshape);
+    tensor->set_allocated_tensor_shape(tensorShape);
     for (int i = 0; i < data.size(); i++)
     {
         for (int j = 0; j < data[0].size(); j++)
@@ -247,14 +247,14 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
     mlboard::Summary_Value *value = summary->add_value();
     value->set_tag(tag);
     value->set_allocated_tensor(tensor);
-    value->set_allocated_metadata(metaData);
+    value->set_allocated_metadata(metadata);
 
     fw.CreateEvent(0, summary);
 }
 
 template<typename Filewriter>
 template<typename vecType>
-void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
+void SummaryWriter<Filewriter>::PRCurve(const std::string& tag,
                                         const vecType& labels,
                                         const vecType& predictions,
                                         Filewriter& fw,
@@ -263,13 +263,13 @@ void SummaryWriter<Filewriter>::PrCurve(const std::string& tag,
                                         const std::string& displayName,
                                         const std::string& description)
 {
-  std::vector<double>convLables(labels.memptr(), labels.memptr() +
+  std::vector<double>convLabels(labels.memptr(), labels.memptr() +
       labels.n_elem);
   std::vector<double>convPredictions(predictions.memptr(),
       predictions.memptr() + predictions.n_elem);
   std::vector<double>convWeights(weights.memptr(), weights.memptr() +
       weights.n_elem);
-  PrCurve(tag, convLables, convPredictions, fw, threshold, convWeights,
+  PRCurve(tag, convLabels, convPredictions, fw, threshold, convWeights,
       displayName, description);
 }
 

@@ -77,7 +77,7 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing a PrCurve summary to file",
   std::vector<double> predictions = {0.6458941, 0.3843817, 0.4375872,
       0.2975346, 0.891773, 0.05671298, 0.96366274, 0.2726563,
       0.3834415, 0.47766513};
-  mlboard::SummaryWriter<mlboard::FileWriter>::PrCurve("test_pr_curve",
+  mlboard::SummaryWriter<mlboard::FileWriter>::PRCurve("test_pr_curve",
       labels, predictions, *f1);
 }
 
@@ -91,7 +91,7 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture,
   arma::rowvec predictions = {0.6458941, 0.3843817, 0.4375872,
       0.2975346, 0.891773, 0.05671298, 0.96366274, 0.2726563,
       0.3834415, 0.47766513};
-  mlboard::SummaryWriter<mlboard::FileWriter>::PrCurve("test_pr_curve_arma_vec",
+  mlboard::SummaryWriter<mlboard::FileWriter>::PRCurve("test_pr_curve_arma_vec",
       labels, predictions, *f1);
 }
 

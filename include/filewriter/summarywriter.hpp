@@ -126,7 +126,7 @@ class SummaryWriter
                     const std::string& description = "");
 
   /**
-   * A function to create a prcurve summary.
+   * A function to create a PR-Curve summary.
    * 
    * @param tag Tag to uniquely identify the scalar type.
    * @param labels Vector of ground truth values.
@@ -148,12 +148,12 @@ class SummaryWriter
                       const std::string& description = "");
 
   /**
-   * An overloaded function to create a prcurve summary using arma
-   * vec type, Either rowvec or colvec.
+   * An overloaded function to create a PR-Curve summary using armadillo
+   * vector, either rowvec or colvec.
    * 
    * @param tag Tag to uniquely identify the scalar type.
    * @param labels Ground truth values of arma::vec type.
-   * @param predictions arma::vec of predictions.
+   * @param predictions Armadiilo vector of predictions.
    * @param fw Filewriter object.
    * @param threshold Number of thresholds.
    * @param weights Armadillo vector having the weights of labels,

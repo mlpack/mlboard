@@ -1,19 +1,19 @@
 ## Logging PR-Curve
 
-These examples help you to understand `SummaryWriter::Prcurve()` API in depth.
+These examples help you to understand `SummaryWriter::PRcurve()` API in depth.
 
 ### 0. API 
 
-  1. [Log PrCurve](#1-pr-curve)
-  2. [Log Prcurve stored in arma::vec](#2-pr-curve-arma-vec)
+  1. [Log PR-Curve](#1-pr-curve)
+  2. [Log PR-Curve stored in arma::vec](#2-pr-curve-arma-vec)
 
 ### 1. PR-Curve
 
-A PR Curve could be logged using the following API:
+A PR-Curve could be logged using the following API:
 
 ```cpp
 template<typename Filewriter>
-void SummaryWriter<Filewriter>::PrCurve(
+void SummaryWriter<Filewriter>::PRCurve(
     const std::string tag,
     const std::vector<double>& labels,
     const std::vector<double>& predictions,
@@ -45,7 +45,7 @@ int main()
   std::vector<double> predictions = {0.6458941, 0.3843817, 0.4375872,
       0.2975346, 0.891773, 0.05671298, 0.96366274, 0.2726563,
       0.3834415, 0.47766513};
-  mlboard::SummaryWriter<mlboard::FileWriter>::PrCurve("test_pr_curve",
+  mlboard::SummaryWriter<mlboard::FileWriter>::PRCurve("test_pr_curve",
       labels, predictions, f1);
   
   // This will allow you to indicate that you have logged all your data.
@@ -66,10 +66,10 @@ The output would be similar to:
 
 ### 2. PR-Curve Arma vec
 
-You could log prcurve values stored in `arma::vec` using the following API:
+You could log PR-Curve values stored in `arma::vec` using the following API:
 
 ```cpp
-void PrCurve(const std::string tag,
+void PRCurve(const std::string tag,
              const vecType& labels,
              const vecType& predictions,
              mlboard::Filewriter& fw,
@@ -79,7 +79,7 @@ void PrCurve(const std::string tag,
              const std::string& description)
 ```
 
-Following is a snippet that would log some prcurve values stored in `arma::vec`.
+Following is a snippet that would log some PR-Curve values stored in `arma::vec`.
 
 ```cpp
 #include <mlboard/mlboard.hpp>
@@ -98,7 +98,7 @@ int main()
   arma::rowvec predictions = {0.6458941 , 0.3843817, 0.4375872,
       0.2975346, 0.891773, 0.05671298, 0.96366274, 0.2726563,
       0.3834415, 0.47766513};
-  mlboard::SummaryWriter<mlboard::FileWriter>::PrCurve("test_pr_curve_arma_vec",
+  mlboard::SummaryWriter<mlboard::FileWriter>::PRCurve("test_pr_curve_arma_vec",
       labels, predictions, f1);
 
   // This will allow you to indicate that you have logged all your data.
