@@ -138,7 +138,7 @@ class SummaryWriter
    * @param displayName Optional name for this summary.
    * @param description Optional long-form description for this summary.
    */
-  static void PrCurve(const std::string& tag,
+  static void PRCurve(const std::string& tag,
                       const std::vector<double>& labels,
                       const std::vector<double>& predictions,
                       Filewriter& fw,
@@ -162,7 +162,7 @@ class SummaryWriter
    * @param description Optional long-form description for this summary.
    */
   template<typename vecType>
-  static void PrCurve(const std::string& tag,
+  static void PRCurve(const std::string& tag,
                       const vecType& labels,
                       const vecType& predictions,
                       Filewriter& fw,

@@ -188,41 +188,45 @@ void SummaryWriter<Filewriter>::PRCurve(const std::string& tag,
     std::vector<double> edges;
     mlboard::util::histogramEdges({0, (double)threshold - 1},
       threshold, edges);
-    std::vector<double> tp(edges.size(), 0), fp(edges.size(), 0);
+    std::vector<double> truePositives(edges.size(), 0);
+    std::vector<double> falsePositives(edges.size(), 0);
 
     for (size_t i = 0; i < labels.size(); ++i)
     {
-        float v = labels[i];
+        double v = labels[i];
         int item = predictions[i] * (threshold -1);
         auto lb =
             lower_bound(edges.begin(), edges.end(), item);
         // Include the exact number in previous bucket.
         if (*lb != item)
             lb--;
-        tp[lb - edges.begin()] = tp[lb - edges.begin()] + (v * weights[i]);
-        fp[lb - edges.begin()] = fp[lb - edges.begin()] +
+        truePositives[lb - edges.begin()] = truePositives[lb - edges.begin()] + (v * weights[i]);
+        falsePositives[lb - edges.begin()] = falsePositives[lb - edges.begin()] +
             ((1 - v) * weights[i]);
     }
 
     // Reverse cummulative sum.
-    for (int i = tp.size() - 2; i >= 0; i--)
+    for (int i = truePositives.size() - 2; i >= 0; i--)
     {
-        tp[i] = tp[i] + tp[i+1];
-        fp[i] = fp[i] + fp[i+1];
+        truePositives[i] = truePositives[i] + truePositives[i+1];
+        falsePositives[i] = falsePositives[i] + falsePositives[i+1];
     }
-    std::vector<double> tn(tp.size()), fn(tp.size()),
-        precision(tp.size()), recall(tp.size());
-    for (size_t i = 0; i < tp.size(); i++)
+    std::vector<double> trueNegatives(truePositives.size()),
+        falseNegatives(truePositives.size()), precision(truePositives.size()),
+        recall(truePositives.size());
+    for (size_t i = 0; i < truePositives.size(); i++)
     {
-        fn[i] = tp[0] - tp[i];
-        tn[i] = fp[0] - fp[i];
-        precision[i] = tp[i] / (std::max)(minCount, tp[i] + fp[i]);
-        recall[i] = tp[i] / (std::max)(minCount, tp[i] + fn[i]);
+        falseNegatives[i] = truePositives[0] - truePositives[i];
+        trueNegatives[i] = falsePositives[0] - falsePositives[i];
+        precision[i] = truePositives[i] / (std::max)(minCount, truePositives[i] +
+            falsePositives[i]);
+        recall[i] = truePositives[i] / (std::max)(minCount, truePositives[i] +
+            falseNegatives[i]);
     }
-    data.push_back(tp);
-    data.push_back(fp);
-    data.push_back(tn);
-    data.push_back(fn);
+    data.push_back(truePositives);
+    data.push_back(falsePositives);
+    data.push_back(trueNegatives);
+    data.push_back(falseNegatives);
     data.push_back(precision);
     data.push_back(recall);
 

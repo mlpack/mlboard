@@ -26,7 +26,7 @@ void SummaryWriter<Filewriter>::PRCurve(
 
 The API accepts `tag`, `labels`, `predictions`, `mlboard::Filewriter`, `thresholds`, `weights`, `displayName` and `description`.
 
-Following is a snippet that would log some embedding values.
+Following is a snippet that would log some PR curve.
 
 ```cpp
 #include <mlboard/mlboard.hpp>
