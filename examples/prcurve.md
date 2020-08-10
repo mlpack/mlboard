@@ -1,6 +1,6 @@
 ## Logging PR-Curve
 
-These examples help you to understand `SummaryWriter::PRcurve()` API in depth.
+These examples help you to understand `SummaryWriter::PRCurve()` API in depth.
 
 ### 0. API 
 
@@ -26,7 +26,7 @@ void SummaryWriter<Filewriter>::PRCurve(
 
 The API accepts `tag`, `labels`, `predictions`, `mlboard::Filewriter`, `thresholds`, `weights`, `displayName` and `description`.
 
-Following is a snippet that would log some PR curve.
+Following is a snippet that would log some PR-Curve.
 
 ```cpp
 #include <mlboard/mlboard.hpp>
