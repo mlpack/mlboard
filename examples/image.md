@@ -15,18 +15,19 @@ These examples help you to understand `mlboard::SummaryWriter::Image()` API in d
 A single Image could be logged using the following API.
 
 ```cpp
-SummaryWriter<Filewriter>::Image(const std::string& tag,
-                                 int step,
-                                 const std::string& encodedImage,
-                                 int height,
-                                 int width,
-                                 int channel,
-                                 mlboard::Filewriter& fw,
-                                 const std::string& displayName,
-                                 const std::string& description)
+template<typename Filewriter>
+void SummaryWriter<Filewriter>::Image(const std::string& tag,
+                                      int step,
+                                      const std::string& encodedImage,
+                                      int height,
+                                      int width,
+                                      int channel,
+                                      mlboard::Filewriter& fw,
+                                      const std::string& displayName,
+                                      const std::string& description)
 ```
 
-The API accepts `tag`, `step`, `encodedImage` (Image data in encoded format), the metadata about image (height and width) along with `mlboard::Filewriter` object, Name and description.
+The API accepts `tag`, `step`, `encodedImage` (Image data in encoded format), the metadata about image (height and width) along with `mlboard::Filewriter` object,Name and description.
 
 Following is a snippet that would log a single image for 1 step in temp directory.
 

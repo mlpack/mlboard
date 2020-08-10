@@ -87,6 +87,7 @@ Following are the Summary types you could log using mlboard:
 
 - [Scalar Summary](examples/scalar.md)
 - [Image Summary](examples/image.md)
+- [PrCurve Summary](examples/prcurve.md)
 
 ### 3. Usage
 

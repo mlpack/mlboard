@@ -6,7 +6,7 @@ For creating a summary, you have to call the specific summary type function from
 
 `mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(tag, step, value, filewriterobject);`. 
 
-Irrespective of the summary type, you always have to pass the filewriter object that is responsible for first creating events using this summary and then putting that into a queue and then finally writing those events into the file through the logger, which is running asynchronously.
+Irrespective of the summary type, you always have to pass the filewriter object that is responsible for first creating events using this summary and then putting that into a queue and then finally writing those events into the file through the logger, which is running asynchronously. The type of the filewriter object is a template paramater for the `SummaryWriter` class, by default it is `mlboard::FileWriter`.
 
 Following is a snippet that would log scalar for 4 steps in temp directory.
 

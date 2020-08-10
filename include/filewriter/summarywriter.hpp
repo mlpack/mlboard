@@ -9,16 +9,17 @@
 #include "filewriter.hpp"
 #include "util.hpp"
 #include <proto/summary.pb.h>
+#include <proto/plugin_pr_curve.pb.h>
 
 namespace mlboard {
 
 /**
  * Class responsible to create a summary to be logged.
  * 
- * @tparam filewriter The filewriter object whould would convert it
+ * @tparam filewriter The filewriter object which would convert it
  *    into events and then log to a file. 
  */
-template<typename Filewriter>
+template<typename Filewriter = mlboard::FileWriter>
 class SummaryWriter
 {
  public:
@@ -123,6 +124,52 @@ class SummaryWriter
                     Filewriter& fw,
                     const std::string& displayName = "",
                     const std::string& description = "");
+
+  /**
+   * A function to create a PR-Curve summary.
+   * 
+   * @param tag Tag to uniquely identify the scalar type.
+   * @param labels Vector of ground truth values.
+   * @param predictions Vector of predictions.
+   * @param fw Filewriter object.
+   * @param threshold Number of thresholds.
+   * @param weights Vector having the weights of labels,
+   *    Individual counts are multiplied by this value.
+   * @param displayName Optional name for this summary.
+   * @param description Optional long-form description for this summary.
+   */
+  static void PRCurve(const std::string& tag,
+                      const std::vector<double>& labels,
+                      const std::vector<double>& predictions,
+                      Filewriter& fw,
+                      int threshold = 127,
+                      std::vector<double>weights = {},
+                      const std::string& displayName = "",
+                      const std::string& description = "");
+
+  /**
+   * An overloaded function to create a PR-Curve summary using armadillo
+   * vector, either rowvec or colvec.
+   * 
+   * @param tag Tag to uniquely identify the scalar type.
+   * @param labels Ground truth values of arma::vec type.
+   * @param predictions Armadiilo vector of predictions.
+   * @param fw Filewriter object.
+   * @param threshold Number of thresholds.
+   * @param weights Armadillo vector having the weights of labels,
+   *    Individual counts are multiplied by this value.
+   * @param displayName Optional name for this summary.
+   * @param description Optional long-form description for this summary.
+   */
+  template<typename vecType>
+  static void PRCurve(const std::string& tag,
+                      const vecType& labels,
+                      const vecType& predictions,
+                      Filewriter& fw,
+                      int threshold = 10,
+                      vecType weights = {},
+                      const std::string& displayName = "",
+                      const std::string& description = "");
 };
 
 } // namespace mlboard
