@@ -4,6 +4,9 @@
  */
 #include "catch.hpp"
 #include <mlboard/mlboard.hpp>
+#include <mlpack/methods/ann/ffn.hpp>
+#include <mlpack/methods/ann/loss_functions/mean_squared_error.hpp>
+#include <mlpack/methods/logistic_regression/logistic_regression.hpp>
 #include <sstream>
 #include <cstdio>
 #include <sys/stat.h>
@@ -12,6 +15,9 @@
 #ifdef _WIN32
     #include <direct.h>
 #endif
+
+using namespace mlpack::ann;
+using namespace mlpack;
 
 class SummaryWriterTestsFixture 
 {
@@ -105,6 +111,65 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing text summary to file",
       "Test case for checking text support in mlboard.", *f1);
   mlboard::SummaryWriter<mlboard::FileWriter>::Text("add Text support", 2,
       " Project developed during GSoc 2020 ", *f1);
+}
+
+/**
+ * Test text summary.
+ */
+TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing summary using callback to file",
+                 "[SummaryWriter]")
+{	
+  arma::mat data;
+  arma::mat labels;
+
+  data::Load("./data/lab1.csv", data, true);
+  data::Load("./data/lab3.csv", labels, true);
+
+  FFN<MeanSquaredError<>, RandomInitialization> model;
+
+  model.Add<Linear<>>(1, 2);
+  model.Add<SigmoidLayer<>>();
+  model.Add<Linear<>>(2, 1);
+  model.Add<SigmoidLayer<>>();
+
+  std::stringstream stream;
+  ens::StandardSGD opt(0.1, 1, 1000);
+  std::cout<<"PRINTING STREAM IS \n";
+  model.Train(data, labels, opt, ens::MlboardLogger(*f1));
+}
+
+/**
+ * Test text summary.
+ */
+TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing summary using second constructor callback to file",
+                 "[SummaryWriter]")
+{	
+  GaussianDistribution g1(arma::vec("1.0 1.0 1.0"), arma::eye<arma::mat>(3, 3));
+  GaussianDistribution g2(arma::vec("9.0 9.0 9.0"), arma::eye<arma::mat>(3, 3));
+
+  arma::mat data(3, 1000);
+  arma::Row<size_t> responses(1000);
+  for (size_t i = 0; i < 500; ++i)
+  {
+    data.col(i) = g1.Random();
+    responses[i] = 0;
+  }
+  for (size_t i = 500; i < 1000; ++i)
+  {
+    data.col(i) = g2.Random();
+    responses[i] = 1;
+  }
+
+  ens::MlboardLogger cb(*f1, 
+        []()
+      {
+        return lr.ComputeAccuracy(data, responses);
+      },
+      "lraccuracy","lrloss"
+  )
+  // Now train a logistic regression object on it.
+  LogisticRegression<> lr(data.n_rows, 0.5);
+  lr.Train<ens::L_BFGS>(data, responses, cb);
 }
 
 /**
