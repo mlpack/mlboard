@@ -25,17 +25,19 @@ class MlboardLogger
    */
   MlboardLogger(mlboard::FileWriter& output,
       std::string accTag = "accuracy",
-      std::string LossTag = "loss") : output(output),
-      callbackUsed(false),
+      std::string lossTag = "loss") : callbackUsed(false),
+      output(output),
       accTag(accTag),
       lossTag(lossTag)
   { /* Nothing to do here. */ }
 
   MlboardLogger(
+      mlboard::FileWriter& output,
       std::function<double()> func,
       std::string accTag = "accuracy",
-      std::string LossTag = "loss")
+      std::string lossTag = "loss")
     : callbackUsed(true),
+      output(output),
       localFunc(func),
       accTag(accTag),
       lossTag(lossTag)
@@ -61,7 +63,7 @@ class MlboardLogger
     if (callbackUsed)
     {
       objective = localFunc();
-    } 
+    }
     mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(lossTag,
       epoch, objective, output);
     mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(accTag,

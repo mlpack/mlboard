@@ -18,6 +18,7 @@
 
 using namespace mlpack::ann;
 using namespace mlpack;
+using namespace mlpack::regression;
 
 class SummaryWriterTestsFixture 
 {
@@ -134,7 +135,6 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing summary using callback to f
 
   std::stringstream stream;
   ens::StandardSGD opt(0.1, 1, 1000);
-  std::cout<<"PRINTING STREAM IS \n";
   model.Train(data, labels, opt, ens::MlboardLogger(*f1));
 }
 
@@ -144,32 +144,24 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing summary using callback to f
 TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing summary using second constructor callback to file",
                  "[SummaryWriter]")
 {	
-  GaussianDistribution g1(arma::vec("1.0 1.0 1.0"), arma::eye<arma::mat>(3, 3));
-  GaussianDistribution g2(arma::vec("9.0 9.0 9.0"), arma::eye<arma::mat>(3, 3));
+  arma::mat data("1 2 3;"
+                 "1 2 3");
+  arma::Row<size_t> responses("1 1 0");
 
-  arma::mat data(3, 1000);
-  arma::Row<size_t> responses(1000);
-  for (size_t i = 0; i < 500; ++i)
-  {
-    data.col(i) = g1.Random();
-    responses[i] = 0;
-  }
-  for (size_t i = 500; i < 1000; ++i)
-  {
-    data.col(i) = g2.Random();
-    responses[i] = 1;
-  }
+  ens::StandardSGD sgd(0.1, 1, 50);
+  LogisticRegression<> logisticRegression(data, responses, sgd, 0.001);
+  std::stringstream stream;
 
   ens::MlboardLogger cb(*f1, 
-        []()
+        [&]()
       {
-        return lr.ComputeAccuracy(data, responses);
+        return logisticRegression.ComputeAccuracy(data, responses)/100;
       },
       "lraccuracy","lrloss"
-  )
+  );
   // Now train a logistic regression object on it.
-  LogisticRegression<> lr(data.n_rows, 0.5);
-  lr.Train<ens::L_BFGS>(data, responses, cb);
+  logisticRegression.Train<ens::StandardSGD>(data, responses, sgd,
+                                             cb);
 }
 
 /**
