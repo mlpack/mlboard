@@ -71,7 +71,9 @@ class SummaryWriter
                         const std::vector<std::string>& metadata,
                         Filewriter& fw,
                         std::string tensordataPath = "",
-                        std::string metadataPath = "");
+                        std::string metadataPath = "",
+                        std::string relativeTensordataPath = "",
+                        std::string relativeMetadataPath = "");
 
   /**
    * A function to create a text summary.

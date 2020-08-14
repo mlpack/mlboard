@@ -96,7 +96,10 @@ int main()
   }
   meta_file.close();
 
-  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp, meta, f1);
+  // Make sure you pass the correct dimesnions here
+  // Here we transpose the matrix since our dataset was load in mlpack convention
+  // Row is feature and column is data point
+  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp.t(), meta, f1);
   
   // This will allow you to indicate that you have logged all your data.
   f1.Close();

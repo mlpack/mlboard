@@ -166,7 +166,7 @@ void SummaryWriter<Filewriter>::Embedding(
     const std::string &filename = fw.LogDir() + "/projector_config.pbtxt";;
     mlboard::ProjectorConfig *conf = new ProjectorConfig();
 
-    // parse possibly existing config file
+    // parse possibly existing config files
     std::ifstream fin(filename);
     if (fin.is_open()) {
         std::ostringstream ss;
@@ -207,26 +207,38 @@ void SummaryWriter<Filewriter>::Embedding(
       const std::vector<std::string> &metadata,
       Filewriter& fw,
       std::string tensordataPath,
-      std::string metadataPath)
+      std::string metadataPath,
+      std::string relativeTensordataPath,
+      std::string relativeMetadataPath)
 {
   // Deafult file name
   if(tensordataPath == "")
-    tensordataPath = "tensor.tsv";
+    tensordataPath = fw.LogDir() + "/tensor.tsv";
   if(metadataPath == "")
-    metadataPath = "meta.tsv";
+    metadataPath = fw.LogDir() + "/meta.tsv";
   std::ofstream tensordDataFile(tensordataPath);
+  if (!tensordDataFile.is_open())
+  {
+    throw std::runtime_error("failed to open tensordata file " +
+    tensordataPath);
+  }
   // mlpack::data::Save(tensordataPath, arma::sp_mat(tensordata));
   for (size_t i = 0; i < tensordata.n_cols; i++)
   {
     for (size_t j = 0; j < tensordata.n_rows; j++)
     {
-      tensordDataFile << tensordata(j, i) << '\t';
+      tensordDataFile << tensordata(j, i);
+      if (j != tensordata.n_rows - 1)
+      {
+        tensordDataFile << "\t";
+      }   
     }
-    tensordDataFile << "\n";
+    tensordDataFile << std::endl;
   }
+  tensordDataFile.close();
   if (metadata.size() > 0)
   {
-    if (metadata.size() != tensordata.n_cols)
+    if (metadata.size() != tensordata.n_rows)
     {
         throw std::runtime_error("tensor size != metadata size");
     }
@@ -242,11 +254,11 @@ void SummaryWriter<Filewriter>::Embedding(
   }
   std::vector<size_t> tensor_shape = {tensordata.n_rows, tensordata.n_cols};
   // default path should be relative to logdir
-  if(tensordataPath == "tensor.tsv")
-    tensordataPath = "../tensor.tsv";
-  if(metadataPath == "meta.tsv")
-    metadataPath = "../meta.tsv";
-  Embedding(tensorName, tensordataPath,fw, metadataPath, tensor_shape);
+  if(tensordataPath == fw.LogDir() + "/tensor.tsv")
+    relativeTensordataPath = "tensor.tsv";
+  if(metadataPath == fw.LogDir() + "/meta.tsv")
+    relativeMetadataPath = "meta.tsv";
+  Embedding(tensorName, relativeTensordataPath,fw, relativeMetadataPath, tensor_shape);
 }
 
 template<typename Filewriter>
