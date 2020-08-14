@@ -1,5 +1,5 @@
 /**
- * @file filewriter_test.cpp
+ * @file tests/filewriter_test.cpp
  * @author Jeffin Sam
  */
 #include "catch.hpp"
@@ -19,11 +19,12 @@ TEST_CASE("Writing two files at a time", "[FileWriter]")
 {
   // Both files created at the same time and hence there should be only one file.
   mlboard::FileWriter f1, f2;
-  mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1", 1, 1.1, f1);
-  mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_2", 1, 1.1, f2);
+  mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_1", 1,
+      1.1, f1);
+  mlboard::SummaryWriter<mlboard::FileWriter>::Scalar("Sample_2", 1,
+      1.1, f2);
 
   REQUIRE(f1.FileName() == f2.FileName());
-
   // Remove event files.
   remove(f1.FileName().c_str());
 }
@@ -38,8 +39,8 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
     _mkdir("_temp1_");
     _mkdir("_temp2_");
   #else 
-    mkdir("_temp1_",0777);
-    mkdir("_temp2_",0777);
+    mkdir("_temp1_", 0777);
+    mkdir("_temp2_", 0777);
   #endif
 
   mlboard::FileWriter f1("_temp1_"), f2("_temp2_");
@@ -49,8 +50,8 @@ TEST_CASE("Writing two files at a time in different paths", "[FileWriter]")
       1.1, f2);
   REQUIRE(f1.FileName() != f2.FileName());
 
-  REQUIRE(f1.FileName().substr(8,f1.FileName().length()) ==
-      f2.FileName().substr(8,f2.FileName().length()));
+  REQUIRE(f1.FileName().substr(8, f1.FileName().length()) ==
+      f2.FileName().substr(8, f2.FileName().length()));
 
   // Remove event files.
   remove(f1.FileName().c_str());
