@@ -141,8 +141,8 @@ class SummaryWriter
                         Filewriter& fw);
 
   /**
-   * A overload function to create histogram summary, with
-   * deafult bins.
+   * An overload function to create histogram summary, with
+   * default bins.
    * 
    * @param tag Tag to uniquely identify the histogram type.
    * @param step The step at which the summary was logged.
@@ -155,8 +155,8 @@ class SummaryWriter
                         Filewriter& fw);
 
   /**
-   * A overload function to create histogram summary, with
-   * support for arma::vec type
+   * An overload function to create histogram summary, with
+   * support for arma::vec type.
    * 
    * @param tag Tag to uniquely identify the histogram type.
    * @param step The step at which the summary was logged.

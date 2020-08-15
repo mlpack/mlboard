@@ -121,7 +121,9 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing histogram summary to file",
     std::normal_distribution<double> distribution(i * 0.1, 1.0);
     std::vector<double> values;
     for (int j = 0; j < 10000; ++j)
+    {
       values.push_back(distribution(generator));
+    }
     mlboard::SummaryWriter<mlboard::FileWriter>::Histogram("SampleHistogram",
         i, values, *f1);
   }
@@ -141,8 +143,10 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture,
     std::normal_distribution<double> distribution(i * 0.1, 1.0);
     std::vector<double> values;
     for (int j = 0; j < 10000; ++j)
+    {
       values.push_back(distribution(generator));
-    
+    }
+
     // create arma vec
     arma::rowvec tempValues(values);
     mlboard::SummaryWriter<mlboard::FileWriter>::Histogram("ArmaHistogram",
