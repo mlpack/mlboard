@@ -158,24 +158,24 @@ void SummaryWriter<Filewriter>::Embedding(
     const std::string &metadataPath,
     const std::vector<size_t> &tensorShape)
 {
-    mlboard::SummaryMetadata_PluginData *plugin_data = new SummaryMetadata::PluginData();
-    plugin_data->set_plugin_name("projector");
-    mlboard::SummaryMetadata *meta = new SummaryMetadata();
-    meta->set_allocated_plugin_data(plugin_data);
+    mlboard::SummaryMetadata_PluginData *pluginData = new SummaryMetadata::PluginData();
+    pluginData->set_plugin_name("projector");
+    mlboard::SummaryMetadata *metaData = new SummaryMetadata();
+    metaData->set_allocated_plugin_data(pluginData);
 
     const std::string &filename = fw.LogDir() + "/projector_config.pbtxt";;
-    mlboard::ProjectorConfig *conf = new ProjectorConfig();
+    mlboard::ProjectorConfig *config = new ProjectorConfig();
 
-    // parse possibly existing config files
+    // Parse possibly existing config file.
     std::ifstream fin(filename);
     if (fin.is_open()) {
         std::ostringstream ss;
         ss << fin.rdbuf();
-        google::protobuf::TextFormat::ParseFromString(ss.str(), conf);
+        google::protobuf::TextFormat::ParseFromString(ss.str(), config);
         fin.close();
     }
 
-    mlboard::EmbeddingInfo *embedding = conf->add_embeddings();
+    mlboard::EmbeddingInfo *embedding = config->add_embeddings();
     embedding->set_tensor_name(tensorName);
     embedding->set_tensor_path(tensordataPath);
     if (metadataPath != "") {
@@ -185,17 +185,18 @@ void SummaryWriter<Filewriter>::Embedding(
         for (size_t shape : tensorShape) embedding->add_tensor_shape(shape);
     }
 
-    // `conf` and `embedding` will be deleted by ProjectorConfig destructor
+    // The `config` and `embedding` pointers will be deleted by the
+    // ProjectorConfig destructor.
     std::ofstream fout(filename);
     std::string content;
-    google::protobuf::TextFormat::PrintToString(*conf, &content);
+    google::protobuf::TextFormat::PrintToString(*config, &content);
     fout << content;
     fout.close();
 
     mlboard::Summary *summary = new Summary();
     mlboard::Summary_Value *v = summary->add_value();
     v->set_tag("embedding");
-    v->set_allocated_metadata(meta);
+    v->set_allocated_metadata(metaData);
 
     fw.CreateEvent(1, summary);
 }
@@ -211,7 +212,7 @@ void SummaryWriter<Filewriter>::Embedding(
       std::string relativeTensordataPath,
       std::string relativeMetadataPath)
 {
-  // Deafult file name
+  // Deafult file name.
   if(tensordataPath == "")
     tensordataPath = fw.LogDir() + "/tensor.tsv";
   if(metadataPath == "")
@@ -222,7 +223,9 @@ void SummaryWriter<Filewriter>::Embedding(
     throw std::runtime_error("failed to open tensordata file " +
     tensordataPath);
   }
-  // mlpack::data::Save(tensordataPath, arma::sp_mat(tensordata));
+
+  // Note : We save the matrix as it is, it is on user's hand to transpose it 
+  // if needed.
   for (size_t i = 0; i < tensordata.n_cols; i++)
   {
     for (size_t j = 0; j < tensordata.n_rows; j++)
@@ -252,13 +255,13 @@ void SummaryWriter<Filewriter>::Embedding(
       metadataFile << meta << std::endl;
     metadataFile.close();
   }
-  std::vector<size_t> tensor_shape = {tensordata.n_rows, tensordata.n_cols};
-  // default path should be relative to logdir
+  std::vector<size_t> tensorShape = {tensordata.n_rows, tensordata.n_cols};
+  // Default path should be relative to the logging directory.
   if(tensordataPath == fw.LogDir() + "/tensor.tsv")
     relativeTensordataPath = "tensor.tsv";
   if(metadataPath == fw.LogDir() + "/meta.tsv")
     relativeMetadataPath = "meta.tsv";
-  Embedding(tensorName, relativeTensordataPath,fw, relativeMetadataPath, tensor_shape);
+  Embedding(tensorName, relativeTensordataPath,fw, relativeMetadataPath, tensorShape);
 }
 
 template<typename Filewriter>

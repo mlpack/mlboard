@@ -5,7 +5,7 @@ These examples help you to understand `SummaryWriter::Embedding()` API in depth.
 ### 0. API 
 
   1. [Log Embedding](#1-embedding)
-  2. [Log multiple images stored in arma::mat](#2-embedding-arma-mat)
+  2. [Log embedding stored in arma::mat](#2-embedding-arma-mat)
 
 ### 1. Embedding
 
@@ -14,7 +14,7 @@ A embedding could be logged using the following API:
 ```cpp
 void Embedding(const std::string &tensorName,
                const std::string &tensordataPath,
-               Filewriter& fw,
+               mlboard::Filewriter& fw,
                const std::string &metadataPath,
                const std::vector<size_t> &tensorShape);
 ```
@@ -64,9 +64,11 @@ You could log embedding values stored in `arma::mat` using the following api:
 void Embedding(const std::string& tensorName,
                const arma::mat& tensorData,
                const std::vector<std::string>& metadata,
-               Filewriter& fw,
+               mlboard::Filewriter& fw,
                std::string tensordataPath = "",
-               std::string metadataPath = "");
+               std::string metadataPath = "",
+               std::string relativeTensordataPath = "",
+               std::string relativeMetadataPath = "");
 ```
 
 Following is a snippet that would log some embedding values stored in `arma::mat`.
@@ -110,3 +112,5 @@ int main()
             << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
 ```
+
+Note : Internally we save the matrix to a `.tsv` file along with metadata file and then create a configuration file so that it could be logged. The matrix is written exactly it is given. So if you want to transpose it you need to pass a transposed matrix in case you are using `mlpack::Load()` to load the data. Also if you are giving a path to save the matrix into a file you should give realtive path of the file too so that the config file from log dir can access it.
