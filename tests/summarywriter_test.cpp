@@ -16,10 +16,6 @@
     #include <direct.h>
 #endif
 
-using namespace mlpack::ann;
-using namespace mlpack;
-using namespace mlpack::regression;
-
 class SummaryWriterTestsFixture 
 {
  public:
@@ -112,56 +108,6 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing text summary to file",
       "Test case for checking text support in mlboard.", *f1);
   mlboard::SummaryWriter<mlboard::FileWriter>::Text("add Text support", 2,
       " Project developed during GSoc 2020 ", *f1);
-}
-
-/**
- * Test text summary.
- */
-TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing summary using callback to file",
-                 "[SummaryWriter]")
-{	
-  arma::mat data;
-  arma::mat labels;
-
-  data::Load("./data/lab1.csv", data, true);
-  data::Load("./data/lab3.csv", labels, true);
-
-  FFN<MeanSquaredError<>, RandomInitialization> model;
-
-  model.Add<Linear<>>(1, 2);
-  model.Add<SigmoidLayer<>>();
-  model.Add<Linear<>>(2, 1);
-  model.Add<SigmoidLayer<>>();
-
-  std::stringstream stream;
-  ens::StandardSGD opt(0.1, 1, 1000);
-  model.Train(data, labels, opt, ens::MlboardLogger(*f1));
-}
-
-/**
- * Test text summary.
- */
-TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing summary using second constructor callback to file",
-                 "[SummaryWriter]")
-{	
-  arma::mat data("1 2 3;"
-                 "1 2 3");
-  arma::Row<size_t> responses("1 1 0");
-
-  ens::StandardSGD sgd(0.1, 1, 50);
-  LogisticRegression<> logisticRegression(data, responses, sgd, 0.001);
-  std::stringstream stream;
-
-  ens::MlboardLogger cb(*f1, 
-        [&]()
-      {
-        return logisticRegression.ComputeAccuracy(data, responses)/100;
-      },
-      "lraccuracy","lrloss"
-  );
-  // Now train a logistic regression object on it.
-  logisticRegression.Train<ens::StandardSGD>(data, responses, sgd,
-                                             cb);
 }
 
 /**
