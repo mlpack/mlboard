@@ -11,6 +11,7 @@ These examples help you to understand `mlboard::SummaryWriter::scalar()` API in 
 A scalar value could be logged using the following API:
 
 ```cpp
+template<typename Filewriter>
 void SummaryWriter<Filewriter>::Scalar(const std::string& tag,
                                        int step,
                                        double value,

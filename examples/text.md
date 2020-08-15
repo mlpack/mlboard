@@ -11,6 +11,7 @@ These examples help you to understand `SummaryWriter::Text()` API in depth.
 A text value could be logged using the following API:
 
 ```cpp
+template<typename Filewriter>
 void SummaryWriter<Filewriter>::Text(const std::string &tag,
                                      int step,
                                      const std::string& text,
