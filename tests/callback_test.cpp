@@ -50,7 +50,7 @@ bool CallBackTestsFixture::deleteLogs = true;
 TEST_CASE_METHOD(CallBackTestsFixture,
                  "Writing summary using callback to file", "[CallBack]")
 {	
-  f1 = new mlboard::FileWriter("_templogs");
+  f1 = new mlboard::FileWriter("_templogscallback");
   arma::mat data;
   arma::mat labels;
 

@@ -22,23 +22,39 @@ class MlboardLogger
   /**
    *
    * @param output Filewriter object to log the metrics.
+   * @param epochCount Interval of epochs youw want to log your data.
+   * @param accTag Tag to use for accuracy.
+   * @param lossTag Tag to use for loss
    */
   MlboardLogger(mlboard::FileWriter& output,
+      int epochCount = 1,
       std::string accTag = "accuracy",
       std::string lossTag = "loss") : callbackUsed(false),
       output(output),
+      epochCount(epochCount),
       accTag(accTag),
       lossTag(lossTag)
   { /* Nothing to do here. */ }
 
+  /**
+   *
+   * @param output Filewriter object to log the metrics.
+   * @param func A custom function to log some metrics, which return the
+   *    value to be logged.
+   * @param epochCount Interval of epochs youw want to log your data.
+   * @param accTag Tag to use for accuracy.
+   * @param lossTag Tag to use for loss
+   */
   MlboardLogger(
       mlboard::FileWriter& output,
       std::function<double()> func,
+      int epochCount = 1,
       std::string accTag = "accuracy",
       std::string lossTag = "loss")
     : callbackUsed(true),
       output(output),
       localFunc(func),
+      epochCount(epochCount),
       accTag(accTag),
       lossTag(lossTag)
   {
@@ -64,10 +80,13 @@ class MlboardLogger
     {
       objective = localFunc();
     }
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(lossTag,
-      epoch, objective, output);
-    mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(accTag,
-      epoch, 1 - objective, output);
+    if ( epoch % epochCount == 0)
+    {
+      mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(lossTag,
+        epoch / epochCount, objective, output);
+      mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(accTag,
+        epoch / epochCount, 1 - objective, output);      
+    }
   }
 
  private:
@@ -75,6 +94,7 @@ class MlboardLogger
   bool callbackUsed;
     //! Function to call at the end of the epoch.
   std::function<double()> localFunc;
+  int epochCount;
   std::string accTag;
   std::string lossTag;
   //! Filewriter object will will log the data.
