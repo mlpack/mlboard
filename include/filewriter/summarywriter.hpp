@@ -55,6 +55,7 @@ class SummaryWriter
                         const std::string& metadataPath = "",
                         const std::vector<size_t>& tensorShape =
                             std::vector<size_t>());
+
   /**
    * An overload function to create a embedding summary from arma::mat.
    * 
