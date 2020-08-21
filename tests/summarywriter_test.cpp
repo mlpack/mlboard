@@ -124,9 +124,9 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture,
   }
   meta_file.close();
 
-  // Make sure you pass the correct dimesnions here
-  // Here we transpose the matrix since our dataset was load in mlpack convention
-  // Row is feature and column is data point
+  // Make sure you pass the correct dimensions here.
+  // Here we transpose the matrix since our dataset was loaded according to mlpack convention.
+  // Row is feature and column is data point.
   mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp.t(), meta, *f1);
 }
 

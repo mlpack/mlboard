@@ -43,7 +43,7 @@ class SummaryWriter
    * 
    * @param tensorName Name of the tensor to identify it.
    * @param tensordataPath Path of the file having data (currently
-   *   only support .tsv format).
+   *    only support .tsv format).
    * @param fw Filewriter object.
    * @param metadataPath Path of the file having metadata information
    *    about the tensor.
@@ -62,12 +62,12 @@ class SummaryWriter
    * @param tensorName Name of the tensor to identify it.
    * @param tensorData Matrix having the data.
    * @param tensordataPath Path of the file to store data (currently
-   *   only support .tsv format).
+   *    only support .tsv format).
    * @param fw Filewriter object.
    * @param metadataPath Path of the file to store metadata information
    *    about the tensor.
    * @param relativeTensorDataPath Relative Path from Log directory
-   *   of the file to store data.
+   *    of the file to store data.
    * @param relativeMetadataPath Relative Path from Log directory
    *    the file to store metadata information about the tensor.
    */

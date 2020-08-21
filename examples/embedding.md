@@ -9,7 +9,7 @@ These examples help you to understand `SummaryWriter::Embedding()` API in depth.
 
 ### 1. Embedding
 
-A embedding could be logged using the following API:
+An embedding could be logged using the following API:
 
 ```cpp
 void Embedding(const std::string &tensorName,
@@ -58,7 +58,7 @@ The output would be similar to:
 
 ### 2. Embedding Arma Mat
 
-You could log embedding values stored in `arma::mat` using the following api:
+You could log embedding values stored in `arma::mat` using the following API:
 
 ```cpp
 void Embedding(const std::string& tensorName,
@@ -89,7 +89,7 @@ int main()
   arma::mat temp;
   mlpack::data::Load("./examples/assets/vecs.tsv", temp);
   std::cout<<"rows"<<temp.n_rows<<" "<<temp.n_cols<<std::endl;
-  vector<string> meta;
+  std::vector<std::string> meta;
   std::string line;
   ifstream meta_file("./examples/assets/meta.tsv");
   while (getline(meta_file, line))
@@ -98,9 +98,9 @@ int main()
   }
   meta_file.close();
 
-  // Make sure you pass the correct dimesnions here
-  // Here we transpose the matrix since our dataset was load in mlpack convention
-  // Row is feature and column is data point
+  // Make sure you pass the correct dimensions here.
+  // Here we transpose the matrix since our dataset was loaded according to mlpack convention
+  // Row is feature and column is data point.
   mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp.t(), meta, f1);
   
   // This will allow you to indicate that you have logged all your data.
