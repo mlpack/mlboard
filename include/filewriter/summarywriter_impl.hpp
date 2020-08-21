@@ -260,7 +260,7 @@ void SummaryWriter<Filewriter>::Embedding(
     }
     metadataFile.close();
   }
-  std::vector<size_t> tensorShape = {tensordata.n_cols, tensordata.n_rows};
+  std::vector<size_t> tensorShape = {tensordata.n_rows, tensordata.n_cols};
   // Default path should be relative to the logging directory.
   if(tensordataPath == fw.LogDir() + "/tensor.tsv")
     relativeTensordataPath = "tensor.tsv";

@@ -117,7 +117,7 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture,
   mlpack::data::Load("./data/vecs.tsv", temp);
   std::vector<std::string> meta;
   std::string line;
-  std::ifstream meta_file("./data//meta.tsv");
+  std::ifstream meta_file("./data/meta.tsv");
   while (getline(meta_file, line))
   {
     meta.push_back(line);
