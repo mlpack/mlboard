@@ -89,7 +89,7 @@ TEST_CASE_METHOD(CallBackTestsFixture,
         [&]()
       {
         return logisticRegression.ComputeAccuracy(data, responses)/100;
-      },
+      }, 1,
       "lraccuracy","lrloss"
   );
   // Now train a logistic regression object on it.

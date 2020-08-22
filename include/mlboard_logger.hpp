@@ -86,13 +86,13 @@ class MlboardLogger
       mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(lossTag,
           epoch / epochCount, objective, output);
       mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(accTag,
-          epoch / epochCount, 1 - objective, output);      
+          epoch / epochCount, 1 - objective, output);
     }
   }
 
  private:
-
-  //! False if the first constructor is called, true if the user passed a lambda.
+  //! False if the first constructor is called, true if the user passed a
+  // lambda.
   bool callbackUsed;
 
   //! Function to call at the end of the epoch.
@@ -103,7 +103,6 @@ class MlboardLogger
 
   //! Filewriter object will will log the data.
   mlboard::FileWriter& output;
-
 };
 
 } // namespace ens

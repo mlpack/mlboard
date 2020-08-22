@@ -200,9 +200,10 @@ void SummaryWriter<Filewriter>::PRCurve(const std::string& tag,
         // Include the exact number in previous bucket.
         if (*lb != item)
             lb--;
-        truePositives[lb - edges.begin()] = truePositives[lb - edges.begin()] + (v * weights[i]);
-        falsePositives[lb - edges.begin()] = falsePositives[lb - edges.begin()] +
-            ((1 - v) * weights[i]);
+        truePositives[lb - edges.begin()] = truePositives[lb - edges.begin()] +
+            (v * weights[i]);
+        falsePositives[lb - edges.begin()] = falsePositives[lb -
+            edges.begin()] + ((1 - v) * weights[i]);
     }
 
     // Reverse cummulative sum.
@@ -218,8 +219,8 @@ void SummaryWriter<Filewriter>::PRCurve(const std::string& tag,
     {
         falseNegatives[i] = truePositives[0] - truePositives[i];
         trueNegatives[i] = falsePositives[0] - falsePositives[i];
-        precision[i] = truePositives[i] / (std::max)(minCount, truePositives[i] +
-            falsePositives[i]);
+        precision[i] = truePositives[i] / (std::max)(minCount,
+            truePositives[i] + falsePositives[i]);
         recall[i] = truePositives[i] / (std::max)(minCount, truePositives[i] +
             falseNegatives[i]);
     }
