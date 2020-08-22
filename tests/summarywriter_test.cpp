@@ -152,6 +152,28 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture,
     mlboard::SummaryWriter<mlboard::FileWriter>::Histogram("ArmaHistogram",
         i, tempValues, *f1);
   }
+
+ /**
+ * Test embedding support.
+ */
+TEST_CASE_METHOD(SummaryWriterTestsFixture,
+                 "Writing embedding summary to file", "[SummaryWriter]")
+{	
+  arma::mat temp;
+  mlpack::data::Load("./data/vecs.tsv", temp);
+  std::vector<std::string> meta;
+  std::string line;
+  std::ifstream meta_file("./data/meta.tsv");
+  while (getline(meta_file, line))
+  {
+    meta.push_back(line);
+  }
+  meta_file.close();
+
+  // Make sure you pass the correct dimensions here.
+  // Here we transpose the matrix since our dataset was loaded according to mlpack convention.
+  // Row is feature and column is data point.
+  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp.t(), meta, *f1);
 }
 
 /**
