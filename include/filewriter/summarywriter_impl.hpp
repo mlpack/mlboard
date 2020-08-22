@@ -241,6 +241,7 @@ void SummaryWriter<Filewriter>::Histogram(const std::string& tag,
   Histogram(tag, step, tempValues, fw);
 }
 
+template<typename Filewriter>
 void SummaryWriter<Filewriter>::Embedding(
     const std::string &tensorName,
     const std::string &tensordataPath,

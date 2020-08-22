@@ -152,13 +152,14 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture,
     mlboard::SummaryWriter<mlboard::FileWriter>::Histogram("ArmaHistogram",
         i, tempValues, *f1);
   }
+}
 
  /**
  * Test embedding support.
  */
 TEST_CASE_METHOD(SummaryWriterTestsFixture,
                  "Writing embedding summary to file", "[SummaryWriter]")
-{	
+{
   arma::mat temp;
   mlpack::data::Load("./data/vecs.tsv", temp);
   std::vector<std::string> meta;

@@ -139,14 +139,14 @@ class MlboardLogger
       else if(summaryType == "embedding")
       {
         mlboard::SummaryWriter<mlboard::FileWriter>::Embedding(summaryTag,
-            valueToBeLogged, embeddingMetaData, output);
+            valueToBeLogged, embeddingMetadata, output);
       }
       else if(summaryType == "image")
       {
         // channel is not needed to log image
         mlpack::data::ImageInfo info(widthofImage, heightofImage, 0);
         mlboard::SummaryWriter<mlboard::FileWriter>::Image(
-              summaryTag, epoch / epochCount , valueTobeLogged,
+              summaryTag, epoch / epochCount , valueToBeLogged,
               info, output);
       }
       else
