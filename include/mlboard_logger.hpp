@@ -26,7 +26,8 @@ class MlboardLogger
    * @param accTag Tag to use for accuracy.
    * @param lossTag Tag to use for loss
    */
-  MlboardLogger(mlboard::FileWriter& output,
+  MlboardLogger(
+      mlboard::FileWriter& output,
       int epochCount = 1,
       std::string accTag = "accuracy",
       std::string lossTag = "loss") : callbackUsed(false),
@@ -43,7 +44,7 @@ class MlboardLogger
    *    value to be logged.
    * @param epochCount Interval of epochs youw want to log your data.
    * @param accTag Tag to use for accuracy.
-   * @param lossTag Tag to use for loss
+   * @param lossTag Tag to use for loss.
    */
   MlboardLogger(
       mlboard::FileWriter& output,
@@ -58,7 +59,7 @@ class MlboardLogger
       accTag(accTag),
       lossTag(lossTag)
   {
-    // Nothing to do here
+    // Nothing to do here.
   }
   /**
    * Callback function called at the end of a pass over the data.
@@ -80,23 +81,26 @@ class MlboardLogger
     {
       objective = localFunc();
     }
-    if ( epoch % epochCount == 0)
+    if (epoch % epochCount == 0)
     {
       mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(lossTag,
-        epoch / epochCount, objective, output);
+          epoch / epochCount, objective, output);
       mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(accTag,
-        epoch / epochCount, 1 - objective, output);      
+          epoch / epochCount, 1 - objective, output);      
     }
   }
 
  private:
-  //! False if the first constructor is called, true if the user passed a lambda. 
+
+  //! False if the first constructor is called, true if the user passed a lambda.
   bool callbackUsed;
-    //! Function to call at the end of the epoch.
+
+  //! Function to call at the end of the epoch.
   std::function<double()> localFunc;
   int epochCount;
   std::string accTag;
   std::string lossTag;
+
   //! Filewriter object will will log the data.
   mlboard::FileWriter& output;
 

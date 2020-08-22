@@ -8,7 +8,7 @@ Callbacks are methods that are called at various states during the optimization 
 
 By default we log the loss and corresponding accuracy in the file. 
 
-The api is 
+The API is 
 
 ```cpp
 MlboardLogger(mlboard::FileWriter& output,
@@ -65,7 +65,7 @@ int main()
 
 You could also build a custom function that logs some other metric and pass it to the callback.
 
-The api is:
+The API is:
 ```cpp
 MlboardLogger(
     mlboard::FileWriter& output,
