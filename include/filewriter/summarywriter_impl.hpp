@@ -157,50 +157,50 @@ void SummaryWriter<Filewriter>::Histogram(const std::string& tag,
                                           std::vector<double>& bins,
                                           Filewriter& fw)
 {
-    size_t num = values.size();
-    double min = std::numeric_limits<double>::max();
-    double max = std::numeric_limits<double>::lowest();
-    double sum = 0.0;
-    double sumofSquares = 0.0;
+  size_t num = values.size();
+  double min = std::numeric_limits<double>::max();
+  double max = std::numeric_limits<double>::lowest();
+  double sum = 0.0;
+  double sumofSquares = 0.0;
 
-    std::vector<int> counts(bins.size(), 0);
-    for (size_t i = 0; i < num; ++i)
+  std::vector<int> counts(bins.size(), 0);
+  for (size_t i = 0; i < num; ++i)
+  {
+    float v = values[i];
+    auto lb =
+      lower_bound(bins.begin(), bins.end(), v);
+    counts[lb - bins.begin()]++;
+    sum += v;
+    sumofSquares += v * v;
+    if (v > max)
     {
-        float v = values[i];
-        auto lb =
-            lower_bound(bins.begin(), bins.end(), v);
-        counts[lb - bins.begin()]++;
-        sum += v;
-        sumofSquares += v * v;
-        if (v > max)
-        {
-          max = v;
-        }
-        else if (v < min)
-        {
-            min = v;
-        }
+      max = v;
     }
+    else if (v < min)
+    {
+      min = v;
+    }
+  }
 
-    mlboard::HistogramProto *histo = new HistogramProto();
-    histo->set_min(min);
-    histo->set_max(max);
-    histo->set_num(num);
-    histo->set_sum(sum);
-    histo->set_sum_squares(sumofSquares);
-    for (size_t i = 0; i < counts.size(); ++i)
+  mlboard::HistogramProto *histo = new HistogramProto();
+  histo->set_min(min);
+  histo->set_max(max);
+  histo->set_num(num);
+  histo->set_sum(sum);
+  histo->set_sum_squares(sumofSquares);
+  for (size_t i = 0; i < counts.size(); ++i)
+  {
+    if (counts[i] > 0)
     {
-        if (counts[i] > 0)
-        {
-            histo->add_bucket_limit(bins[i]);
-            histo->add_bucket(counts[i]);
-        }
+      histo->add_bucket_limit(bins[i]);
+      histo->add_bucket(counts[i]);
     }
-    mlboard::Summary *summary = new Summary();
-    mlboard::Summary_Value *v = summary->add_value();
-    v->set_tag(tag);
-    v->set_allocated_histo(histo);
-    fw.CreateEvent(step, summary);
+  }
+  mlboard::Summary *summary = new Summary();
+  mlboard::Summary_Value *v = summary->add_value();
+  v->set_tag(tag);
+  v->set_allocated_histo(histo);
+  fw.CreateEvent(step, summary);
 }
 
 template<typename Filewriter>
@@ -214,9 +214,9 @@ void SummaryWriter<Filewriter>::Histogram(const std::string& tag,
   double v = 1e-12;
   while (v < 1e20)
   {
-      posEdges.push_back(v);
-      negEdges.push_back(-v);
-      v *= 1.1;
+    posEdges.push_back(v);
+    negEdges.push_back(-v);
+    v *= 1.1;
   }
   posEdges.push_back(std::numeric_limits<double>::max());
   negEdges.push_back(std::numeric_limits<double>::lowest());

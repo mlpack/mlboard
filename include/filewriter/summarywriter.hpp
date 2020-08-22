@@ -168,6 +168,7 @@ class SummaryWriter
                         int step,
                         const RowType& values,
                         Filewriter& fw);
+
    /**
    * A function to create a PR-Curve summary.
    * 

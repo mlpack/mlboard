@@ -35,7 +35,7 @@ int main()
   std::chrono::time_point<std::chrono::system_clock> start, end; 
   start = std::chrono::system_clock::now(); 
   mlboard::FileWriter f1("temp");
-  // Log PR-Curve.
+  // Log histogram.
   std::default_random_engine generator;
   std::normal_distribution<double> default_distribution(0, 1.0);
   for (int i = 0; i < 10; ++i)
@@ -43,7 +43,9 @@ int main()
     std::normal_distribution<double> distribution(i * 0.1, 1.0);
     std::vector<double> values;
     for (int j = 0; j < 10000; ++j)
+    {
       values.push_back(distribution(generator));
+    }
     mlboard::SummaryWriter<mlboard::FileWriter>::Histogram("SampleHistogram",
         i, values, f1);
   }
@@ -74,7 +76,7 @@ void Histogram(const std::string& tag,
                const RowType& values,,
                Filewriter& fw);
 ```
-Following is a snippet that would log some prcurve values stored in `arma::vec`.
+Following is a snippet that would log histogram values stored in `arma::vec`.
 
 ```cpp
 #include <mlboard/mlboard.hpp>
@@ -90,7 +92,7 @@ int main()
   std::chrono::time_point<std::chrono::system_clock> start, end; 
   start = std::chrono::system_clock::now(); 
   mlboard::FileWriter f1("temp");
-  // Log PR-Curve.
+  // Log histogram.
   std::default_random_engine generator;
   std::normal_distribution<double> default_distribution(0, 1.0);
   for (int i = 0; i < 10; ++i)
