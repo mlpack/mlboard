@@ -126,6 +126,50 @@ class SummaryWriter
                     const std::string& description = "");
 
   /**
+   * A function to create histogram summary.
+   * 
+   * @param tag Tag to uniquely identify the histogram type.
+   * @param step The step at which the summary was logged.
+   * @param values Input data to compute histogram.
+   * @param bins The edges of the histogram.
+   * @param fw Filewriter object.
+   */
+  static void Histogram(const std::string& tag,
+                        int step,
+                        std::vector<double>& values,
+                        std::vector<double>& bins,
+                        Filewriter& fw);
+
+  /**
+   * An overload function to create histogram summary, with
+   * default bins.
+   * 
+   * @param tag Tag to uniquely identify the histogram type.
+   * @param step The step at which the summary was logged.
+   * @param values Input data to compute histogram.
+   * @param fw Filewriter object.
+   */
+  static void Histogram(const std::string& tag,
+                        int step,
+                        std::vector<double>& values,
+                        Filewriter& fw);
+
+  /**
+   * An overload function to create histogram summary, with
+   * support for arma::vec type.
+   * 
+   * @param tag Tag to uniquely identify the histogram type.
+   * @param step The step at which the summary was logged.
+   * @param values Input data to compute histogram as arma::vec.
+   * @param fw Filewriter object.
+   */
+  template<typename RowType>
+  static void Histogram(const std::string& tag,
+                        int step,
+                        const RowType& values,
+                        Filewriter& fw);
+
+   /**
    * A function to create a PR-Curve summary.
    * 
    * @param tag Tag to uniquely identify the scalar type.

@@ -32,6 +32,7 @@ class MlboardLogger
       std::string accTag = "accuracy",
       std::string lossTag = "loss") : callbackUsed(false),
       output(output),
+      summaryType(""),
       epochCount(epochCount),
       accTag(accTag),
       lossTag(lossTag)
@@ -54,6 +55,7 @@ class MlboardLogger
       std::string lossTag = "loss")
     : callbackUsed(true),
       output(output),
+      summaryType(""),
       localFunc(func),
       epochCount(epochCount),
       accTag(accTag),
@@ -61,6 +63,41 @@ class MlboardLogger
   {
     // Nothing to do here.
   }
+
+  /**
+   *
+   * @param output Filewriter object to log the metrics.
+   * @param func A custom function to log some metrics, which return the
+   *    value to be logged.
+   * @param epochCount Interval of epochs youw want to log your data.
+   * @param summaryTag Tag to use for summary.
+   * @param summaryType Type of summary to be logged.
+   * @param embeddingMetadata Metadata for embedding.
+   * @param heighofImage The height of image to be logged.
+   * @param widthofImage The width of image to be logged.
+   */
+  MlboardLogger(
+      mlboard::FileWriter& output,
+      std::function<arma::mat()> func,
+      std::string summaryTag,
+      std::string summaryType,
+      std::vector<std::string> embeddingMetadata = {},
+      size_t heightofImage = 0,
+      size_t widthofImage = 0,
+      int epochCount = 1)
+    : callbackUsed(true),
+      output(output),
+      matFunc(func),
+      widthofImage(widthofImage),
+      heightofImage(heightofImage),
+      embeddingMetadata(embeddingMetadata),
+      summaryType(summaryType),
+      epochCount(epochCount),
+      summaryTag(summaryTag)
+  {
+    // Nothing to do here.
+  }
+
   /**
    * Callback function called at the end of a pass over the data.
    *
@@ -77,16 +114,45 @@ class MlboardLogger
                 const size_t epoch,
                 double objective)
   {
-    if (callbackUsed)
+    if (callbackUsed && summaryType == "")
     {
       objective = localFunc();
     }
-    if (epoch % epochCount == 0)
+    if (summaryType == "")
     {
-      mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(lossTag,
-          epoch / epochCount, objective, output);
-      mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(accTag,
-          epoch / epochCount, 1 - objective, output);
+      if (epoch % epochCount == 0)
+      {
+        mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(lossTag,
+            epoch / epochCount, objective, output);
+        mlboard::SummaryWriter<mlboard::FileWriter>::Scalar(accTag,
+            epoch / epochCount, 1 - objective, output);
+      }
+    }
+    if(callbackUsed && (epoch % epochCount == 0) && summaryType != "")
+    {
+      arma::mat valueToBeLogged = matFunc();
+      if(summaryType == "histogram")
+      {
+        mlboard::SummaryWriter<mlboard::FileWriter>::Histogram(summaryTag,
+            epoch / epochCount, arma::rowvec(valueToBeLogged), output);
+      }
+      else if(summaryType == "embedding")
+      {
+        mlboard::SummaryWriter<mlboard::FileWriter>::Embedding(summaryTag,
+            valueToBeLogged, embeddingMetaData, output);
+      }
+      else if(summaryType == "image")
+      {
+        // channel is not needed to log image
+        mlpack::data::ImageInfo info(widthofImage, heightofImage, 0);
+        mlboard::SummaryWriter<mlboard::FileWriter>::Image(
+              summaryTag, epoch / epochCount , valueTobeLogged,
+              info, output);
+      }
+      else
+      {
+        /* Do nothing */
+      } 
     }
   }
 
@@ -97,9 +163,33 @@ class MlboardLogger
 
   //! Function to call at the end of the epoch.
   std::function<double()> localFunc;
+
+  //! Function to call at the end of the epoch.
+  std::function<arma::mat()> matFunc;
+
+  //! Interval for the summary to be logged.
   int epochCount;
+
+  //! Path for the metadata for embedding.
+  std::vector<std::string> embeddingMetadata;
+
+  //! Tag to log summary accuracy scaler.
   std::string accTag;
+
+  //! Height of the image.
+  size_t heightofImage;
+
+  //! width of the image.
+  size_t widthofImage;
+
+  //! Tag to log summary loss scaler. 
   std::string lossTag;
+
+  //! Tag to log other type of summary
+  std::string summaryTag;
+
+  //! Type of summary you want to log.
+  std::string summaryType;
 
   //! Filewriter object will will log the data.
   mlboard::FileWriter& output;
