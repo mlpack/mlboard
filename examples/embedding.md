@@ -12,14 +12,14 @@ These examples help you to understand `SummaryWriter::Embedding()` API in depth.
 An embedding could be logged using the following API:
 
 ```cpp
-void Embedding(const std::string &tensorName,
-               const std::string &tensordataPath,
+void Embedding(const std::string& tensorName,
+               const std::string& tensordataPath,
                mlboard::Filewriter& fw,
-               const std::string &metadataPath,
-               const std::vector<size_t> &tensorShape);
+               const std::string& metadataPath,
+               const std::vector<size_t>& tensorShape);
 ```
 
-The API accepts `tensorName`, `tensordataPath`, `mlboard::Filewriter` object and option values such as `metadataPath` and `tensorShape`.
+The API accepts `tensorName`, `tensordataPath`, `mlboard::Filewriter` object and optional values such as `metadataPath` and `tensorShape`.
 
 Following is a snippet that would log some embedding values.
 
@@ -88,7 +88,7 @@ int main()
   // Log embedding.
   arma::mat temp;
   mlpack::data::Load("./examples/assets/vecs.tsv", temp);
-  std::cout<<"rows"<<temp.n_rows<<" "<<temp.n_cols<<std::endl;
+  std::cout << "rows" << temp.n_rows << " " << temp.n_cols << std::endl;
   std::vector<std::string> meta;
   std::string line;
   ifstream meta_file("./examples/assets/meta.tsv");
