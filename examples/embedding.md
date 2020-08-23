@@ -38,7 +38,7 @@ int main()
   // Log embedding.
   // Make sure the path are relative to the log directory.
   mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab",
-       "../examples/assets/vecs.tsv",f1,"../examples/assets/meta.tsv");
+       "../assets/vecs.tsv", f1, "../assets/meta.tsv");
   
   // This will allow you to indicate that you have logged all your data.
   f1.Close();
@@ -99,9 +99,9 @@ int main()
   meta_file.close();
 
   // Make sure you pass the correct dimensions here.
-  // Here we transpose the matrix since our dataset was loaded according to mlpack convention
+  // The matrix was loaded according to mlpack convention.
   // Row is feature and column is data point.
-  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp.t(), meta, f1);
+  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp, meta, f1);
   
   // This will allow you to indicate that you have logged all your data.
   f1.Close();

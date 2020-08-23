@@ -158,51 +158,51 @@ void SummaryWriter<Filewriter>::Embedding(
     const std::string& metadataPath,
     const std::vector<size_t>& tensorShape)
 {
-    mlboard::SummaryMetadata_PluginData *pluginData =
-        new SummaryMetadata::PluginData();
-    pluginData->set_plugin_name("projector");
-    mlboard::SummaryMetadata *metadata = new SummaryMetadata();
-    metadata->set_allocated_plugin_data(pluginData);
+  mlboard::SummaryMetadata_PluginData *pluginData =
+      new SummaryMetadata::PluginData();
+  pluginData->set_plugin_name("projector");
+  mlboard::SummaryMetadata *metadata = new SummaryMetadata();
+  metadata->set_allocated_plugin_data(pluginData);
 
-    const std::string &filename = fw.LogDir() + "/projector_config.pbtxt";;
-    mlboard::ProjectorConfig *config = new ProjectorConfig();
+  const std::string &filename = fw.LogDir() + "/projector_config.pbtxt";;
+  mlboard::ProjectorConfig *config = new ProjectorConfig();
 
-    // Parse possibly existing config file.
-    std::ifstream fin(filename);
-    if (fin.is_open())
-    {
-        std::ostringstream ss;
-        ss << fin.rdbuf();
-        google::protobuf::TextFormat::ParseFromString(ss.str(), config);
-        fin.close();
-    }
+  // Parse possibly existing config file.
+  std::ifstream fin(filename);
+  if (fin.is_open())
+  {
+    std::ostringstream ss;
+    ss << fin.rdbuf();
+    google::protobuf::TextFormat::ParseFromString(ss.str(), config);
+    fin.close();
+  }
 
-    mlboard::EmbeddingInfo *embedding = config->add_embeddings();
-    embedding->set_tensor_name(tensorName);
-    embedding->set_tensor_path(tensordataPath);
-    if (metadataPath != "")
-    {
-        embedding->set_metadata_path(metadataPath);
-    }
-    if (tensorShape.size() > 0)
-    {
-        for (size_t shape : tensorShape) embedding->add_tensor_shape(shape);
-    }
+  mlboard::EmbeddingInfo *embedding = config->add_embeddings();
+  embedding->set_tensor_name(tensorName);
+  embedding->set_tensor_path(tensordataPath);
+  if (metadataPath != "")
+  {
+    embedding->set_metadata_path(metadataPath);
+  }
+  if (tensorShape.size() > 0)
+  {
+    for (size_t shape : tensorShape) embedding->add_tensor_shape(shape);
+  }
 
-    // The `config` and `embedding` pointers will be deleted by the
-    // ProjectorConfig destructor.
-    std::ofstream fout(filename);
-    std::string content;
-    google::protobuf::TextFormat::PrintToString(*config, &content);
-    fout << content;
-    fout.close();
+  // The `config` and `embedding` pointers will be deleted by the
+  // ProjectorConfig destructor.
+  std::ofstream fout(filename);
+  std::string content;
+  google::protobuf::TextFormat::PrintToString(*config, &content);
+  fout << content;
+  fout.close();
 
-    mlboard::Summary *summary = new Summary();
-    mlboard::Summary_Value *v = summary->add_value();
-    v->set_tag("embedding");
-    v->set_allocated_metadata(metadata);
+  mlboard::Summary *summary = new Summary();
+  mlboard::Summary_Value *v = summary->add_value();
+  v->set_tag("embedding");
+  v->set_allocated_metadata(metadata);
 
-    fw.CreateEvent(1, summary);
+  fw.CreateEvent(1, summary);
 }
 
 template<typename Filewriter>
@@ -245,7 +245,7 @@ void SummaryWriter<Filewriter>::Embedding(
   tensorDataFile.close();
   if (metadata.size() > 0)
   {
-    if (metadata.size() != tensordata.n_rows)
+    if (metadata.size() != tensordata.n_cols)
     {
         throw std::runtime_error("tensor size != metadata size");
     }
@@ -261,7 +261,7 @@ void SummaryWriter<Filewriter>::Embedding(
     }
     metadataFile.close();
   }
-  std::vector<size_t> tensorShape = {tensordata.n_rows, tensordata.n_cols};
+  std::vector<size_t> tensorShape = {tensordata.n_cols, tensordata.n_rows};
   // Default path should be relative to the logging directory.
   if (tensordataPath == fw.LogDir() + "/tensor.tsv")
     relativeTensordataPath = "tensor.tsv";
