@@ -147,7 +147,7 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture,
       values.push_back(distribution(generator));
     }
 
-    // create arma vec.
+    // Create arma vec.
     arma::rowvec tempValues(values);
     mlboard::SummaryWriter<mlboard::FileWriter>::Histogram("ArmaHistogram",
         i, tempValues, *f1);

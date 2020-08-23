@@ -167,8 +167,7 @@ void SummaryWriter<Filewriter>::Histogram(const std::string& tag,
   for (size_t i = 0; i < num; ++i)
   {
     float v = values[i];
-    auto lb =
-      lower_bound(bins.begin(), bins.end(), v);
+    auto lb = lower_bound(bins.begin(), bins.end(), v);
     counts[lb - bins.begin()]++;
     sum += v;
     sumofSquares += v * v;
@@ -222,9 +221,9 @@ void SummaryWriter<Filewriter>::Histogram(const std::string& tag,
   negEdges.push_back(std::numeric_limits<double>::lowest());
 
   edges.insert(edges.end(), negEdges.rbegin(),
-                          negEdges.rend());
+      negEdges.rend());
   edges.insert(edges.end(), posEdges.begin(),
-                          posEdges.end());
+      posEdges.end());
   Histogram(tag, step, values, edges, fw);
 }
 

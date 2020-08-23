@@ -73,7 +73,7 @@ You could log histogram values stored in `arma::vec` using the following API:
 template<typename RowType>
 void Histogram(const std::string& tag,
                int step,
-               const RowType& values,,
+               const RowType& values,
                Filewriter& fw);
 ```
 Following is a snippet that would log histogram values stored in `arma::vec`.
