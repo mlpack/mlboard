@@ -9,6 +9,8 @@
 #include "filewriter.hpp"
 #include "util.hpp"
 #include <proto/summary.pb.h>
+#include <proto/projector_config.pb.h>
+#include <google/protobuf/text_format.h>
 #include <proto/plugin_pr_curve.pb.h>
 
 namespace mlboard {
@@ -35,6 +37,48 @@ class SummaryWriter
                      int step,
                      double value,
                      Filewriter& fw);
+
+  /**
+   * A function to create a embedding summary.
+   * 
+   * @param tensorName Name of the tensor to identify it.
+   * @param tensordataPath Path of the file having data (currently
+   *    only support .tsv format).
+   * @param fw Filewriter object.
+   * @param metadataPath Path of the file having metadata information
+   *    about the tensor.
+   * @param tensorShape Shape of the tensor data.
+   */
+  static void Embedding(const std::string& tensorName,
+                        const std::string& tensordataPath,
+                        Filewriter& fw,
+                        const std::string& metadataPath = "",
+                        const std::vector<size_t>& tensorShape =
+                            std::vector<size_t>());
+
+  /**
+   * An overload function to create a embedding summary from arma::mat.
+   * 
+   * @param tensorName Name of the tensor to identify it.
+   * @param tensorData Matrix having the data.
+   * @param tensordataPath Path of the file to store data (currently
+   *    only support .tsv format).
+   * @param fw Filewriter object.
+   * @param metadataPath Path of the file to store metadata information
+   *    about the tensor.
+   * @param relativeTensorDataPath Relative Path from Log directory
+   *    of the file to store data.
+   * @param relativeMetadataPath Relative Path from Log directory
+   *    the file to store metadata information about the tensor.
+   */
+  static void Embedding(const std::string& tensorName,
+                        const arma::mat& tensorData,
+                        const std::vector<std::string>& metadata,
+                        Filewriter& fw,
+                        std::string tensordataPath = "",
+                        std::string metadataPath = "",
+                        std::string relativeTensordataPath = "",
+                        std::string relativeMetadataPath = "");
 
   /**
    * A function to create a text summary.
