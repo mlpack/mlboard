@@ -89,6 +89,8 @@ Following are the Summary types you could log using mlboard:
 - [Image Summary](examples/image.md)
 - [Histogram Summary](examples/histogram.md)
 - [PrCurve Summary](examples/prcurve.md)
+- [Text Summary](examples/text.md)
+- [Embedding Summary](examples/embedding.md)
 
 ### 3. Usage
 

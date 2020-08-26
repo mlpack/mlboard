@@ -240,6 +240,126 @@ void SummaryWriter<Filewriter>::Histogram(const std::string& tag,
   Histogram(tag, step, tempValues, fw);
 }
 
+void SummaryWriter<Filewriter>::Embedding(
+    const std::string& tensorName,
+    const std::string& tensordataPath,
+    Filewriter& fw,
+    const std::string& metadataPath,
+    const std::vector<size_t>& tensorShape)
+{
+  mlboard::SummaryMetadata_PluginData *pluginData =
+      new SummaryMetadata::PluginData();
+  pluginData->set_plugin_name("projector");
+  mlboard::SummaryMetadata *metadata = new SummaryMetadata();
+  metadata->set_allocated_plugin_data(pluginData);
+
+  const std::string &filename = fw.LogDir() + "/projector_config.pbtxt";;
+  mlboard::ProjectorConfig *config = new ProjectorConfig();
+
+  // Parse possibly existing config file.
+  std::ifstream fin(filename);
+  if (fin.is_open())
+  {
+    std::ostringstream ss;
+    ss << fin.rdbuf();
+    google::protobuf::TextFormat::ParseFromString(ss.str(), config);
+    fin.close();
+  }
+
+  mlboard::EmbeddingInfo *embedding = config->add_embeddings();
+  embedding->set_tensor_name(tensorName);
+  embedding->set_tensor_path(tensordataPath);
+  if (metadataPath != "")
+  {
+    embedding->set_metadata_path(metadataPath);
+  }
+  if (tensorShape.size() > 0)
+  {
+    for (size_t shape : tensorShape) embedding->add_tensor_shape(shape);
+  }
+
+  // The `config` and `embedding` pointers will be deleted by the
+  // ProjectorConfig destructor.
+  std::ofstream fout(filename);
+  std::string content;
+  google::protobuf::TextFormat::PrintToString(*config, &content);
+  fout << content;
+  fout.close();
+
+  mlboard::Summary *summary = new Summary();
+  mlboard::Summary_Value *v = summary->add_value();
+  v->set_tag("embedding");
+  v->set_allocated_metadata(metadata);
+
+  fw.CreateEvent(1, summary);
+}
+
+template<typename Filewriter>
+void SummaryWriter<Filewriter>::Embedding(
+      const std::string& tensorName,
+      const arma::mat& tensordata,
+      const std::vector<std::string>& metadata,
+      Filewriter& fw,
+      std::string tensordataPath,
+      std::string metadataPath,
+      std::string relativeTensordataPath,
+      std::string relativeMetadataPath)
+{
+  // Deafult file name.
+  if (tensordataPath == "")
+    tensordataPath = fw.LogDir() + "/tensor.tsv";
+  if (metadataPath == "")
+    metadataPath = fw.LogDir() + "/meta.tsv";
+  std::ofstream tensorDataFile(tensordataPath);
+  if (!tensorDataFile.is_open())
+  {
+    throw std::runtime_error("Failed to open tensordata file: " +
+        tensordataPath);
+  }
+
+  // Note : We save the matrix as it is, it is on user's hand to transpose it
+  // if needed.
+  for (size_t i = 0; i < tensordata.n_cols; i++)
+  {
+    for (size_t j = 0; j < tensordata.n_rows; j++)
+    {
+      tensorDataFile << tensordata(j, i);
+      if (j != tensordata.n_rows - 1)
+      {
+        tensorDataFile << "\t";
+      }
+    }
+    tensorDataFile << std::endl;
+  }
+  tensorDataFile.close();
+  if (metadata.size() > 0)
+  {
+    if (metadata.size() != tensordata.n_cols)
+    {
+        throw std::runtime_error("tensor size != metadata size");
+    }
+    std::ofstream metadataFile(metadataPath);
+    if (!metadataFile.is_open())
+    {
+        throw std::runtime_error("Failed to open metadata file: " +
+            metadataPath);
+    }
+    for (const std::string& meta : metadata)
+    {
+      metadataFile << meta << std::endl;
+    }
+    metadataFile.close();
+  }
+  std::vector<size_t> tensorShape = {tensordata.n_cols, tensordata.n_rows};
+  // Default path should be relative to the logging directory.
+  if (tensordataPath == fw.LogDir() + "/tensor.tsv")
+    relativeTensordataPath = "tensor.tsv";
+  if (metadataPath == fw.LogDir() + "/meta.tsv")
+    relativeMetadataPath = "meta.tsv";
+  Embedding(tensorName, relativeTensordataPath, fw, relativeMetadataPath,
+      tensorShape);
+}
+
 template<typename Filewriter>
 void SummaryWriter<Filewriter>::PRCurve(const std::string& tag,
                                         const std::vector<double>& labels,
