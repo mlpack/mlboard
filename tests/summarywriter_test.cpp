@@ -7,6 +7,7 @@
 #include <sstream>
 #include <cstdio>
 #include <sys/stat.h>
+#include <random>
 
 // For windows mkdir.
 #ifdef _WIN32
@@ -105,6 +106,52 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing text summary to file",
       "Test case for checking text support in mlboard.", *f1);
   mlboard::SummaryWriter<mlboard::FileWriter>::Text("add Text support", 2,
       " Project developed during GSoc 2020 ", *f1);
+}
+
+/**
+ * Test Histogram summary.
+ */
+TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing histogram summary to file",
+                 "[SummaryWriter]")
+{	
+  std::default_random_engine generator;
+  std::normal_distribution<double> default_distribution(0, 1.0);
+  for (int i = 0; i < 10; ++i)
+  {
+    std::normal_distribution<double> distribution(i * 0.1, 1.0);
+    std::vector<double> values;
+    for (int j = 0; j < 10000; ++j)
+    {
+      values.push_back(distribution(generator));
+    }
+    mlboard::SummaryWriter<mlboard::FileWriter>::Histogram("SampleHistogram",
+        i, values, *f1);
+  }
+}
+
+/**
+ * Test Histogram summary using arma rowvec.
+ */
+TEST_CASE_METHOD(SummaryWriterTestsFixture,
+                "Writing histogram summary using arma rowvec to file",
+                "[SummaryWriter]")
+{	
+  std::default_random_engine generator;
+  std::normal_distribution<double> default_distribution(0, 1.0);
+  for (int i = 0; i < 10; ++i)
+  {
+    std::normal_distribution<double> distribution(i * 0.1, 1.0);
+    std::vector<double> values;
+    for (int j = 0; j < 10000; ++j)
+    {
+      values.push_back(distribution(generator));
+    }
+
+    // Create arma vec.
+    arma::rowvec tempValues(values);
+    mlboard::SummaryWriter<mlboard::FileWriter>::Histogram("ArmaHistogram",
+        i, tempValues, *f1);
+  }
 }
 
 /**
