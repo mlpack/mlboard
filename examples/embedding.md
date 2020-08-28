@@ -12,14 +12,14 @@ These examples help you to understand `SummaryWriter::Embedding()` API in depth.
 An embedding could be logged using the following API:
 
 ```cpp
-void Embedding(const std::string &tensorName,
-               const std::string &tensordataPath,
+void Embedding(const std::string& tensorName,
+               const std::string& tensordataPath,
                mlboard::Filewriter& fw,
-               const std::string &metadataPath,
-               const std::vector<size_t> &tensorShape);
+               const std::string& metadataPath,
+               const std::vector<size_t>& tensorShape);
 ```
 
-The API accepts `tensorName`, `tensordataPath`, `mlboard::Filewriter` object and option values such as `metadataPath` and `tensorShape`.
+The API accepts `tensorName`, `tensordataPath`, `mlboard::Filewriter` object and optional values such as `metadataPath` and `tensorShape`.
 
 Following is a snippet that would log some embedding values.
 
@@ -38,7 +38,7 @@ int main()
   // Log embedding.
   // Make sure the path are relative to the log directory.
   mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab",
-       "../examples/assets/vecs.tsv",f1,"../examples/assets/meta.tsv");
+       "../assets/vecs.tsv", f1, "../assets/meta.tsv");
   
   // This will allow you to indicate that you have logged all your data.
   f1.Close();
@@ -88,7 +88,7 @@ int main()
   // Log embedding.
   arma::mat temp;
   mlpack::data::Load("./examples/assets/vecs.tsv", temp);
-  std::cout<<"rows"<<temp.n_rows<<" "<<temp.n_cols<<std::endl;
+  std::cout << "rows" << temp.n_rows << " " << temp.n_cols << std::endl;
   std::vector<std::string> meta;
   std::string line;
   ifstream meta_file("./examples/assets/meta.tsv");
@@ -99,9 +99,9 @@ int main()
   meta_file.close();
 
   // Make sure you pass the correct dimensions here.
-  // Here we transpose the matrix since our dataset was loaded according to mlpack convention
+  // The matrix was loaded according to mlpack convention.
   // Row is feature and column is data point.
-  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp.t(), meta, f1);
+  mlboard::SummaryWriter<mlboard::FileWriter>::Embedding("vocab", temp, meta, f1);
   
   // This will allow you to indicate that you have logged all your data.
   f1.Close();
