@@ -128,20 +128,20 @@ class MlboardLogger
             epoch / epochCount, 1 - objective, output);
       }
     }
-    if(callbackUsed && (epoch % epochCount == 0) && summaryType != "")
+    if (callbackUsed && (epoch % epochCount == 0) && summaryType != "")
     {
       arma::mat valueToBeLogged = matFunc();
-      if(summaryType == "histogram")
+      if (summaryType == "histogram")
       {
         mlboard::SummaryWriter<mlboard::FileWriter>::Histogram(summaryTag,
             epoch / epochCount, arma::rowvec(valueToBeLogged), output);
       }
-      else if(summaryType == "embedding")
+      else if (summaryType == "embedding")
       {
         mlboard::SummaryWriter<mlboard::FileWriter>::Embedding(summaryTag,
             valueToBeLogged, embeddingMetadata, output);
       }
-      else if(summaryType == "image")
+      else if (summaryType == "image")
       {
         // channel is not needed to log image
         mlpack::data::ImageInfo info(widthofImage, heightofImage, 0);
@@ -179,13 +179,13 @@ class MlboardLogger
   //! Height of the image.
   size_t heightofImage;
 
-  //! width of the image.
+  //! Width of the image.
   size_t widthofImage;
 
   //! Tag to log summary loss scaler. 
   std::string lossTag;
 
-  //! Tag to log other type of summary
+  //! Tag to log other type of summary.
   std::string summaryTag;
 
   //! Type of summary you want to log.
