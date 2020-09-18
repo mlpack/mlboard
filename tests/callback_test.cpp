@@ -28,7 +28,7 @@ class CallBackTestsFixture
   static bool deleteLogs;
   CallBackTestsFixture()
   {
-    if(deleteLogs)
+    if (deleteLogs)
     {
       #if defined(_WIN32)
         _mkdir("_templogscallback");
@@ -76,7 +76,6 @@ TEST_CASE_METHOD(CallBackTestsFixture,
                  "Writing summary using second constructor callback to file",
                  "[CallBack]")
 {	
-  deleteLogs = true;
   arma::mat data("1 2 3;"
                  "1 2 3");
   arma::Row<size_t> responses("1 1 0");
@@ -85,16 +84,14 @@ TEST_CASE_METHOD(CallBackTestsFixture,
   LogisticRegression<> logisticRegression(data, responses, sgd, 0.001);
   std::stringstream stream;
 
-  ens::MlboardLogger cb(*f1, 
-        [&]()
+  ens::MlboardLogger cb(*f1, [&]()
       {
-        return logisticRegression.ComputeAccuracy(data, responses)/100;
-      }, 1,
-      "lraccuracy","lrloss"
-  );
+        return logisticRegression.ComputeAccuracy(data, responses) / 100;
+      },
+      1, "lraccuracy", "lrloss");
+
   // Now train a logistic regression object on it.
-  logisticRegression.Train<ens::StandardSGD>(data, responses, sgd,
-                                             cb);
+  logisticRegression.Train<ens::StandardSGD>(data, responses, sgd, cb);
   f1->Close();
 
   #ifndef KEEP_TEST_LOGS

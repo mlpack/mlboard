@@ -12,12 +12,12 @@ The API is
 
 ```cpp
 MlboardLogger(mlboard::FileWriter& output,
-    int epochCount = 1,
-    std::string accTag = "accuracy",
-    std::string lossTag = "loss")
+              int epochCount = 1,
+              std::string accTag = "accuracy",
+              std::string lossTag = "loss")
 ```
 
-The arguments are the `FileWriter object` and the `epochCount`, at which intervals of epoch should the metric be logged and the related tag to uniquely identify each of them
+The arguments are the `FileWriter` object and the `epochCount`, at which intervals of epoch should the metric be logged and the related tag to uniquely identify each of them.
 
 An example could be:
 
@@ -49,7 +49,7 @@ int main()
 
   std::stringstream stream;
   ens::StandardSGD opt(0.1, 1, 1000);
-  // Pass a callback
+  // Pass a callback.
   model.Train(data, labels, opt, ens::MlboardLogger(f1));
   
   end = std::chrono::system_clock::now(); 
@@ -60,6 +60,12 @@ int main()
             << "elapsed time: " << elapsed_seconds.count() << "s\n"; 
 }
 ```
+
+The output would be similar to:
+
+<p>
+<img src = "assets/default.jpg" width = "800" height = "400"/>
+</p>
 
 ### Logging Custom scaler metric
 
@@ -75,7 +81,7 @@ MlboardLogger(
     std::string lossTag = "loss")
 ```
 
-The arguments are similar to previous api, just it take an function as an additonal paramter. The function should `return a double value` and also we log that value as `loss` and it should be between 0 and 1. And we log `1 - return value` as `accuracy`.
+The arguments are similar to previous API, it takes a function as an additional parameter. The function should `return a double value`. We log that value as `loss` and it should be between 0 and 1. We log `1 - return value` as `accuracy`.
 
 An example could be:
 
@@ -92,15 +98,15 @@ int main()
   std::chrono::time_point<std::chrono::system_clock> start, end; 
   start = std::chrono::system_clock::now(); 
   mlboard::FileWriter f1("temp");
-  arma::mat data("1 2 3;"
-                 "1 2 3");
+  arma::mat data = "1 2 3;"
+                   "1 2 3;";
   arma::Row<size_t> responses("1 1 0");
 
   ens::StandardSGD sgd(0.1, 1, 50);
   LogisticRegression<> logisticRegression(data, responses, sgd, 0.001);
   std::stringstream stream;
 
-  // Create a callback, where we use mlpack ComputAccuracy function to 
+  // Create a callback, where we use mlpack ComputeAccuracy function to 
   // log accuracy
   ens::MlboardLogger cb(*f1, 
         [&]()
@@ -124,3 +130,10 @@ int main()
 ```
 
 In this example we create a custom function which logs accuracy based on the ComputeAccuracy method. The function return a value and that is logged as loss and 1 - return value is logged as accuracy.
+
+The output would be similar to:
+
+<p>
+<img src = "assets/custom.jpg" width = "800" height = "400"/>
+</p>
+

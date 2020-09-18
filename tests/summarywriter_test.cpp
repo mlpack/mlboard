@@ -183,7 +183,6 @@ TEST_CASE_METHOD(SummaryWriterTestsFixture,
 TEST_CASE_METHOD(SummaryWriterTestsFixture, "Writing multiple Images summary to file",
                  "[SummaryWriter]")
 {	
-  deleteLogs = true;
   arma::Mat<unsigned char> matrix;
   mlpack::data::ImageInfo info;
   std::vector<std::string> files = {"./data/single_image.jpg",

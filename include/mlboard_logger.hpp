@@ -2,7 +2,7 @@
  * @file mlboard_logger.hpp
  * @author Jeffin Sam
  *
- * Implementation of the mlbaord logger callback function.
+ * Implementation of the mlboard logger callback function.
  */
 #ifndef ENSMALLEN_CALLBACKS_MLBOARD_LOGGER_HPP
 #define ENSMALLEN_CALLBACKS_MLBOARD_LOGGER_HPP
@@ -20,17 +20,19 @@ class MlboardLogger
 {
  public:
   /**
-   *
+   * Logs scaler metrics such as accuracy and loss.
+   * 
    * @param output Filewriter object to log the metrics.
    * @param epochCount Interval of epochs youw want to log your data.
    * @param accTag Tag to use for accuracy.
-   * @param lossTag Tag to use for loss
+   * @param lossTag Tag to use for loss.
    */
   MlboardLogger(
       mlboard::FileWriter& output,
       int epochCount = 1,
       std::string accTag = "accuracy",
-      std::string lossTag = "loss") : callbackUsed(false),
+      std::string lossTag = "loss") :
+      callbackUsed(false),
       output(output),
       summaryType(""),
       epochCount(epochCount),
@@ -39,7 +41,8 @@ class MlboardLogger
   { /* Nothing to do here. */ }
 
   /**
-   *
+   * Logs custom metrics using a callback function.
+   * 
    * @param output Filewriter object to log the metrics.
    * @param func A custom function to log some metrics, which return the
    *    value to be logged.
@@ -52,8 +55,8 @@ class MlboardLogger
       std::function<double()> func,
       int epochCount = 1,
       std::string accTag = "accuracy",
-      std::string lossTag = "loss")
-    : callbackUsed(true),
+      std::string lossTag = "loss") :
+      callbackUsed(true),
       output(output),
       summaryType(""),
       localFunc(func),
@@ -65,7 +68,9 @@ class MlboardLogger
   }
 
   /**
-   *
+   * Logs other metric types such as images, embeddings or basically
+   * that is saved in arma matrix.
+   * 
    * @param output Filewriter object to log the metrics.
    * @param func A custom function to log some metrics, which return the
    *    value to be logged.
@@ -73,8 +78,8 @@ class MlboardLogger
    * @param summaryTag Tag to use for summary.
    * @param summaryType Type of summary to be logged.
    * @param embeddingMetadata Metadata for embedding.
-   * @param heighofImage The height of image to be logged.
-   * @param widthofImage The width of image to be logged.
+   * @param imageHeight The height of image to be logged.
+   * @param imageWidth The width of image to be logged.
    */
   MlboardLogger(
       mlboard::FileWriter& output,
@@ -82,14 +87,14 @@ class MlboardLogger
       std::string summaryTag,
       std::string summaryType,
       std::vector<std::string> embeddingMetadata = {},
-      size_t heightofImage = 0,
-      size_t widthofImage = 0,
-      int epochCount = 1)
-    : callbackUsed(true),
+      size_t imageHeight = 0,
+      size_t imageWidth = 0,
+      int epochCount = 1) :
+      callbackUsed(true),
       output(output),
       matFunc(func),
-      widthofImage(widthofImage),
-      heightofImage(heightofImage),
+      imageWidth(imageWidth),
+      imageHeight(imageHeight),
       embeddingMetadata(embeddingMetadata),
       summaryType(summaryType),
       epochCount(epochCount),
@@ -143,15 +148,15 @@ class MlboardLogger
       }
       else if (summaryType == "image")
       {
-        // channel is not needed to log image
-        mlpack::data::ImageInfo info(widthofImage, heightofImage, 0);
+        // Channel is not needed to log image.
+        mlpack::data::ImageInfo info(imageWidth, imageHeight, 0);
         mlboard::SummaryWriter<mlboard::FileWriter>::Image(
               summaryTag, epoch / epochCount , valueToBeLogged,
               info, output);
       }
       else
       {
-        /* Do nothing */
+        throw std::runtime_error("Summary Type not supported");
       } 
     }
   }
@@ -177,10 +182,10 @@ class MlboardLogger
   std::string accTag;
 
   //! Height of the image.
-  size_t heightofImage;
+  size_t imageHeight;
 
   //! Width of the image.
-  size_t widthofImage;
+  size_t imageWidth;
 
   //! Tag to log summary loss scaler. 
   std::string lossTag;
