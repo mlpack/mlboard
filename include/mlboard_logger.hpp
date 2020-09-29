@@ -157,7 +157,7 @@ class MlboardLogger
       else
       {
         throw std::runtime_error("Summary Type not supported");
-      } 
+      }
     }
   }
 
@@ -187,7 +187,7 @@ class MlboardLogger
   //! Width of the image.
   size_t imageWidth;
 
-  //! Tag to log summary loss scaler. 
+  //! Tag to log summary loss scaler.
   std::string lossTag;
 
   //! Tag to log other type of summary.
