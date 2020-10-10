@@ -129,11 +129,10 @@ int main()
 }
 ```
 
-In this example we create a custom function which logs accuracy based on the ComputeAccuracy method. The function return a value and that is logged as loss and 1 - return value is logged as accuracy.
+In this example we create a custom function which logs accuracy based on the ComputeAccuracy method. The function return a value and that is logged as loss and `1 - return value` is logged as `accuracy`.
 
 The output would be similar to:
 
 <p>
 <img src = "assets/custom.jpg" width = "800" height = "400"/>
 </p>
-
