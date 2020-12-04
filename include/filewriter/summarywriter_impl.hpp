@@ -305,7 +305,7 @@ void SummaryWriter<Filewriter>::Embedding(
       std::string relativeTensordataPath,
       std::string relativeMetadataPath)
 {
-  // Deafult file name.
+  // Default file name.
   if (tensordataPath == "")
     tensordataPath = fw.LogDir() + "/tensor.tsv";
   if (metadataPath == "")

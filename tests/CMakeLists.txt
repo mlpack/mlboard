@@ -1,6 +1,7 @@
 # The tests that need to be compiled.
 set(MLBOARD_TESTS_SOURCES
     main.cpp
+    callback_test.cpp
     filewriter_test.cpp
     summarywriter_test.cpp
     util_test.cpp
