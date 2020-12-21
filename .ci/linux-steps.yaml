@@ -29,7 +29,7 @@ steps:
 # Configure CMake Args for mlpack.
 - script: |
     unset BOOST_ROOT
-    cd mlpack && mkdir build && cd build && cmake $(CMakeArgs-mlpack) -DCEREAL_INCLUDE_DIR=../cereal-1.3.0/include/ ..
+    cd mlpack && mkdir build && cd build && cmake $(CMakeArgs-mlpack) -DCEREAL_INCLUDE_DIR=../../cereal-1.3.0/include/ ..
   displayName: 'CMake for mlpack'
 
 # Install mlpack
