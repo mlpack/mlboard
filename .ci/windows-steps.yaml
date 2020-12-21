@@ -20,6 +20,7 @@ steps:
     nuget install boost_date_time-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install boost_regex-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install OpenBLAS -o $(Agent.ToolsDirectory)
+    nuget install unofficial-flayan-cereal -o $(Agent.ToolsDirectory)
 
     mkdir -p $(Agent.ToolsDirectory)/boost_libs
     cp $(Agent.ToolsDirectory)/boost_program_options-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
@@ -49,6 +50,7 @@ steps:
     cd armadillo-8.400.0/ && cmake $(CMakeGenerator) \
     -DBLAS_LIBRARY:FILEPATH=$(Agent.ToolsDirectory)/OpenBLAS.0.2.14.1/lib/native/lib/x64/libopenblas.dll.a \
     -DLAPACK_LIBRARY:FILEPATH=$(Agent.ToolsDirectory)/OpenBLAS.0.2.14.1/lib/native/lib/x64/libopenblas.dll.a \
+    -DCEREAL_INCLUDE_DIR=$(Agent.ToolsDirectory)\unofficial-flayan-cereal.1.2.2\build\native\include \
     -DCMAKE_PREFIX:FILEPATH=../../armadillo \
     -DBUILD_SHARED_LIBS=OFF \
     -DCMAKE_BUILD_TYPE=Release .
