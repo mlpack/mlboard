@@ -11,7 +11,7 @@ jobs:
 - job: Linux
   timeoutInMinutes: 360
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: ubuntu-16.04
 
   steps:
   - template: linux-steps.yaml
@@ -19,24 +19,24 @@ jobs:
 - job: macOS
   timeoutInMinutes: 360
   pool:
-    vmImage: macOS-10.14
+    vmImage: macOS-latest
 
   steps:
   - template: macos-steps.yaml
 
   # Windows build.
-- job: WindowsVS15
+- job: WindowsVS16
   timeoutInMinutes: 360
-  displayName: Windows VS15
+  displayName: Windows VS16
   pool:
-    vmImage: vs2017-win2016
+    vmImage: windows-2019
 
   strategy:
     matrix:
       Plain:
           CMakeArgs-mlpack: '-DDEBUG=ON -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
-          CMakeGenerator: '-G "Visual Studio 15 2017 Win64"'
-          MSBuildVersion: '15.0'
+          CMakeGenerator: '-G "Visual Studio 16 2019"'
+          MSBuildVersion: '16.0'
 
   steps:
   - template: windows-steps.yaml
