@@ -28,8 +28,8 @@ steps:
     cp $(Agent.ToolsDirectory)/boost_regex-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
 
     git clone https://github.com/tronkko/dirent.git
-    cp "dirent/include/dirent.h" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Tools/MSVC/14.16.27023/include"
-    cp "dirent/include/dirent.h" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Tools/MSVC/14.16.27023/include"
+    cp "dirent/include/dirent.h" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Tools/MSVC/14.28.29333/include"
+    cp "dirent/include/dirent.h" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Tools/MSVC/14.28.29333/include"
     cp "dirent/include/dirent.h" "C:/Program Files (x86)/include"
     cp "dirent/include/dirent.h" "C:/Program Files/include"
   displayName: 'Fetch build dependencies'
