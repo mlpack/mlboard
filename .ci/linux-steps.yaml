@@ -43,7 +43,7 @@ steps:
   displayName: 'Installing Protobuf'
 
 # Configure mlboard (CMake)
-- script: mkdir build && cd build && cmake ..
+- script: mkdir build && cd build && cmake -DCEREAL_INCLUDE_DIR=../../cereal-1.3.0/include/ ..
   displayName: 'CMake for mlboard'
 
 # Build mlboard
