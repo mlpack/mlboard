@@ -5,6 +5,7 @@ project(mlboard
 # Set required C++ standard to C++11.
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CEREAL_VERSION "1.1.2")
 
 # Include modules in the CMake directory.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
@@ -63,11 +64,9 @@ endif()
 # Remove this when serialization is removed from mlpack.
 set(Boost_ADDITIONAL_VERSIONS
   "1.49.0" "1.50.0" "1.51.0" "1.52.0" "1.53.0" "1.54.0" "1.55.0")
-find_package(Boost 1.49
-    COMPONENTS
-      serialization
-    REQUIRED
-)
+find_package(Boost 1.49)
+
+find_package(cereal "${CEREAL_VERSION}" REQUIRED)
 
 # In Visual Studio, automatic linking is performed, so we don't need to worry
 # about it.  Clear the list of libraries to link against and let Visual Studio
@@ -96,6 +95,7 @@ add_subdirectory(include/proto)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(MLBOARD_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
+                         ${CEREAL_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
                         ${PROTOBUF_INCLUDE_DIR}
                         )
